@@ -1,0 +1,50 @@
+# secrets
+.env
+.env.*
+!.env.example
+
+# python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# local runtime data and generated outputs
+data/*.db
+data/*.db-*
+exports/
+evidence/
+AI ML - Virtual.pdf
+starter_kit/
+*.db
+*.db-*
+*.sqlite
+*.sqlite-*
+*.sqlite3
+*.sqlite3-*
+*.log
+logs/
+*.pem
+*.key
+.pypirc
+.streamlit/secrets.toml
+
+# local agent/editor configuration
+.agents/
+.codex/
+.claude/
+AGENTS.md
+CLAUDE.md
+
+# local submission and orchestration worksheets
+docs/AGENT_TASKS.md
+docs/IMPLEMENTATION_PLAN_4_HOURS.md
+docs/SUBMISSION_CHECKLIST.md
+docs/TEAM_DECLARATION.md
+
+# editors / os
+.vscode/
+.idea/
+Thumbs.db
+.DS_Store
+.claude/settings.local.json

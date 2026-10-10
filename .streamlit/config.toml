@@ -1,0 +1,11 @@
+[theme]
+primaryColor = "#C1440E"
+
+[browser]
+gatherUsageStats = false
+
+[server]
+runOnSave = false
+
+[client]
+toolbarMode = "minimal"
