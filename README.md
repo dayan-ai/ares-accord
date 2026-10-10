@@ -22,27 +22,30 @@ not bundled pending redistribution permission. Requirements: [`PRD.md`](PRD.md).
 Requires Python 3.13 (3.11+ likely works _(unverified)_).
 
 Windows (PowerShell, from the repo root; in Git Bash use `cp` instead of `copy`):
-```
+```powershell
 python -m venv .venv
 .venv/Scripts/python -m pip install -r requirements.txt
 copy .env.example .env        # optional: only needed for an LLM provider
 .venv/Scripts/python -m streamlit run app.py
 ```
 macOS / Linux:
-```
+```bash
 python3 -m venv .venv
 .venv/bin/python -m pip install -r requirements.txt
 cp .env.example .env          # optional
 .venv/bin/python -m streamlit run app.py
 ```
 Open http://localhost:8501. With no keys the app runs in **rule-based** mode (every turn labelled as fallback/demo).
-Headless smoke run: `.venv/Scripts/python scripts/smoke_run.py --provider rule-based --db data/smoke-demo.db`
-(baseline + Power -4 event). Choose a new database path: the script appends run history to its selected database.
+Headless smoke run (baseline + Power -4 event):
+```powershell
+.venv/Scripts/python scripts/smoke_run.py --provider rule-based --db data/smoke-demo.db
+```
+Choose a new database path: the script appends run history to its selected database.
 One-click scripts: `scripts/run.ps1` / `scripts/run.sh` (create venv, install, copy `.env`, launch).
 
 ## Architecture (summary)
 
-```
+```text
 app.py (Streamlit) ──> ares/service.py ──> ares/orchestrator.py ──┬─> ares/agents/  (Commander + 4 departments,
                                                                   │      private profile/state/memory)
                                                                   │      └─> ares/llm/ (Gemini, Groq, OpenRouter, Ollama)
@@ -114,7 +117,7 @@ full multi-session history is in `full_history_all_sessions.csv`.
 
 ## Tests
 
-```
+```powershell
 .venv/Scripts/python -m pytest -q        # offline; no network or keys needed
 ```
 Suites: `tests/test_validator.py`, `test_optimizer.py`, `test_events.py`, `test_llm.py`, `test_agents.py`,
@@ -125,9 +128,18 @@ and [`docs/REQUIREMENTS_TRACEABILITY.md`](docs/REQUIREMENTS_TRACEABILITY.md).
 
 ## Verifying a live LLM run
 
-1. Get a provider key (Gemini: https://aistudio.google.com/apikey · Groq: https://console.groq.com/keys) and put it in `.env`
-   (`GEMINI_API_KEY=...` or `GROQ_API_KEY=...`). Never commit `.env`.
-2. Headless: `.venv/Scripts/python scripts/smoke_run.py --provider gemini --db data/gemini-smoke-demo.db` (or `groq`).
+1. Get a provider key (Gemini: https://aistudio.google.com/apikey · Groq: https://console.groq.com/keys) and put it in `.env`:
+   ```dotenv
+   GEMINI_API_KEY=...
+   # or
+   GROQ_API_KEY=...
+   ```
+   Never commit `.env`.
+2. Headless:
+   ```powershell
+   .venv/Scripts/python scripts/smoke_run.py --provider gemini --db data/gemini-smoke-demo.db
+   ```
+   (or `groq`).
    Choose a new database path to preserve other smoke evidence. Messages tagged `[llm/<provider>]` are model output;
    `[rule-based]` marks a labelled per-turn fallback.
 3. Dashboard: pick the provider in Judge Controls (✅ = key found) and press **Start baseline crisis**.
