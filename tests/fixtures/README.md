@@ -10,3 +10,6 @@ of its files, so a clean clone carries stand-ins here. Tests use `tests/_paths.p
 | `output_schema.json` | **Reconstructed**, not the organisers' file. Its top-level keys come from the schema description in `docs/DECISIONS_AND_RISKS.md` (decision D3): `round, agent_id, proposal{…}, vote, risk_score, flag_human_review`. The tests only check that every exported record contains these top-level keys. |
 
 If you have the original `starter_kit/`, put it in the repository root and the tests will use it instead.
+
+**Ownership.** `event_injection_format.json` is the organisers' material. Their starter repository publishes no
+licence, so this file is not covered by any licence applied to the rest of this repository.

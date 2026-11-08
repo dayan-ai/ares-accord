@@ -2,8 +2,9 @@
 
 Status: **in development** (hackathon build). Owner: product-architect. Last update: 2026-10-10.
 Sources of truth, in order: (1) the official Participant Challenge Guide **v2.1**; (2) the official
-[starter repository](https://github.com/lifix-prog/Loopverse-AI_ML_Virtual_Module) at `d598411`; organizer files are
-not bundled in this source release. (3) `docs/CONTRACT.md` + `ares/models.py`. Conflicts between (1) and (2) are resolved in
+[starter repository](https://github.com/lifix-prog/Loopverse-AI_ML_Virtual_Module) at `d598411`; the organizer files
+themselves are not redistributed, but the scenario, mode-package table and official sample event are reproduced (see
+README, "Licence and third-party material"). (3) `docs/CONTRACT.md` + `ares/models.py`. Conflicts between (1) and (2) are resolved in
 [`docs/DECISIONS_AND_RISKS.md`](docs/DECISIONS_AND_RISKS.md) (IDs `D1`–`D16`). Every requirement ID below is traced in
 [`docs/REQUIREMENTS_TRACEABILITY.md`](docs/REQUIREMENTS_TRACEABILITY.md).
 
