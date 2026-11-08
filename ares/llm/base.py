@@ -6,6 +6,8 @@ stall the scenario. Keys are passed in headers only and never logged or echoed.
 """
 from __future__ import annotations
 
+import logging
+import math
 import os
 import random
 import threading
@@ -13,6 +15,10 @@ import time
 from typing import Any, Protocol, runtime_checkable
 
 import requests
+
+from ares.log import redact_secrets
+
+log = logging.getLogger(__name__)
 
 
 class LLMError(Exception):
@@ -41,11 +47,23 @@ class Provider(Protocol):
 # Environment helpers
 # ---------------------------------------------------------------------------
 def env_float(name: str, default: float) -> float:
+    """Finite float from the environment, else `default` (callers clamp the range).
+
+    Non-finite values are rejected: "inf" as a pacing interval would make every LLM call exceed its budget,
+    "nan" slips through max()/min() clamps unpredictably.
+    """
     raw = os.environ.get(name, "")
-    try:
-        return float(raw) if raw.strip() else default
-    except ValueError:
+    if not raw.strip():
         return default
+    try:
+        value = float(raw)
+    except ValueError:
+        log.warning("llm: %s=%r is not a number; using default %s", name, raw, default)
+        return default
+    if not math.isfinite(value):
+        log.warning("llm: %s=%r is not finite; using default %s", name, raw, default)
+        return default
+    return value
 
 
 def env_int(name: str, default: int) -> int:
@@ -139,7 +157,7 @@ def _retry_after(resp: Any) -> float | None:
 
 
 def short_error(resp: Any) -> str:
-    """Short, key-free error description from an HTTP response."""
+    """Short, key-free error description from an HTTP response (provider text is passed through redaction)."""
     msg = ""
     try:
         data = resp.json()
@@ -154,7 +172,8 @@ def short_error(resp: Any) -> str:
         except Exception:
             msg = ""
     msg = " ".join(msg.split())
-    return msg[:160]
+    # redact before truncating so a key can never be cut into an unrecognisable (but still sensitive) prefix
+    return redact_secrets(msg)[:160]
 
 
 def _backoff(attempt: int) -> float:
@@ -198,9 +217,9 @@ def post_json(name: str, url: str, headers: dict[str, str], payload: dict[str, A
             if status == 200:
                 try:
                     data = resp.json()
-                except ValueError:
+                except ValueError as exc:
                     _record_fail(st)
-                    raise LLMError(f"{name}: HTTP 200 with non-JSON body")
+                    raise LLMError(f"{name}: HTTP 200 with non-JSON body") from exc
                 if not isinstance(data, dict):
                     _record_fail(st)
                     raise LLMError(f"{name}: unexpected response shape")
@@ -214,11 +233,15 @@ def post_json(name: str, url: str, headers: dict[str, str], payload: dict[str, A
             else:
                 if status not in (400, 404, 422):
                     _record_fail(st)          # 401/403 etc.: config problem, fail fast next time
+                log.warning("llm_http_error provider=%s status=%s", name, status)
                 raise LLMHTTPError(f"{name}: HTTP {status} {short_error(resp)}".strip(), status)
         if attempt < attempts - 1:
             if time.monotonic() + delay > deadline - 0.5:
                 last += " (no budget left to retry)"
                 break
+            log.info("llm_retry provider=%s attempt=%d/%d reason=%r delay_s=%.1f", name, attempt + 1, attempts,
+                     last, delay)
             time.sleep(delay)
     _record_fail(st)
+    log.warning("llm_call_failed provider=%s reason=%r", name, last)
     raise LLMError(f"{name}: {last}")

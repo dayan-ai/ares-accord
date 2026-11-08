@@ -114,7 +114,7 @@ def parse_combo(text: Any) -> dict[str, str] | None:
     if not m:
         return None
     parts = re.split(r"\s*\+\s*", m.group(0).upper())
-    return {d: p for d, p in zip(DEPARTMENTS, parts) if owns_code(d, p)} if len(parts) == 4 else None
+    return {d: p for d, p in zip(DEPARTMENTS, parts, strict=True) if owns_code(d, p)} if len(parts) == 4 else None
 
 
 def min_reserve(c: dict) -> int:

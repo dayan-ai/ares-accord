@@ -85,8 +85,10 @@ class FakeDept:
 
 def make_service(tmp_path, **dept_kwargs):
     settings = Settings(db_path=str(tmp_path / "t.db"), default_provider="rule-based")
-    factory = lambda provider: (FakeCommander(dept_kwargs.pop("declare_infeasible", False)),
-                                {d: FakeDept(d, **dept_kwargs) for d in DEPARTMENTS})
+    def factory(provider):
+        return (FakeCommander(dept_kwargs.pop("declare_infeasible", False)),
+                {d: FakeDept(d, **dept_kwargs) for d in DEPARTMENTS})
+
     return Service(settings=settings, store=Store(settings.db_path), agent_factory=factory)
 
 

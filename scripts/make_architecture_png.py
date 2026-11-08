@@ -18,7 +18,8 @@ BOXES = {
     # key: (x, y, w, h, title, subtitle, color)
     "judge": (0.3, 8.6, 2.6, 1.0, "Judge", "browser", "#f1f5f9"),
     "ui": (3.6, 8.4, 5.2, 1.4, "Streamlit dashboard  (app.py, ares/ui)",
-           "Mission Control · Mode Board · Council Transcript\nValidation & Votes · Scenarios · Judge Controls", "#e0f2fe"),
+           "Mission Control · Mode Board · Council Transcript\n"
+           "Validation & Votes · Scenarios · Judge Controls", "#e0f2fe"),
     "service": (3.6, 6.7, 5.2, 1.0, "Service facade  (ares/service.py)", "only API the UI may call", "#e0f2fe"),
     "orch": (3.0, 4.4, 6.4, 1.7, "Orchestrator / message bus",
              "ares/orchestrator.py\nR1 proposals → plan vN → validate → R2+ Commander + departments\n"
@@ -34,10 +35,12 @@ BOXES = {
     "llm": (4.8, 0.3, 4.9, 1.1, "LLM adapters  (ares/llm)",
             "Gemini · Groq · OpenRouter (:free) · Ollama\nenv keys · timeout · retry · JSON repair", "#ede9fe"),
     "val": (10.2, 5.3, 3.4, 1.4, "Deterministic validator", "ares/validator.py\n7 checks + approval gate", "#fecaca"),
-    "opt": (10.2, 3.6, 3.4, 1.3, "Optimizer (support only)", "ares/optimizer.py\ncandidates · infeasibility", "#fecaca"),
+    "opt": (10.2, 3.6, 3.4, 1.3, "Optimizer (support only)", "ares/optimizer.py\ncandidates · infeasibility",
+            "#fecaca"),
     "events": (10.2, 7.0, 3.4, 1.2, "Event parser", "ares/events.py\nofficial JSON · deltas · % · text", "#fecaca"),
     "models": (10.2, 8.6, 3.4, 1.0, "Contract  (ares/models.py)", "12 immutable mode packages", "#f1f5f9"),
-    "db": (10.2, 1.6, 3.4, 1.4, "SQLite  data/ares.db", "sessions · scenarios · messages\nplans · votes · commitments · agent_state", "#e2e8f0"),
+    "db": (10.2, 1.6, 3.4, 1.4, "SQLite  data/ares.db",
+           "sessions · scenarios · messages\nplans · votes · commitments · agent_state", "#e2e8f0"),
     "exp": (10.2, 0.2, 3.4, 1.1, "Exports (ares/exports.py)", "JSON · CSV · TXT bundle", "#e2e8f0"),
 }
 
@@ -71,7 +74,7 @@ def main() -> None:
     ax.set_xlim(0, 13.8)
     ax.set_ylim(0, 10)
     ax.axis("off")
-    for key, (x, y, w, h, title, sub, color) in BOXES.items():
+    for _key, (x, y, w, h, title, sub, color) in BOXES.items():
         ax.add_patch(FancyBboxPatch((x, y), w, h, boxstyle="round,pad=0.03,rounding_size=0.12",
                                     fc=color, ec="#334155", lw=1.2, zorder=2))
         ax.text(x + w / 2, y + h - 0.28, title, ha="center", va="center", fontsize=10.5, weight="bold", zorder=3)

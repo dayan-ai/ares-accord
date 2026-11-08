@@ -159,7 +159,7 @@ def _resource_section(scn: dict, plan: dict | None) -> None:
     totals = (plan or {}).get("totals") or {}
     reserve = (plan or {}).get("reserve") or {}
     cols = st.columns(len(RESOURCES))
-    for col, r in zip(cols, RESOURCES):
+    for col, r in zip(cols, RESOURCES, strict=True):
         avail = pool.get(r)
         if plan and r in totals:
             res_v = reserve.get(r, (avail or 0) - totals.get(r, 0))
@@ -301,7 +301,7 @@ def render_mode_board(state: dict, cur_msgs: list[dict]) -> None:
 
     matched: set[str] = set()
     cols = st.columns(len(DEPARTMENTS))
-    for col, dept in zip(cols, DEPARTMENTS):
+    for col, dept in zip(cols, DEPARTMENTS, strict=True):
         code = modes.get(dept)
         pkg = MODE_PACKAGES.get(code) if code else None
         with col, st.container(border=True):

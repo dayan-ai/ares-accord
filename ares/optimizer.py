@@ -22,7 +22,7 @@ from ares.validator import check_returns, compute_reserve, plan_totals, sacrific
 
 # All 3^4 = 81 combinations, in canonical L, M, F, E order.
 ALL_COMBOS: tuple[dict[str, str], ...] = tuple(
-    {d: p.code for d, p in zip(DEPARTMENTS, combo)}
+    {d: p.code for d, p in zip(DEPARTMENTS, combo, strict=True)}
     for combo in product(*(modes_for(d) for d in DEPARTMENTS))
 )
 

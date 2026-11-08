@@ -1,7 +1,6 @@
 """Agent tests: rule policy stance, LLM sanitisation and labelled fallback (no network)."""
 from __future__ import annotations
 
-import pytest
 
 from ares.agents import CommanderAgent, DepartmentAgent, build_agents
 from ares.agents.base import BUDGET_REASON, NO_LLM_REASON
@@ -80,7 +79,7 @@ class FakeProvider:
 
 # ------------------------------------------------------------------ rule policy
 def test_proposal_requests_standard_with_consequence():
-    for d, std in zip(DEPARTMENTS, ("L1", "M1", "F1", "E1")):
+    for d, std in zip(DEPARTMENTS, ("L1", "M1", "F1", "E1"), strict=True):
         t = DepartmentAgent(d, None).take_turn(make_ctx())
         assert t.msg_type == PROPOSAL and t.mode == std
         assert "Restricted" in t.consequence and "Sacrifice" in t.consequence

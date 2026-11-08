@@ -8,6 +8,7 @@ return agreements or the votes.
 """
 from __future__ import annotations
 
+import logging
 import time
 from dataclasses import dataclass, field
 from typing import Any, Callable
@@ -20,6 +21,8 @@ from ares.models import (
     CommanderTurn, CrisisEvent, DepartmentTurn, Policy, ValidationResult, Vote, mode_code,
 )
 from ares.storage import Store, now
+
+log = logging.getLogger(__name__)
 
 OnMessage = Callable[[dict[str, Any]], None] | None
 
@@ -90,8 +93,8 @@ def _sanitize_pool(pool: dict[str, Any]) -> dict[str, int]:
     for r in RESOURCES:
         try:
             out[r] = max(0, int(pool.get(r, 0)))
-        except (TypeError, ValueError):
-            raise ValueError(f"Resource '{r}' must be a whole number, got {pool.get(r)!r}")
+        except (TypeError, ValueError) as exc:
+            raise ValueError(f"Resource '{r}' must be a whole number, got {pool.get(r)!r}") from exc
     return out
 
 
@@ -184,7 +187,8 @@ class Orchestrator:
                 try:
                     agent.load_state(state)
                 except Exception:  # corrupted memory must never block a run
-                    pass
+                    log.warning("agent_state_load_failed session=%s agent=%s; starting with empty memory",
+                                session_id, getattr(agent, "agent_id", COMMANDER), exc_info=True)
         return commander, depts
 
     def _save_agents(self, run: _Run) -> None:
@@ -193,8 +197,9 @@ class Orchestrator:
                 try:
                     self.store.save_agent_state(run.session_id, getattr(agent, "agent_id", COMMANDER),
                                                 agent.export_state())
-                except Exception:
-                    pass
+                except Exception:  # memory persistence is best-effort; the negotiation result is already stored
+                    log.warning("agent_state_save_failed session=%s agent=%s", run.session_id,
+                                getattr(agent, "agent_id", COMMANDER), exc_info=True)
 
     # ------------------------------------------------------------- messaging
     def _say(self, run: _Run, sender: str, msg_type: str, content: str, payload: dict[str, Any] | None = None,
@@ -209,11 +214,16 @@ class Orchestrator:
             "fallback_reason": fallback_reason,
         })
         run.transcript.append({k: msg[k] for k in ("sender", "msg_type", "round", "plan_version", "content")})
+        if source == "rule-based" and run.provider != "rule-based":
+            # an LLM provider was selected but this turn fell back to the labelled rule-based policy
+            log.warning("agent_fallback scenario=%s round=%s agent=%s provider=%s reason=%r", run.scenario_id,
+                        msg["round"], sender, run.provider, fallback_reason)
         if run.on_message:
             try:
                 run.on_message(msg)
             except Exception:  # UI callback errors must not break the negotiation
-                pass
+                log.warning("on_message_callback_failed scenario=%s msg_type=%s", run.scenario_id, msg_type,
+                            exc_info=True)
         return msg
 
     @staticmethod
@@ -261,6 +271,8 @@ class Orchestrator:
 
     # ------------------------------------------------------------ main loop
     def _negotiate(self, run: _Run) -> None:
+        log.info("scenario_start scenario=%s kind=%s provider=%s max_rounds=%s min_rounds=%s", run.scenario_id,
+                 run.kind, run.provider, run.max_rounds, run.min_rounds)
         try:
             self._refresh_candidates(run)
             self._briefing(run)
@@ -275,6 +287,7 @@ class Orchestrator:
         except _End as end:
             self._finish(run, end)
         except Exception as exc:  # safe failure: record it, never approve
+            log.error("negotiation_internal_error scenario=%s round=%s", run.scenario_id, run.round, exc_info=True)
             self._say(run, "SYSTEM", "SYSTEM", f"Internal error stopped the negotiation safely: {exc!r}. "
                       "No plan was approved in this scenario.")
             self._finish(run, _End("ERROR", f"Internal error: {exc}"))
@@ -415,8 +428,9 @@ class Orchestrator:
         for offer in t.offers or []:
             self._offer(run, d, offer, meta)
         by_id = {c.id: c for c in self.store.commitments(run.scenario_id)}
-        for cid, new_status, mtype in [(i, "ACCEPTED", "COMMITMENT_ACCEPTED") for i in t.accept_commitment_ids or []] + \
-                                       [(i, "REJECTED", "COMMITMENT_REJECTED") for i in t.reject_commitment_ids or []]:
+        decisions = ([(i, "ACCEPTED", "COMMITMENT_ACCEPTED") for i in t.accept_commitment_ids or []]
+                     + [(i, "REJECTED", "COMMITMENT_REJECTED") for i in t.reject_commitment_ids or []])
+        for cid, new_status, mtype in decisions:
             c = by_id.get(cid)
             if not c or c.beneficiary != d or c.status != "PROPOSED":
                 continue
@@ -455,7 +469,8 @@ class Orchestrator:
                           expiry=o.expiry or "End of next planning cycle", template_id=None)
         for c in self.store.commitments(run.scenario_id):
             if c.owner == owner and c.beneficiary == fields["beneficiary"] and c.status in ("PROPOSED", "ACCEPTED") \
-                    and ((fields["template_id"] and c.template_id == fields["template_id"]) or c.promise == fields["promise"]):
+                    and ((fields["template_id"] and c.template_id == fields["template_id"])
+                         or c.promise == fields["promise"]):
                 return  # already on the table
         c = Commitment(id=self.store.next_commitment_id(run.scenario_id), scenario_id=run.scenario_id, owner=owner,
                        status="PROPOSED", round_offered=run.round, **fields)
@@ -537,8 +552,11 @@ class Orchestrator:
                                              run.depts[d].reconsider_vote(self._ctx(run, "VOTE"), vote, corrections))
             votes.append(vote)
         current_version = self.store.next_plan_version(run.session_id) - 1
-        ok, reasons = validator.approval_gate(run.validation, votes, plan["version"], current_version,
+        voted_version = plan["version"]
+        ok, reasons = validator.approval_gate(run.validation, votes, voted_version, current_version,
                                               run.round, run.min_rounds)
+        log.info("approval_gate scenario=%s round=%s plan=v%s ok=%s blocking=%d", run.scenario_id, run.round,
+                 voted_version, ok, len(reasons))
         if ok:
             run.protocol["rounds_before_approval"] = run.round
             run.protocol["return_commitments"] = len(plan["commitment_ids"])
@@ -637,7 +655,8 @@ class Orchestrator:
         n = len(validation.get("checks") or [])
         return (f"APPROVED plan v{plan['version']} ({_combo_label(plan['modes'])}). Validator PASS ({n}/{n} checks); "
                 f"4/4 ACCEPT votes on v{plan['version']}{'; co-signed by the judge' if cosigned else ''}. "
-                f"Used {_fmt_res(validation.get('totals') or {})}; reserve {_fmt_res(validation.get('reserve') or {})}; "
+                f"Used {_fmt_res(validation.get('totals') or {})}; "
+                f"reserve {_fmt_res(validation.get('reserve') or {})}; "
                 f"risk {validation.get('risk')}/{(plan.get('policy') or {}).get('risk_limit')}. "
                 f"Return agreements: {returns or 'none required'}.")
 
@@ -694,6 +713,8 @@ class Orchestrator:
                    "no new plan was approved.")
 
     def _finish(self, run: _Run, end: _End) -> None:
+        log.info("scenario_end scenario=%s kind=%s status=%s round=%s reason=%r", run.scenario_id, run.kind,
+                 end.status, run.round, end.reason[:160])
         run.protocol["rounds"] = run.round
         if end.status not in ("APPROVED", "AWAITING_COSIGN"):
             run.protocol["rounds_before_approval"] = 0

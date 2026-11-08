@@ -14,7 +14,7 @@ import pytest
 from ares.agents import CommanderAgent, DepartmentAgent, build_agents
 from ares.config import Settings
 from ares.llm.base import LLMError, LLMJSONError
-from ares.models import ACCEPT, BASELINE_POOL, COMMANDER, DEPARTMENTS, MODE_PACKAGES, REJECT, Policy, Vote
+from ares.models import ACCEPT, BASELINE_POOL, COMMANDER, DEPARTMENTS, MODE_PACKAGES, REJECT, Policy
 from ares.service import Service
 from ares.storage import Store
 from ares.validator import validate_plan

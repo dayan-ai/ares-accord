@@ -1,5 +1,8 @@
 # Requirements Traceability Matrix
 
+> **Historical snapshot (hackathon submission, 2026-10-10).** The test status column reflects the submission-time
+> suite (258 tests). Current results and post-submission changes: README and [`CHANGELOG.md`](../CHANGELOG.md).
+
 Owner: product-architect. IDs are defined in [`PRD.md`](../PRD.md). "Basis": **CONFIRMED** = stated in the PDF
 (guide v2.1, page cited) or a starter file; **ASSUMPTION** = our interpretation (see `docs/DECISIONS_AND_RISKS.md`).
 "Status" reflects the current automated suite on 2026-10-10 (**258 passed**, 0 failed). Manual dashboard observations

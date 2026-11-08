@@ -16,8 +16,11 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
+from ares.log import configure_logging  # noqa: E402
 from ares.ui import components as C  # noqa: E402
 from ares.ui import controls, views  # noqa: E402
+
+configure_logging()  # idempotent across Streamlit reruns; level from ARES_LOG_LEVEL
 
 try:
     from ares.service import get_service  # noqa: E402

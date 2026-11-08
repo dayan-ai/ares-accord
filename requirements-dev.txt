@@ -1,0 +1,5 @@
+# Test and lint tooling (pinned). Installs the runtime requirements too.
+-r requirements.txt
+pytest==9.2.0
+pytest-cov==7.1.0
+ruff==0.17.4

@@ -1,0 +1,138 @@
+{
+  "schema_reference": "starter_kit/output_schema.json",
+  "plan_version": 6,
+  "plan_status": "APPROVED",
+  "records": [
+    {
+      "round": 3,
+      "agent_id": "LIFE_SUPPORT",
+      "agent_name": "Life Support",
+      "plan_version": 6,
+      "proposal": {
+        "mode": "L3",
+        "tier": "SACRIFICE",
+        "power": 23,
+        "water": 8,
+        "oxygen": 33,
+        "robot": 2,
+        "bandwidth": 2,
+        "power_kwh": 23,
+        "water_liters": 8,
+        "oxygen_units": 33,
+        "food_rations": null,
+        "justification": "Life Support holds L3 under accepted returns from Commander, Engineering. Cost remains: Living zone closes; crew crowding and thermal limits continue for 48 hours."
+      },
+      "vote": "APPROVE",
+      "vote_pdf": "ACCEPT",
+      "vote_valid": true,
+      "risk_score": 9,
+      "flag_human_review": true
+    },
+    {
+      "round": 3,
+      "agent_id": "MEDICAL",
+      "agent_name": "Medical",
+      "plan_version": 6,
+      "proposal": {
+        "mode": "M2",
+        "tier": "RESTRICTED",
+        "power": 21,
+        "water": 10,
+        "oxygen": 14,
+        "robot": 2,
+        "bandwidth": 6,
+        "power_kwh": 21,
+        "water_liters": 10,
+        "oxygen_units": 14,
+        "food_rations": null,
+        "justification": "Medical accepts Restricted M2 (P21 W10 O14 R2 B6, risk 5) because the numbers show a conflict: Resources: 1 resource(s) over pool: Power 79 > 75 (over by 4). Recovery debt: Completes the immediate task but creates recovery debt."
+      },
+      "vote": "APPROVE",
+      "vote_pdf": "ACCEPT",
+      "vote_valid": true,
+      "risk_score": 5,
+      "flag_human_review": true
+    },
+    {
+      "round": 3,
+      "agent_id": "FOOD",
+      "agent_name": "Food Production",
+      "plan_version": 6,
+      "proposal": {
+        "mode": "F3",
+        "tier": "SACRIFICE",
+        "power": 10,
+        "water": 24,
+        "oxygen": 5,
+        "robot": 2,
+        "bandwidth": 1,
+        "power_kwh": 10,
+        "water_liters": 24,
+        "oxygen_units": 5,
+        "food_rations": null,
+        "justification": "Food Production accepts Sacrifice F3 (P10 W24 O5 R2 B1, risk 9) for the colony, on 2 return commitments from different agents - Commander: Commander protects the next Water increase for Food.; Engineering: Engineering commits 4 future Robot units to greenhouse rebuild. Accepting S2-C3, S2-C4."
+      },
+      "vote": "APPROVE",
+      "vote_pdf": "ACCEPT",
+      "vote_valid": true,
+      "risk_score": 9,
+      "flag_human_review": true
+    },
+    {
+      "round": 3,
+      "agent_id": "ENGINEERING",
+      "agent_name": "Engineering",
+      "plan_version": 6,
+      "proposal": {
+        "mode": "E2",
+        "tier": "RESTRICTED",
+        "power": 20,
+        "water": 5,
+        "oxygen": 5,
+        "robot": 18,
+        "bandwidth": 7,
+        "power_kwh": 20,
+        "water_liters": 5,
+        "oxygen_units": 5,
+        "food_rations": null,
+        "justification": "Engineering accepts Restricted E2 (P20 W5 O5 R18 B7, risk 5) because the numbers show a conflict: Resources: 1 resource(s) over pool: Power 79 > 75 (over by 4). Recovery debt: Completes the immediate task but creates recovery debt."
+      },
+      "vote": "APPROVE",
+      "vote_pdf": "ACCEPT",
+      "vote_valid": true,
+      "risk_score": 5,
+      "flag_human_review": true
+    },
+    {
+      "round": 3,
+      "agent_id": "COMMANDER",
+      "agent_name": "Commander",
+      "plan_version": 6,
+      "proposal": {
+        "modes": {
+          "LIFE_SUPPORT": "L3",
+          "MEDICAL": "M2",
+          "FOOD": "F3",
+          "ENGINEERING": "E2"
+        },
+        "power": 74,
+        "water": 47,
+        "oxygen": 57,
+        "robot": 24,
+        "bandwidth": 16,
+        "reserve": {
+          "power": 1,
+          "water": 5,
+          "oxygen": 2,
+          "robot": 2,
+          "bandwidth": 1
+        },
+        "justification": "Commander decision recorded by the deterministic approval gate."
+      },
+      "vote": "APPROVE",
+      "vote_pdf": "APPROVED",
+      "risk_score": 28,
+      "flag_human_review": true
+    }
+  ]
+}

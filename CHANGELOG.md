@@ -1,0 +1,134 @@
+# Changelog
+
+All notable changes to this project. Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
+Test numbers are measured runs (Windows 11, Python 3.13.6, fully offline) unless stated otherwise.
+
+## [Unreleased] — post-hackathon hardening (branch `portfolio/harden-ares-accord`)
+
+Starting point: `562dce3` (hackathon submission). **Before:** 255 passed, 3 failed, 62 warnings, 73% coverage, a
+CI workflow that could not run, unpinned dependencies. **After:** 312 passed, 0 failed, 0 warnings, 88% coverage,
+ruff clean, pinned dependencies, and a corrected CI workflow (validated with actionlint; passing on GitHub
+Actions with Python 3.12: ruff clean, 312 passed, 88% coverage).
+
+### Hostile-input findings — event-input limits and traceback redaction
+
+These were found by adversarial probing after the documentation pass. Each has a regression test written
+before the fix.
+
+#### Fixed
+- **Availability.** Free-text event parsing is super-linear in the number of number/resource mentions per
+  sentence (measured: 22 kB → 9 s, 66 kB → 73 s), so a single pasted event could block the single-process app.
+  Event input over 5,000 characters (`MAX_EVENT_INPUT_CHARS`, raw text or serialised JSON) is now rejected
+  before parsing, with a clear message. At the limit, the worst case measured 0.59–0.62 s (3 runs, dev
+  machine); the test allows 5 s.
+- **Nesting.** Deeply nested event input raised `RecursionError`, contradicting `parse_event`'s documented
+  contract. It now raises `ValueError`.
+- **Scientific notation.** Numeric strings such as `"1e999"` were read as their leading digit (+1 Power,
+  silently). Exponents are now part of the token: `"1e3"` is 1000, and `"1e999"` is out of range and ignored
+  with a note.
+- **Tracebacks.** Log redaction covered messages but not tracebacks (`exc_info`) or stack info, so a key inside
+  an exception message could reach the log. Both are now redacted.
+
+### Test coverage of documented behaviour
+
+#### Added
+- Circuit-breaker tests: the breaker opens after `CIRCUIT_FAILURES` consecutive failures, fails fast without
+  making an HTTP request, and resets after a success. The README advertised the breaker, but no test covered it.
+
+### Security and correctness — `370fb5c`
+
+#### Fixed
+- Judge events containing extremely large numbers (for example a 400-digit value) crashed `parse_event` /
+  `apply_event` with `OverflowError`. Values that are non-finite, or beyond ±1,000,000, are now ignored with an
+  interpretation note. Durations are bounded too.
+- Numeric environment settings accepted `nan`, `inf` and negative values. A `nan` scenario deadline never
+  expired. Invalid values now fall back to defaults with a logged warning.
+- Provider and model names were rendered inside `unsafe_allow_html` without HTML escaping.
+
+#### Added
+- Prompt-injection hygiene: judge and agent free text in prompts is wrapped in `[[ ]]`, and all four system
+  prompts state that delimited text is data, not instructions.
+- Defence in depth for SQLite: dynamic `UPDATE` column names are validated against the schema.
+  `Store.close()` and context-manager support.
+- `.env.example` now documents every variable the code reads.
+- `tests/test_hardening.py` (32 tests). It includes an exhaustive property check: for all 81 mode
+  combinations × 2 policies, the approval gate approves exactly what the validator passes, and every approval
+  satisfies an independent oracle of the hard limits. Inspection found no bypass of the gate; the tests lock
+  that in.
+
+### Build and reproducibility — `e0d6287`
+
+#### Fixed
+- **CI.** The workflow called `conda env update --file environment.yml`, but the file did not exist, and it used
+  `actions/setup-python@v3`, which actionlint reports as too old to run. It is rewritten around
+  `conda-incubator/setup-miniconda` with a new `environment.yml`, pinned dev requirements, `ruff check .` and
+  `pytest --cov`.
+- **Dependencies.** The `streamlit>=1.40` floor could not run the app (`st.tabs(key=, on_change=)`). Runtime
+  dependencies are now pinned exactly in `requirements.txt`, and tooling in `requirements-dev.txt`. pytest is no
+  longer a runtime dependency.
+- **Clean clones.** Three tests read the gitignored organiser `starter_kit/`, so clean clones failed.
+  `tests/_paths.starter_file()` now falls back to `tests/fixtures/` (a verbatim event copy plus a schema
+  reconstructed from documentation; provenance in `tests/fixtures/README.md`). No assertion changed.
+
+#### Changed
+- Added `ruff.toml` (E, F, W, B; 120 columns) and fixed the 32 existing findings: unused imports, long lines,
+  `zip(strict=True)`, `raise … from`.
+
+### Testing — `2ad64aa`
+
+#### Added
+- `tests/test_ui_smoke.py`: renders the real Streamlit app headlessly (`AppTest`) and drives a rule-based run
+  to an APPROVED banner. The UI modules previously had 0% coverage.
+
+#### Fixed
+- Tests leaked SQLite connections (62 `ResourceWarning`s). An autouse fixture in `tests/conftest.py` now closes
+  every store.
+
+### Observability, safety and demo — `2d822af`
+
+#### Added
+- `ares/log.py`: idempotent `key=value` logging (`ARES_LOG_LEVEL`) and `redact_secrets()`. It masks configured
+  `*_API_KEY` / `*_TOKEN` / `*_SECRET` values and key-shaped tokens, and is applied to every `ares.*` log
+  record through a handler filter.
+- Orchestrator logs scenario start and end, every approval-gate decision, and real LLM fallbacks. The three
+  silent `except: pass` blocks now log warnings; behaviour is unchanged.
+- LLM client logs HTTP errors, retries and final failures by provider and status, never headers or prompts.
+- `docs/ARCHITECTURE.md` §5a: trust-boundary flowchart and plan-lifecycle state diagram.
+- `docs/demo/`: a reproducible rule-based export bundle and guide.
+
+#### Fixed
+- `short_error()` passed provider error text, shown in the UI and logged, through unchanged. It is now redacted
+  before truncation, in case a provider echoes a key.
+- `scripts/smoke_run.py` deletes the database given with `--db`, and the README wrongly said it appended. It now
+  refuses the dashboard database, and the documentation is corrected.
+
+### Documentation — this commit
+
+#### Changed
+- README rewritten:
+  - problem statement and actual capabilities;
+  - architecture, agent workflow, and how the approval gate works;
+  - setup, every environment variable, the reproducible demo, measured test results;
+  - security, honest limitations, roadmap.
+- `docs/SECURITY.md`: post-hackathon hardening table.
+- `docs/TEST_REPORT.md` and `docs/REQUIREMENTS_TRACEABILITY.md` marked as hackathon-time snapshots.
+
+### Known gaps (not addressed)
+- 96 mypy errors, mostly `Optional` narrowing. Count unchanged from the baseline; not a CI gate.
+- CI runs on Python 3.12 only. Python 3.13 is verified by local clean-clone runs, not by CI.
+- Transitive dependencies are not locked. The minimum compatible Streamlit version is unknown (1.67.0 was
+  tested).
+- No evaluation harness for LLM negotiation quality.
+
+## [Hackathon submission] — 2026-10-10 (`7486aac`, `be6e835`, `562dce3`)
+
+Built in 24 hours for the Looplab × LifixLabs ARES Accord hackathon:
+- the Streamlit dashboard;
+- five agents and four LLM providers, with labelled rule-based fallback;
+- the deterministic validator and approval gate;
+- event parsing, Crisis Override, the INFEASIBLE diagnosis;
+- the fact-check and reconsider step;
+- exports;
+- 258 tests at submission time.
+
+See `docs/TEST_REPORT.md` and `docs/REQUIREMENTS_TRACEABILITY.md` (historical snapshots).
