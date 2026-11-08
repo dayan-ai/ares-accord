@@ -7,7 +7,8 @@ Test numbers are measured runs (Windows 11, Python 3.13.6, fully offline) unless
 
 Starting point: `562dce3` (hackathon submission). **Before:** 255 passed, 3 failed, 62 warnings, 73% coverage, a
 CI workflow that could not run, unpinned dependencies. **After:** 312 passed, 0 failed, 0 warnings, 88% coverage,
-ruff clean, pinned dependencies, and a corrected CI workflow (validated with actionlint; not yet run on GitHub).
+ruff clean, pinned dependencies, and a corrected CI workflow (validated with actionlint; passing on GitHub
+Actions with Python 3.12: ruff clean, 312 passed, 88% coverage).
 
 ### Hostile-input findings — event-input limits and traceback redaction
 
@@ -114,7 +115,7 @@ before the fix.
 
 ### Known gaps (not addressed)
 - 96 mypy errors, mostly `Optional` narrowing. Count unchanged from the baseline; not a CI gate.
-- The CI workflow has not yet run on a GitHub runner.
+- CI runs on Python 3.12 only. Python 3.13 is verified by local clean-clone runs, not by CI.
 - Transitive dependencies are not locked. The minimum compatible Streamlit version is unknown (1.67.0 was
   tested).
 - No evaluation harness for LLM negotiation quality.
