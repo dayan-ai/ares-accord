@@ -65,7 +65,13 @@ class RedactingFilter(logging.Filter):
 
 
 def configure_logging(level: str | None = None) -> logging.Logger:
-    """Attach one stderr handler to the `ares` logger (idempotent; safe under Streamlit reruns)."""
+    """Attach one stderr handler to the `ares` logger (idempotent; safe under Streamlit reruns).
+
+    The level is `level`, else ARES_LOG_LEVEL, else INFO. `ares.config` is imported first because importing it
+    loads the repository's `.env`; app.py calls this before anything else has imported it.
+    """
+    import ares.config  # noqa: F401  (loads .env once; a local import keeps ares.log free of import-time deps)
+
     logger = logging.getLogger("ares")
     name = (level or os.getenv("ARES_LOG_LEVEL") or "INFO").strip().upper()
     resolved = logging.getLevelName(name)

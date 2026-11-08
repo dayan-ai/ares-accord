@@ -3,7 +3,10 @@ from __future__ import annotations
 
 import importlib.util
 import logging
+import os
+import subprocess
 import sys
+import textwrap
 
 import pytest
 
@@ -104,6 +107,30 @@ def test_configure_logging_is_idempotent_and_rejects_unknown_levels(caplog):
     finally:
         logger.setLevel(saved_level)
         logger.handlers[:] = saved_handlers
+
+
+def test_configure_logging_applies_level_from_dotenv_on_first_call():
+    # Regression: app.py calls configure_logging() before anything imports ares.config (which loads .env), so
+    # ARES_LOG_LEVEL set only in .env was ignored until the first Streamlit rerun. A fresh interpreter is needed
+    # because this test process has already imported ares.config. A stub dotenv module stands in for a .env file
+    # containing ARES_LOG_LEVEL=WARNING, so no real .env is read or written.
+    script = textwrap.dedent("""
+        import logging, os, sys, types
+        stub = types.ModuleType("dotenv")
+        def load_dotenv(dotenv_path=None, override=False):
+            os.environ.setdefault("ARES_LOG_LEVEL", "WARNING")
+            return True
+        stub.load_dotenv = load_dotenv
+        sys.modules["dotenv"] = stub
+        from ares.log import configure_logging  # same order as app.py: nothing has imported ares.config yet
+        configure_logging()
+        print(logging.getLevelName(logging.getLogger("ares").level))
+    """)
+    env = {k: v for k, v in os.environ.items() if k != "ARES_LOG_LEVEL"}
+    result = subprocess.run([sys.executable, "-c", script], cwd=ROOT, env=env, capture_output=True, text=True,
+                            timeout=60)
+    assert result.returncode == 0, result.stderr
+    assert result.stdout.strip() == "WARNING"
 
 
 def test_orchestrator_logs_scenario_lifecycle_and_gate_decisions(tmp_path, caplog):
