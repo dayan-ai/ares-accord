@@ -1,0 +1,7 @@
+version,scenario_id,round,status,modes,risk,used_power,used_water,used_oxygen,used_robot,used_bandwidth,reserve_power,reserve_water,reserve_oxygen,reserve_robot,reserve_bandwidth,validation,commitment_ids
+1,1,1,FAILED,L1+M1+F1+E1,4,112,62,74,33,26,-33,-10,-15,-7,-9,FAIL,
+2,1,2,FAILED,L2+M2+F2+E2,20,83,51,60,30,18,-4,1,-1,-4,-1,FAIL,
+3,1,3,STALE,L3+M2+F2+E2,24,79,50,57,26,17,0,2,2,0,0,PASS,S1-C1 S1-C2
+4,2,1,FAILED,L1+M1+F1+E1,4,112,62,74,33,26,-37,-10,-15,-7,-9,FAIL,
+5,2,2,FAILED,L3+M2+F2+E2,24,79,50,57,26,17,-4,2,2,0,0,FAIL,S2-C1 S2-C2
+6,2,3,APPROVED,L3+M2+F3+E2,28,74,47,57,24,16,1,5,2,2,1,PASS,S2-C1 S2-C2 S2-C3 S2-C4

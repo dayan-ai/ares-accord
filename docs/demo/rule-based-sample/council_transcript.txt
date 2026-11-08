@@ -1,0 +1,167 @@
+====================================================================================================
+[S1 BASELINE] Baseline crisis: micrometeorite storm
+====================================================================================================
+R0 - | Judge | SYSTEM | system
+    Judge started the baseline scenario with pool P79 W52 O59 R26 B17 using provider 'rule-based'.
+R0 - | Commander | BRIEFING | system
+    CRISIS BRIEFING — Baseline crisis: micrometeorite storm. Available pool: P79 W52 O59 R26 B17. Limits: risk <= 24, at most 1 Sacrifice mode(s); every sacrificing department needs 2 accepted return commitments from different agents. Round limit 6; approval needs validator PASS and 4 ACCEPT votes on the same plan version, not before round 3. Departments: state your mode requests and what Restricted or Sacrifice would cost you.
+R1 - | System | SYSTEM | system
+    Round 1 opens: department proposals.
+R1 - | Life Support | PROPOSAL | RULE-BASED FALLBACK (rule-based mode (no LLM provider))
+    Life Support requests L1 (P34 W10 O42 R4 B4, risk 1) to seal the damaged habitat and stabilize air for all 42 colonists. Main concern: oxygen and continuous power. Restricted L2 (risk 5): Completes the immediate task but creates recovery debt. Sacrifice L3 (risk 9): Living zone closes; crew crowding and thermal limits continue for 48 hours.
+R1 - | Medical | PROPOSAL | RULE-BASED FALLBACK (rule-based mode (no LLM provider))
+    Medical requests M1 (P28 W12 O18 R3 B10, risk 1) to stabilize and treat the 6 injured colonists. Main concern: power, oxygen and bandwidth. Restricted M2 (risk 5): Completes the immediate task but creates recovery debt. Sacrifice M3 (risk 9): One surgery is delayed and the patient remains unstable.
+R1 - | Food Production | PROPOSAL | RULE-BASED FALLBACK (rule-based mode (no LLM provider))
+    Food Production requests F1 (P24 W34 O8 R4 B2, risk 1) to protect the crop cycle and the greenhouse cooling loop. Main concern: water and power. Restricted F2 (risk 5): Completes the immediate task but creates recovery debt. Sacrifice F3 (risk 9): One crop bay is abandoned; food reserve falls by 40 percent.
+R1 - | Engineering | PROPOSAL | RULE-BASED FALLBACK (rule-based mode (no LLM provider))
+    Engineering requests E1 (P26 W6 O6 R22 B10, risk 1) to repair power generation and critical colony systems. Main concern: robot time and bandwidth. Restricted E2 (risk 5): Completes the immediate task but creates recovery debt. Sacrifice E3 (risk 9): The rover is cannibalized; future repair capacity is reduced.
+R1 v1 | Commander | PLAN_DRAFT | system
+    Plan v1 drafted from declared modes: L1+M1+F1+E1 | used P112 W62 O74 R33 B26 | reserve P-33 W-10 O-15 R-7 B-9 | risk 4/24 | returns: none.
+R1 v1 | Validator | VALIDATION | validator
+    FAIL for plan v1. PASS Mode packages: One published package per department: L1 Standard, M1 Standard, F1 Standard, E1 Standard; FAIL Resources: 5 resource(s) over pool: Power 112 > 79 (over by 33); Water 62 > 52 (over by 10); Oxygen 74 > 59 (over by 15); Robot time 33 > 26 (over by 7); Bandwidth 26 > 17 (over by 9); PASS Risk: Risk 4 <= limit 24; PASS Sacrifice limit: No Sacrifice modes (limit 1); PASS Return agreement: No sacrifice in plan; PASS Commitment backing: No sacrifice in plan; PASS Policy: Baseline policy (risk 24, 1 Sacrifice)
+R1 v1 | Commander | CONFLICT | system
+    Plan v1 (L1+M1+F1+E1) is blocked: Resources: 5 resource(s) over pool: Power 112 > 79 (over by 33); Water 62 > 52 (over by 10); Oxygen 74 > 59 (over by 15); Robot time 33 > 26 (over by 7); Bandwidth 26 > 17 (over by 9). Feasible full-package combinations under current policy: 2.
+R2 v1 | System | SYSTEM | system
+    Round 2 opens (plan v1 FAILED).
+R2 v1 | Commander | REQUEST | RULE-BASED FALLBACK (rule-based mode (no LLM provider))
+    Plan v1 FAILED: Resources: 5 resource(s) over pool: Power 112 > 79 (over by 33); Water 62 > 52 (over by 10); Oxygen 74 > 59.... Target L3+M2+F2+E2: totals P79 W50 O57 R26 B17, risk 24/24, reserve P0 W2 O2 R0 B0. Sacrifice asked of Life Support (L3). Commander offers: Commander gives habitat restoration first priority next cycle. Template owners please offer L3-ENG.
+R2 v1 | Commander | COMMITMENT | RULE-BASED FALLBACK (rule-based mode (no LLM provider))
+    Commander offers S1-C1 to Life Support: Commander gives habitat restoration first priority next cycle. (expires: End of next planning cycle)
+R2 v1 | Medical | ACCEPT_MODE | RULE-BASED FALLBACK (rule-based mode (no LLM provider))
+    Medical accepts Restricted M2 (P21 W10 O14 R2 B6, risk 5) because the numbers show a conflict: Resources: 5 resource(s) over pool: Power 112 > 79 (over by 33); Water 62 > 52 (over by 10); Oxygen 74 > 59.... Recovery debt: Completes the immediate task but creates recovery debt.
+R2 v1 | Food Production | ACCEPT_MODE | RULE-BASED FALLBACK (rule-based mode (no LLM provider))
+    Food Production accepts Restricted F2 (P15 W27 O5 R4 B2, risk 5) because the numbers show a conflict: Resources: 5 resource(s) over pool: Power 112 > 79 (over by 33); Water 62 > 52 (over by 10); Oxygen 74 > 59.... Recovery debt: Completes the immediate task but creates recovery debt.
+R2 v1 | Engineering | ACCEPT_MODE | RULE-BASED FALLBACK (rule-based mode (no LLM provider))
+    Engineering accepts Restricted E2 (P20 W5 O5 R18 B7, risk 5) because the numbers show a conflict: Resources: 5 resource(s) over pool: Power 112 > 79 (over by 33); Water 62 > 52 (over by 10); Oxygen 74 > 59.... Recovery debt: Completes the immediate task but creates recovery debt. I offer L3-ENG: Engineering commits 4 of its Robot units to habitat inspection..
+R2 v1 | Engineering | COMMITMENT | RULE-BASED FALLBACK (rule-based mode (no LLM provider))
+    Engineering offers S1-C2 to Life Support: Engineering commits 4 of its Robot units to habitat inspection. (expires: End of next planning cycle)
+R2 v1 | Life Support | REFUSE_SACRIFICE | RULE-BASED FALLBACK (rule-based mode (no LLM provider))
+    Life Support refuses Sacrifice L3: Living zone closes; crew crowding and thermal limits continue for 48 hours. Sacrifice was first requested this round (round 2). We can run L2 (P27 W9 O36 R6 B3). Counter-proposal: L2+M2+F2+E3 (risk 24; Engineering sacrifices).
+R2 v2 | Commander | PLAN_DRAFT | system
+    Plan v2 drafted from declared modes: L2+M2+F2+E2 | used P83 W51 O60 R30 B18 | reserve P-4 W1 O-1 R-4 B-1 | risk 20/24 | returns: none. Changes vs v1: Life Support L1->L2, Medical M1->M2, Food Production F1->F2, Engineering E1->E2.
+R2 v2 | Validator | VALIDATION | validator
+    FAIL for plan v2. PASS Mode packages: One published package per department: L2 Restricted, M2 Restricted, F2 Restricted, E2 Restricted; FAIL Resources: 4 resource(s) over pool: Power 83 > 79 (over by 4); Oxygen 60 > 59 (over by 1); Robot time 30 > 26 (over by 4); Bandwidth 18 > 17 (over by 1); PASS Risk: Risk 20 <= limit 24; PASS Sacrifice limit: No Sacrifice modes (limit 1); PASS Return agreement: No sacrifice in plan; PASS Commitment backing: No sacrifice in plan; PASS Policy: Baseline policy (risk 24, 1 Sacrifice)
+R2 v2 | Commander | CONFLICT | system
+    Plan v2 (L2+M2+F2+E2) is blocked: Resources: 4 resource(s) over pool: Power 83 > 79 (over by 4); Oxygen 60 > 59 (over by 1); Robot time 30 > 26 (over by 4); Bandwidth 18 > 17 (over by 1). Feasible full-package combinations under current policy: 2.
+R3 v2 | System | SYSTEM | system
+    Round 3 opens (plan v2 FAILED).
+R3 v2 | Commander | REQUEST | RULE-BASED FALLBACK (rule-based mode (no LLM provider))
+    Plan v2 FAILED: Resources: 4 resource(s) over pool: Power 83 > 79 (over by 4); Oxygen 60 > 59 (over by 1); Robot time 30 >.... Target L3+M2+F2+E2: totals P79 W50 O57 R26 B17, risk 24/24, reserve P0 W2 O2 R0 B0. Sacrifice asked of Life Support (L3). Template owners please offer L3-ENG.
+R3 v2 | Medical | ACCEPT_MODE | RULE-BASED FALLBACK (rule-based mode (no LLM provider))
+    Medical accepts Restricted M2 (P21 W10 O14 R2 B6, risk 5) because the numbers show a conflict: Resources: 4 resource(s) over pool: Power 83 > 79 (over by 4); Oxygen 60 > 59 (over by 1); Robot time 30 >.... Recovery debt: Completes the immediate task but creates recovery debt.
+R3 v2 | Food Production | ACCEPT_MODE | RULE-BASED FALLBACK (rule-based mode (no LLM provider))
+    Food Production accepts Restricted F2 (P15 W27 O5 R4 B2, risk 5) because the numbers show a conflict: Resources: 4 resource(s) over pool: Power 83 > 79 (over by 4); Oxygen 60 > 59 (over by 1); Robot time 30 >.... Recovery debt: Completes the immediate task but creates recovery debt.
+R3 v2 | Engineering | ACCEPT_MODE | RULE-BASED FALLBACK (rule-based mode (no LLM provider))
+    Engineering accepts Restricted E2 (P20 W5 O5 R18 B7, risk 5) because the numbers show a conflict: Resources: 4 resource(s) over pool: Power 83 > 79 (over by 4); Oxygen 60 > 59 (over by 1); Robot time 30 >.... Recovery debt: Completes the immediate task but creates recovery debt.
+R3 v2 | Life Support | ACCEPT_SACRIFICE | RULE-BASED FALLBACK (rule-based mode (no LLM provider))
+    Life Support accepts Sacrifice L3 (P23 W8 O33 R2 B2, risk 9) for the colony, on 2 return commitments from different agents - Commander: Commander gives habitat restoration first priority next cycle.; Engineering: Engineering commits 4 of its Robot units to habitat inspection. Accepting S1-C1, S1-C2.
+R3 v2 | Life Support | COMMITMENT_ACCEPTED | RULE-BASED FALLBACK (rule-based mode (no LLM provider))
+    Life Support accepts S1-C1 from Commander: Commander gives habitat restoration first priority next cycle.
+R3 v2 | Life Support | COMMITMENT_ACCEPTED | RULE-BASED FALLBACK (rule-based mode (no LLM provider))
+    Life Support accepts S1-C2 from Engineering: Engineering commits 4 of its Robot units to habitat inspection.
+R3 v3 | Commander | PLAN_DRAFT | system
+    Plan v3 drafted from declared modes: L3+M2+F2+E2 | used P79 W50 O57 R26 B17 | reserve P0 W2 O2 R0 B0 | risk 24/24 | returns: S1-C1, S1-C2. Changes vs v2: Life Support L2->L3.
+R3 v3 | Validator | VALIDATION | validator
+    PASS for plan v3. PASS Mode packages: One published package per department: L3 Sacrifice, M2 Restricted, F2 Restricted, E2 Restricted; PASS Resources: All 5 resources within pool; reserve P0 W2 O2 R0 B0; PASS Risk: Risk 24 <= limit 24; PASS Sacrifice limit: 1 Sacrifice mode(s) (LIFE_SUPPORT (L3)) <= limit 1; PASS Return agreement: LIFE_SUPPORT (L3) has 2 accepted return commitment(s) from 2 distinct agent(s): COMMANDER, ENGINEERING; PASS Commitment backing: All 2 accepted return commitment(s) are backed (ENGINEERING Robot time 4 <= 18 in E2); no claim conflicts; PASS Policy: Baseline policy (risk 24, 1 Sacrifice)
+R3 v3 | Commander | VOTE_CALL | system
+    Plan v3 (L3+M2+F2+E2) passed validation. All four departments: vote ACCEPT or REJECT on v3.
+R3 v3 | Life Support | VOTE | RULE-BASED FALLBACK (rule-based mode (no LLM provider))
+    ACCEPT plan v3: Validation PASS; our sacrifice L3 is backed by accepted returns from Commander, Engineering.
+R3 v3 | Medical | VOTE | RULE-BASED FALLBACK (rule-based mode (no LLM provider))
+    ACCEPT plan v3: Validation PASS; we run M2 as declared; plan risk 24, totals P79 W50 O57 R26 B17 within pool P79 W52 O59 R26 B17.
+R3 v3 | Food Production | VOTE | RULE-BASED FALLBACK (rule-based mode (no LLM provider))
+    ACCEPT plan v3: Validation PASS; we run F2 as declared; plan risk 24, totals P79 W50 O57 R26 B17 within pool P79 W52 O59 R26 B17.
+R3 v3 | Engineering | VOTE | RULE-BASED FALLBACK (rule-based mode (no LLM provider))
+    ACCEPT plan v3: Validation PASS; we run E2 as declared; plan risk 24, totals P79 W50 O57 R26 B17 within pool P79 W52 O59 R26 B17.
+R3 v3 | Commander | APPROVAL | system
+    APPROVED plan v3 (L3+M2+F2+E2). Validator PASS (7/7 checks); 4/4 ACCEPT votes on v3. Used P79 W50 O57 R26 B17; reserve P0 W2 O2 R0 B0; risk 24/24. Return agreements: S1-C1 Commander->Life Support: Commander gives habitat restoration first priority next cycle; S1-C2 Engineering->Life Support: Engineering commits 4 of its Robot units to habitat inspection.
+
+====================================================================================================
+[S2 EVENT] Solar aftershock
+====================================================================================================
+R0 - | Judge | EVENT | system
+    EMERGENCY EVENT 'Solar aftershock': Available Power decreases by 4 Changes: Power 79 -> 75 (-4). Interpretation: Parsed JSON object from text input; Structured impact used; description text not re-parsed (avoids double counting); No event_id given; generated EVT-A33C698E; changes.power=-4 -> -4 Power.
+R0 - | Validator | PLAN_STALE | validator
+    Plan v3 (L3+M2+F2+E2) is now STALE. The event breaks plan v3: Resources: 1 resource(s) over pool: Power 79 > 75 (over by 4) Its votes no longer count.
+R0 - | System | COMMITMENT | system
+    S2-C1 carried over from S1-C1 for renegotiation (Commander -> Life Support: Commander gives habitat restoration first priority next cycle.); it must be re-accepted.
+R0 - | System | COMMITMENT | system
+    S2-C2 carried over from S1-C2 for renegotiation (Engineering -> Life Support: Engineering commits 4 of its Robot units to habitat inspection.); it must be re-accepted.
+R0 - | Commander | BRIEFING | system
+    CRISIS BRIEFING — Solar aftershock. Available pool: P75 W52 O59 R26 B17. Limits: risk <= 24, at most 1 Sacrifice mode(s); every sacrificing department needs 2 accepted return commitments from different agents. Round limit 5; approval needs validator PASS and 4 ACCEPT votes on the same plan version, not before round 2. Crisis Override is available after this event (risk 28, up to 2 Sacrifice modes). Departments: state your mode requests and what Restricted or Sacrifice would cost you.
+R1 - | System | SYSTEM | system
+    Round 1 opens: department proposals.
+R1 - | Life Support | PROPOSAL | RULE-BASED FALLBACK (rule-based mode (no LLM provider))
+    Life Support requests L1 (P34 W10 O42 R4 B4, risk 1) to seal the damaged habitat and stabilize air for all 42 colonists. Main concern: oxygen and continuous power. Restricted L2 (risk 5): Completes the immediate task but creates recovery debt. Sacrifice L3 (risk 9): Living zone closes; crew crowding and thermal limits continue for 48 hours.
+R1 - | Medical | PROPOSAL | RULE-BASED FALLBACK (rule-based mode (no LLM provider))
+    Medical requests M1 (P28 W12 O18 R3 B10, risk 1) to stabilize and treat the 6 injured colonists. Main concern: power, oxygen and bandwidth. Restricted M2 (risk 5): Completes the immediate task but creates recovery debt. Sacrifice M3 (risk 9): One surgery is delayed and the patient remains unstable.
+R1 - | Food Production | PROPOSAL | RULE-BASED FALLBACK (rule-based mode (no LLM provider))
+    Food Production requests F1 (P24 W34 O8 R4 B2, risk 1) to protect the crop cycle and the greenhouse cooling loop. Main concern: water and power. Restricted F2 (risk 5): Completes the immediate task but creates recovery debt. Sacrifice F3 (risk 9): One crop bay is abandoned; food reserve falls by 40 percent.
+R1 - | Engineering | PROPOSAL | RULE-BASED FALLBACK (rule-based mode (no LLM provider))
+    Engineering requests E1 (P26 W6 O6 R22 B10, risk 1) to repair power generation and critical colony systems. Main concern: robot time and bandwidth. Restricted E2 (risk 5): Completes the immediate task but creates recovery debt. Sacrifice E3 (risk 9): The rover is cannibalized; future repair capacity is reduced.
+R1 v4 | Commander | PLAN_DRAFT | system
+    Plan v4 drafted from declared modes: L1+M1+F1+E1 | used P112 W62 O74 R33 B26 | reserve P-37 W-10 O-15 R-7 B-9 | risk 4/24 | returns: none.
+R1 v4 | Validator | VALIDATION | validator
+    FAIL for plan v4. PASS Mode packages: One published package per department: L1 Standard, M1 Standard, F1 Standard, E1 Standard; FAIL Resources: 5 resource(s) over pool: Power 112 > 75 (over by 37); Water 62 > 52 (over by 10); Oxygen 74 > 59 (over by 15); Robot time 33 > 26 (over by 7); Bandwidth 26 > 17 (over by 9); PASS Risk: Risk 4 <= limit 24; PASS Sacrifice limit: No Sacrifice modes (limit 1); PASS Return agreement: No sacrifice in plan; PASS Commitment backing: No sacrifice in plan; PASS Policy: Baseline policy (risk 24, 1 Sacrifice)
+R1 v4 | Commander | CONFLICT | system
+    Plan v4 (L1+M1+F1+E1) is blocked: Resources: 5 resource(s) over pool: Power 112 > 75 (over by 37); Water 62 > 52 (over by 10); Oxygen 74 > 59 (over by 15); Robot time 33 > 26 (over by 7); Bandwidth 26 > 17 (over by 9). Feasible full-package combinations under current policy: 0.
+R2 v4 | System | SYSTEM | system
+    Round 2 opens (plan v4 FAILED).
+R2 v4 | Commander | REQUEST | RULE-BASED FALLBACK (rule-based mode (no LLM provider))
+    Plan v4 FAILED: Resources: 5 resource(s) over pool: Power 112 > 75 (over by 37); Water 62 > 52 (over by 10); Oxygen 74 > 59.... Target L3+M2+F3+E2: totals P74 W47 O57 R24 B16, risk 28/28, reserve P1 W5 O2 R2 B1. Sacrifice asked of Life Support (L3), Food Production (F3). Commander offers: Commander protects the next Water increase for Food. Template owners please offer L3-ENG, F3-ENG. Invoking Crisis Override (risk <= 28, <= 2 sacrifices): no baseline-policy plan exists.
+R2 v4 | Commander | SYSTEM | system
+    Crisis Override invoked: risk limit 24 -> 28 and up to 2 Sacrifice modes. Each sacrificing department still needs 2 accepted returns.
+R2 v4 | Commander | COMMITMENT | RULE-BASED FALLBACK (rule-based mode (no LLM provider))
+    Commander offers S2-C3 to Food Production: Commander protects the next Water increase for Food. (expires: End of next planning cycle)
+R2 v4 | Medical | ACCEPT_MODE | RULE-BASED FALLBACK (rule-based mode (no LLM provider))
+    Medical accepts Restricted M2 (P21 W10 O14 R2 B6, risk 5) because the numbers show a conflict: Resources: 5 resource(s) over pool: Power 112 > 75 (over by 37); Water 62 > 52 (over by 10); Oxygen 74 > 59.... Recovery debt: Completes the immediate task but creates recovery debt.
+R2 v4 | Engineering | ACCEPT_MODE | RULE-BASED FALLBACK (rule-based mode (no LLM provider))
+    Engineering accepts Restricted E2 (P20 W5 O5 R18 B7, risk 5) because the numbers show a conflict: Resources: 5 resource(s) over pool: Power 112 > 75 (over by 37); Water 62 > 52 (over by 10); Oxygen 74 > 59.... Recovery debt: Completes the immediate task but creates recovery debt. I offer F3-ENG: Engineering commits 4 future Robot units to greenhouse rebuild..
+R2 v4 | Engineering | COMMITMENT | RULE-BASED FALLBACK (rule-based mode (no LLM provider))
+    Engineering offers S2-C4 to Food Production: Engineering commits 4 future Robot units to greenhouse rebuild. (expires: End of next planning cycle)
+R2 v4 | Life Support | ACCEPT_SACRIFICE | RULE-BASED FALLBACK (rule-based mode (no LLM provider))
+    Life Support accepts Sacrifice L3 (P23 W8 O33 R2 B2, risk 9) for the colony, on 2 return commitments from different agents - Commander: Commander gives habitat restoration first priority next cycle.; Engineering: Engineering commits 4 of its Robot units to habitat inspection. Accepting S2-C1, S2-C2.
+R2 v4 | Life Support | COMMITMENT_ACCEPTED | RULE-BASED FALLBACK (rule-based mode (no LLM provider))
+    Life Support accepts S2-C1 from Commander: Commander gives habitat restoration first priority next cycle.
+R2 v4 | Life Support | COMMITMENT_ACCEPTED | RULE-BASED FALLBACK (rule-based mode (no LLM provider))
+    Life Support accepts S2-C2 from Engineering: Engineering commits 4 of its Robot units to habitat inspection.
+R2 v4 | Food Production | REFUSE_SACRIFICE | RULE-BASED FALLBACK (rule-based mode (no LLM provider))
+    Food Production refuses Sacrifice F3: One crop bay is abandoned; food reserve falls by 40 percent. Sacrifice was first requested this round (round 2). We can run F2 (P15 W27 O5 R4 B2). Counter-proposal: L3+M2+F2+E3 (risk 28; Life Support, Engineering sacrifices).
+R2 v5 | Commander | PLAN_DRAFT | system
+    Plan v5 drafted from declared modes: L3+M2+F2+E2 | used P79 W50 O57 R26 B17 | reserve P-4 W2 O2 R0 B0 | risk 24/28 | returns: S2-C1, S2-C2. Changes vs v4: Life Support L1->L3, Medical M1->M2, Food Production F1->F2, Engineering E1->E2.
+R2 v5 | Validator | VALIDATION | validator
+    FAIL for plan v5. PASS Mode packages: One published package per department: L3 Sacrifice, M2 Restricted, F2 Restricted, E2 Restricted; FAIL Resources: 1 resource(s) over pool: Power 79 > 75 (over by 4); PASS Risk: Risk 24 <= limit 28; PASS Sacrifice limit: 1 Sacrifice mode(s) (LIFE_SUPPORT (L3)) <= limit 2; PASS Return agreement: LIFE_SUPPORT (L3) has 2 accepted return commitment(s) from 2 distinct agent(s): COMMANDER, ENGINEERING; PASS Commitment backing: All 2 accepted return commitment(s) are backed (ENGINEERING Robot time 4 <= 18 in E2); no claim conflicts; PASS Policy: Crisis Override policy (risk 28, 2 Sacrifices)
+R2 v5 | Commander | CONFLICT | system
+    Plan v5 (L3+M2+F2+E2) is blocked: Resources: 1 resource(s) over pool: Power 79 > 75 (over by 4). Feasible full-package combinations under current policy: 3.
+R3 v5 | System | SYSTEM | system
+    Round 3 opens (plan v5 FAILED).
+R3 v5 | Commander | REQUEST | RULE-BASED FALLBACK (rule-based mode (no LLM provider))
+    Plan v5 FAILED: Resources: 1 resource(s) over pool: Power 79 > 75 (over by 4). Target L3+M2+F3+E2: totals P74 W47 O57 R24 B16, risk 28/28, reserve P1 W5 O2 R2 B1. Sacrifice asked of Life Support (L3), Food Production (F3). Template owners please offer L3-ENG, F3-ENG.
+R3 v5 | Medical | ACCEPT_MODE | RULE-BASED FALLBACK (rule-based mode (no LLM provider))
+    Medical accepts Restricted M2 (P21 W10 O14 R2 B6, risk 5) because the numbers show a conflict: Resources: 1 resource(s) over pool: Power 79 > 75 (over by 4). Recovery debt: Completes the immediate task but creates recovery debt.
+R3 v5 | Engineering | ACCEPT_MODE | RULE-BASED FALLBACK (rule-based mode (no LLM provider))
+    Engineering accepts Restricted E2 (P20 W5 O5 R18 B7, risk 5) because the numbers show a conflict: Resources: 1 resource(s) over pool: Power 79 > 75 (over by 4). Recovery debt: Completes the immediate task but creates recovery debt.
+R3 v5 | Life Support | ACCEPT_MODE | RULE-BASED FALLBACK (rule-based mode (no LLM provider))
+    Life Support holds L3 under accepted returns from Commander, Engineering. Cost remains: Living zone closes; crew crowding and thermal limits continue for 48 hours.
+R3 v5 | Food Production | ACCEPT_SACRIFICE | RULE-BASED FALLBACK (rule-based mode (no LLM provider))
+    Food Production accepts Sacrifice F3 (P10 W24 O5 R2 B1, risk 9) for the colony, on 2 return commitments from different agents - Commander: Commander protects the next Water increase for Food.; Engineering: Engineering commits 4 future Robot units to greenhouse rebuild. Accepting S2-C3, S2-C4.
+R3 v5 | Food Production | COMMITMENT_ACCEPTED | RULE-BASED FALLBACK (rule-based mode (no LLM provider))
+    Food Production accepts S2-C3 from Commander: Commander protects the next Water increase for Food.
+R3 v5 | Food Production | COMMITMENT_ACCEPTED | RULE-BASED FALLBACK (rule-based mode (no LLM provider))
+    Food Production accepts S2-C4 from Engineering: Engineering commits 4 future Robot units to greenhouse rebuild.
+R3 v6 | Commander | PLAN_DRAFT | system
+    Plan v6 drafted from declared modes: L3+M2+F3+E2 | used P74 W47 O57 R24 B16 | reserve P1 W5 O2 R2 B1 | risk 28/28 | returns: S2-C1, S2-C2, S2-C3, S2-C4. Changes vs v5: Food Production F2->F3.
+R3 v6 | Validator | VALIDATION | validator
+    PASS for plan v6. PASS Mode packages: One published package per department: L3 Sacrifice, M2 Restricted, F3 Sacrifice, E2 Restricted; PASS Resources: All 5 resources within pool; reserve P1 W5 O2 R2 B1; PASS Risk: Risk 28 <= limit 28; PASS Sacrifice limit: 2 Sacrifice mode(s) (LIFE_SUPPORT (L3), FOOD (F3)) <= limit 2; PASS Return agreement: LIFE_SUPPORT (L3) has 2 accepted return commitment(s) from 2 distinct agent(s): COMMANDER, ENGINEERING; FOOD (F3) has 2 accepted return commitment(s) from 2 distinct agent(s): COMMANDER, ENGINEERING; PASS Commitment backing: All 4 accepted return commitment(s) are backed (ENGINEERING Robot time 4 <= 18 in E2); no claim conflicts; PASS Policy: Crisis Override policy (risk 28, 2 Sacrifices)
+R3 v6 | Commander | VOTE_CALL | system
+    Plan v6 (L3+M2+F3+E2) passed validation. All four departments: vote ACCEPT or REJECT on v6.
+R3 v6 | Life Support | VOTE | RULE-BASED FALLBACK (rule-based mode (no LLM provider))
+    ACCEPT plan v6: Validation PASS; our sacrifice L3 is backed by accepted returns from Commander, Engineering.
+R3 v6 | Medical | VOTE | RULE-BASED FALLBACK (rule-based mode (no LLM provider))
+    ACCEPT plan v6: Validation PASS; we run M2 as declared; plan risk 28, totals P74 W47 O57 R24 B16 within pool P75 W52 O59 R26 B17.
+R3 v6 | Food Production | VOTE | RULE-BASED FALLBACK (rule-based mode (no LLM provider))
+    ACCEPT plan v6: Validation PASS; our sacrifice F3 is backed by accepted returns from Commander, Engineering.
+R3 v6 | Engineering | VOTE | RULE-BASED FALLBACK (rule-based mode (no LLM provider))
+    ACCEPT plan v6: Validation PASS; we run E2 as declared; plan risk 28, totals P74 W47 O57 R24 B16 within pool P75 W52 O59 R26 B17.
+R3 v6 | Commander | APPROVAL | system
+    APPROVED plan v6 (L3+M2+F3+E2). Validator PASS (7/7 checks); 4/4 ACCEPT votes on v6. Used P74 W47 O57 R24 B16; reserve P1 W5 O2 R2 B1; risk 28/28. Return agreements: S2-C1 Commander->Life Support: Commander gives habitat restoration first priority next cycle; S2-C2 Engineering->Life Support: Engineering commits 4 of its Robot units to habitat inspection; S2-C3 Commander->Food Production: Commander protects the next Water increase for Food; S2-C4 Engineering->Food Production: Engineering commits 4 future Robot units to greenhouse rebuild.

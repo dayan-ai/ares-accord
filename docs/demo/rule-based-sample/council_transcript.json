@@ -1,0 +1,2935 @@
+[
+  {
+    "id": 1,
+    "session_id": 1,
+    "scenario_id": 1,
+    "round": 0,
+    "plan_version": null,
+    "sender": "JUDGE",
+    "recipient": "ALL",
+    "msg_type": "SYSTEM",
+    "content": "Judge started the baseline scenario with pool P79 W52 O59 R26 B17 using provider 'rule-based'.",
+    "payload": {
+      "pool": {
+        "power": 79,
+        "water": 52,
+        "oxygen": 59,
+        "robot": 26,
+        "bandwidth": 17
+      },
+      "provider": "rule-based"
+    },
+    "source": "system",
+    "provider": null,
+    "model": null,
+    "fallback_reason": null,
+    "created_at": "2026-11-08T13:44:49+00:00"
+  },
+  {
+    "id": 2,
+    "session_id": 1,
+    "scenario_id": 1,
+    "round": 0,
+    "plan_version": null,
+    "sender": "COMMANDER",
+    "recipient": "ALL",
+    "msg_type": "BRIEFING",
+    "content": "CRISIS BRIEFING \u2014 Baseline crisis: micrometeorite storm. Available pool: P79 W52 O59 R26 B17. Limits: risk <= 24, at most 1 Sacrifice mode(s); every sacrificing department needs 2 accepted return commitments from different agents. Round limit 6; approval needs validator PASS and 4 ACCEPT votes on the same plan version, not before round 3. Departments: state your mode requests and what Restricted or Sacrifice would cost you.",
+    "payload": {
+      "pool": {
+        "power": 79,
+        "water": 52,
+        "oxygen": 59,
+        "robot": 26,
+        "bandwidth": 17
+      },
+      "policy": {
+        "risk_limit": 24,
+        "max_sacrifices": 1,
+        "crisis_override": false
+      },
+      "max_rounds": 6,
+      "min_rounds": 3,
+      "feasible_combinations": 2,
+      "feasible_with_override_only": 0
+    },
+    "source": "system",
+    "provider": null,
+    "model": null,
+    "fallback_reason": null,
+    "created_at": "2026-11-08T13:44:49+00:00"
+  },
+  {
+    "id": 3,
+    "session_id": 1,
+    "scenario_id": 1,
+    "round": 1,
+    "plan_version": null,
+    "sender": "SYSTEM",
+    "recipient": "ALL",
+    "msg_type": "SYSTEM",
+    "content": "Round 1 opens: department proposals.",
+    "payload": {},
+    "source": "system",
+    "provider": null,
+    "model": null,
+    "fallback_reason": null,
+    "created_at": "2026-11-08T13:44:49+00:00"
+  },
+  {
+    "id": 4,
+    "session_id": 1,
+    "scenario_id": 1,
+    "round": 1,
+    "plan_version": null,
+    "sender": "LIFE_SUPPORT",
+    "recipient": "ALL",
+    "msg_type": "PROPOSAL",
+    "content": "Life Support requests L1 (P34 W10 O42 R4 B4, risk 1) to seal the damaged habitat and stabilize air for all 42 colonists. Main concern: oxygen and continuous power. Restricted L2 (risk 5): Completes the immediate task but creates recovery debt. Sacrifice L3 (risk 9): Living zone closes; crew crowding and thermal limits continue for 48 hours.",
+    "payload": {
+      "mode": "L1",
+      "previous_mode": null,
+      "tier": "STANDARD",
+      "package": {
+        "power": 34,
+        "water": 10,
+        "oxygen": 42,
+        "robot": 4,
+        "bandwidth": 4
+      },
+      "risk": 1,
+      "reason": "Protects our mission; key resources: oxygen, power.",
+      "consequence": "Restricted L2 (risk 5): Completes the immediate task but creates recovery debt. Sacrifice L3 (risk 9): Living zone closes; crew crowding and thermal limits continue for 48 hours.",
+      "refuses_sacrifice": false,
+      "proposed_combo": null
+    },
+    "source": "rule-based",
+    "provider": null,
+    "model": null,
+    "fallback_reason": "rule-based mode (no LLM provider)",
+    "created_at": "2026-11-08T13:44:49+00:00"
+  },
+  {
+    "id": 5,
+    "session_id": 1,
+    "scenario_id": 1,
+    "round": 1,
+    "plan_version": null,
+    "sender": "MEDICAL",
+    "recipient": "ALL",
+    "msg_type": "PROPOSAL",
+    "content": "Medical requests M1 (P28 W12 O18 R3 B10, risk 1) to stabilize and treat the 6 injured colonists. Main concern: power, oxygen and bandwidth. Restricted M2 (risk 5): Completes the immediate task but creates recovery debt. Sacrifice M3 (risk 9): One surgery is delayed and the patient remains unstable.",
+    "payload": {
+      "mode": "M1",
+      "previous_mode": null,
+      "tier": "STANDARD",
+      "package": {
+        "power": 28,
+        "water": 12,
+        "oxygen": 18,
+        "robot": 3,
+        "bandwidth": 10
+      },
+      "risk": 1,
+      "reason": "Protects our mission; key resources: power, oxygen, bandwidth.",
+      "consequence": "Restricted M2 (risk 5): Completes the immediate task but creates recovery debt. Sacrifice M3 (risk 9): One surgery is delayed and the patient remains unstable.",
+      "refuses_sacrifice": false,
+      "proposed_combo": null
+    },
+    "source": "rule-based",
+    "provider": null,
+    "model": null,
+    "fallback_reason": "rule-based mode (no LLM provider)",
+    "created_at": "2026-11-08T13:44:49+00:00"
+  },
+  {
+    "id": 6,
+    "session_id": 1,
+    "scenario_id": 1,
+    "round": 1,
+    "plan_version": null,
+    "sender": "FOOD",
+    "recipient": "ALL",
+    "msg_type": "PROPOSAL",
+    "content": "Food Production requests F1 (P24 W34 O8 R4 B2, risk 1) to protect the crop cycle and the greenhouse cooling loop. Main concern: water and power. Restricted F2 (risk 5): Completes the immediate task but creates recovery debt. Sacrifice F3 (risk 9): One crop bay is abandoned; food reserve falls by 40 percent.",
+    "payload": {
+      "mode": "F1",
+      "previous_mode": null,
+      "tier": "STANDARD",
+      "package": {
+        "power": 24,
+        "water": 34,
+        "oxygen": 8,
+        "robot": 4,
+        "bandwidth": 2
+      },
+      "risk": 1,
+      "reason": "Protects our mission; key resources: water, power.",
+      "consequence": "Restricted F2 (risk 5): Completes the immediate task but creates recovery debt. Sacrifice F3 (risk 9): One crop bay is abandoned; food reserve falls by 40 percent.",
+      "refuses_sacrifice": false,
+      "proposed_combo": null
+    },
+    "source": "rule-based",
+    "provider": null,
+    "model": null,
+    "fallback_reason": "rule-based mode (no LLM provider)",
+    "created_at": "2026-11-08T13:44:49+00:00"
+  },
+  {
+    "id": 7,
+    "session_id": 1,
+    "scenario_id": 1,
+    "round": 1,
+    "plan_version": null,
+    "sender": "ENGINEERING",
+    "recipient": "ALL",
+    "msg_type": "PROPOSAL",
+    "content": "Engineering requests E1 (P26 W6 O6 R22 B10, risk 1) to repair power generation and critical colony systems. Main concern: robot time and bandwidth. Restricted E2 (risk 5): Completes the immediate task but creates recovery debt. Sacrifice E3 (risk 9): The rover is cannibalized; future repair capacity is reduced.",
+    "payload": {
+      "mode": "E1",
+      "previous_mode": null,
+      "tier": "STANDARD",
+      "package": {
+        "power": 26,
+        "water": 6,
+        "oxygen": 6,
+        "robot": 22,
+        "bandwidth": 10
+      },
+      "risk": 1,
+      "reason": "Protects our mission; key resources: robot, bandwidth.",
+      "consequence": "Restricted E2 (risk 5): Completes the immediate task but creates recovery debt. Sacrifice E3 (risk 9): The rover is cannibalized; future repair capacity is reduced.",
+      "refuses_sacrifice": false,
+      "proposed_combo": null
+    },
+    "source": "rule-based",
+    "provider": null,
+    "model": null,
+    "fallback_reason": "rule-based mode (no LLM provider)",
+    "created_at": "2026-11-08T13:44:49+00:00"
+  },
+  {
+    "id": 8,
+    "session_id": 1,
+    "scenario_id": 1,
+    "round": 1,
+    "plan_version": 1,
+    "sender": "COMMANDER",
+    "recipient": "ALL",
+    "msg_type": "PLAN_DRAFT",
+    "content": "Plan v1 drafted from declared modes: L1+M1+F1+E1 | used P112 W62 O74 R33 B26 | reserve P-33 W-10 O-15 R-7 B-9 | risk 4/24 | returns: none.",
+    "payload": {
+      "plan_id": 1,
+      "version": 1,
+      "modes": {
+        "LIFE_SUPPORT": "L1",
+        "MEDICAL": "M1",
+        "FOOD": "F1",
+        "ENGINEERING": "E1"
+      },
+      "totals": {
+        "power": 112,
+        "water": 62,
+        "oxygen": 74,
+        "robot": 33,
+        "bandwidth": 26
+      },
+      "reserve": {
+        "power": -33,
+        "water": -10,
+        "oxygen": -15,
+        "robot": -7,
+        "bandwidth": -9
+      },
+      "risk": 4,
+      "commitment_ids": []
+    },
+    "source": "system",
+    "provider": null,
+    "model": null,
+    "fallback_reason": null,
+    "created_at": "2026-11-08T13:44:49+00:00"
+  },
+  {
+    "id": 9,
+    "session_id": 1,
+    "scenario_id": 1,
+    "round": 1,
+    "plan_version": 1,
+    "sender": "VALIDATOR",
+    "recipient": "ALL",
+    "msg_type": "VALIDATION",
+    "content": "FAIL for plan v1. PASS Mode packages: One published package per department: L1 Standard, M1 Standard, F1 Standard, E1 Standard; FAIL Resources: 5 resource(s) over pool: Power 112 > 79 (over by 33); Water 62 > 52 (over by 10); Oxygen 74 > 59 (over by 15); Robot time 33 > 26 (over by 7); Bandwidth 26 > 17 (over by 9); PASS Risk: Risk 4 <= limit 24; PASS Sacrifice limit: No Sacrifice modes (limit 1); PASS Return agreement: No sacrifice in plan; PASS Commitment backing: No sacrifice in plan; PASS Policy: Baseline policy (risk 24, 1 Sacrifice)",
+    "payload": {
+      "status": "FAIL",
+      "checks": [
+        {
+          "name": "Mode packages",
+          "passed": true,
+          "detail": "One published package per department: L1 Standard, M1 Standard, F1 Standard, E1 Standard"
+        },
+        {
+          "name": "Resources",
+          "passed": false,
+          "detail": "5 resource(s) over pool: Power 112 > 79 (over by 33); Water 62 > 52 (over by 10); Oxygen 74 > 59 (over by 15); Robot time 33 > 26 (over by 7); Bandwidth 26 > 17 (over by 9)"
+        },
+        {
+          "name": "Risk",
+          "passed": true,
+          "detail": "Risk 4 <= limit 24"
+        },
+        {
+          "name": "Sacrifice limit",
+          "passed": true,
+          "detail": "No Sacrifice modes (limit 1)"
+        },
+        {
+          "name": "Return agreement",
+          "passed": true,
+          "detail": "No sacrifice in plan"
+        },
+        {
+          "name": "Commitment backing",
+          "passed": true,
+          "detail": "No sacrifice in plan"
+        },
+        {
+          "name": "Policy",
+          "passed": true,
+          "detail": "Baseline policy (risk 24, 1 Sacrifice)"
+        }
+      ],
+      "reasons": [
+        "Resources: 5 resource(s) over pool: Power 112 > 79 (over by 33); Water 62 > 52 (over by 10); Oxygen 74 > 59 (over by 15); Robot time 33 > 26 (over by 7); Bandwidth 26 > 17 (over by 9)"
+      ],
+      "warnings": [],
+      "totals": {
+        "power": 112,
+        "water": 62,
+        "oxygen": 74,
+        "robot": 33,
+        "bandwidth": 26
+      },
+      "reserve": {
+        "power": -33,
+        "water": -10,
+        "oxygen": -15,
+        "robot": -7,
+        "bandwidth": -9
+      },
+      "risk": 4,
+      "sacrifices": []
+    },
+    "source": "validator",
+    "provider": null,
+    "model": null,
+    "fallback_reason": null,
+    "created_at": "2026-11-08T13:44:49+00:00"
+  },
+  {
+    "id": 10,
+    "session_id": 1,
+    "scenario_id": 1,
+    "round": 1,
+    "plan_version": 1,
+    "sender": "COMMANDER",
+    "recipient": "ALL",
+    "msg_type": "CONFLICT",
+    "content": "Plan v1 (L1+M1+F1+E1) is blocked: Resources: 5 resource(s) over pool: Power 112 > 79 (over by 33); Water 62 > 52 (over by 10); Oxygen 74 > 59 (over by 15); Robot time 33 > 26 (over by 7); Bandwidth 26 > 17 (over by 9). Feasible full-package combinations under current policy: 2.",
+    "payload": {
+      "reasons": [
+        "Resources: 5 resource(s) over pool: Power 112 > 79 (over by 33); Water 62 > 52 (over by 10); Oxygen 74 > 59 (over by 15); Robot time 33 > 26 (over by 7); Bandwidth 26 > 17 (over by 9)"
+      ]
+    },
+    "source": "system",
+    "provider": null,
+    "model": null,
+    "fallback_reason": null,
+    "created_at": "2026-11-08T13:44:49+00:00"
+  },
+  {
+    "id": 11,
+    "session_id": 1,
+    "scenario_id": 1,
+    "round": 2,
+    "plan_version": 1,
+    "sender": "SYSTEM",
+    "recipient": "ALL",
+    "msg_type": "SYSTEM",
+    "content": "Round 2 opens (plan v1 FAILED).",
+    "payload": {},
+    "source": "system",
+    "provider": null,
+    "model": null,
+    "fallback_reason": null,
+    "created_at": "2026-11-08T13:44:49+00:00"
+  },
+  {
+    "id": 12,
+    "session_id": 1,
+    "scenario_id": 1,
+    "round": 2,
+    "plan_version": 1,
+    "sender": "COMMANDER",
+    "recipient": "ALL",
+    "msg_type": "REQUEST",
+    "content": "Plan v1 FAILED: Resources: 5 resource(s) over pool: Power 112 > 79 (over by 33); Water 62 > 52 (over by 10); Oxygen 74 > 59.... Target L3+M2+F2+E2: totals P79 W50 O57 R26 B17, risk 24/24, reserve P0 W2 O2 R0 B0. Sacrifice asked of Life Support (L3). Commander offers: Commander gives habitat restoration first priority next cycle. Template owners please offer L3-ENG.",
+    "payload": {
+      "target_combo": {
+        "LIFE_SUPPORT": "L3",
+        "MEDICAL": "M2",
+        "FOOD": "F2",
+        "ENGINEERING": "E2"
+      },
+      "target_label": "L3+M2+F2+E2",
+      "mode_requests": {
+        "LIFE_SUPPORT": "L3",
+        "MEDICAL": "M2",
+        "FOOD": "F2",
+        "ENGINEERING": "E2"
+      },
+      "sacrifice_candidates": [
+        "LIFE_SUPPORT"
+      ],
+      "use_crisis_override": false,
+      "declare_infeasible": false
+    },
+    "source": "rule-based",
+    "provider": null,
+    "model": null,
+    "fallback_reason": "rule-based mode (no LLM provider)",
+    "created_at": "2026-11-08T13:44:49+00:00"
+  },
+  {
+    "id": 13,
+    "session_id": 1,
+    "scenario_id": 1,
+    "round": 2,
+    "plan_version": 1,
+    "sender": "COMMANDER",
+    "recipient": "LIFE_SUPPORT",
+    "msg_type": "COMMITMENT",
+    "content": "Commander offers S1-C1 to Life Support: Commander gives habitat restoration first priority next cycle. (expires: End of next planning cycle)",
+    "payload": {
+      "id": "S1-C1",
+      "scenario_id": 1,
+      "owner": "COMMANDER",
+      "beneficiary": "LIFE_SUPPORT",
+      "kind": "priority",
+      "resource": null,
+      "amount": 0,
+      "source": null,
+      "claim": "commander_next_cycle_first_priority",
+      "promise": "Commander gives habitat restoration first priority next cycle.",
+      "expiry": "End of next planning cycle",
+      "status": "PROPOSED",
+      "template_id": "L3-CMD",
+      "round_offered": 2,
+      "round_resolved": null,
+      "note": ""
+    },
+    "source": "rule-based",
+    "provider": null,
+    "model": null,
+    "fallback_reason": "rule-based mode (no LLM provider)",
+    "created_at": "2026-11-08T13:44:49+00:00"
+  },
+  {
+    "id": 14,
+    "session_id": 1,
+    "scenario_id": 1,
+    "round": 2,
+    "plan_version": 1,
+    "sender": "MEDICAL",
+    "recipient": "ALL",
+    "msg_type": "ACCEPT_MODE",
+    "content": "Medical accepts Restricted M2 (P21 W10 O14 R2 B6, risk 5) because the numbers show a conflict: Resources: 5 resource(s) over pool: Power 112 > 79 (over by 33); Water 62 > 52 (over by 10); Oxygen 74 > 59.... Recovery debt: Completes the immediate task but creates recovery debt.",
+    "payload": {
+      "mode": "M2",
+      "previous_mode": "M1",
+      "tier": "RESTRICTED",
+      "package": {
+        "power": 21,
+        "water": 10,
+        "oxygen": 14,
+        "robot": 2,
+        "bandwidth": 6
+      },
+      "risk": 5,
+      "reason": "Conflict confirmed by validator numbers.",
+      "consequence": "Completes the immediate task but creates recovery debt.",
+      "refuses_sacrifice": false,
+      "proposed_combo": null
+    },
+    "source": "rule-based",
+    "provider": null,
+    "model": null,
+    "fallback_reason": "rule-based mode (no LLM provider)",
+    "created_at": "2026-11-08T13:44:49+00:00"
+  },
+  {
+    "id": 15,
+    "session_id": 1,
+    "scenario_id": 1,
+    "round": 2,
+    "plan_version": 1,
+    "sender": "FOOD",
+    "recipient": "ALL",
+    "msg_type": "ACCEPT_MODE",
+    "content": "Food Production accepts Restricted F2 (P15 W27 O5 R4 B2, risk 5) because the numbers show a conflict: Resources: 5 resource(s) over pool: Power 112 > 79 (over by 33); Water 62 > 52 (over by 10); Oxygen 74 > 59.... Recovery debt: Completes the immediate task but creates recovery debt.",
+    "payload": {
+      "mode": "F2",
+      "previous_mode": "F1",
+      "tier": "RESTRICTED",
+      "package": {
+        "power": 15,
+        "water": 27,
+        "oxygen": 5,
+        "robot": 4,
+        "bandwidth": 2
+      },
+      "risk": 5,
+      "reason": "Conflict confirmed by validator numbers.",
+      "consequence": "Completes the immediate task but creates recovery debt.",
+      "refuses_sacrifice": false,
+      "proposed_combo": null
+    },
+    "source": "rule-based",
+    "provider": null,
+    "model": null,
+    "fallback_reason": "rule-based mode (no LLM provider)",
+    "created_at": "2026-11-08T13:44:49+00:00"
+  },
+  {
+    "id": 16,
+    "session_id": 1,
+    "scenario_id": 1,
+    "round": 2,
+    "plan_version": 1,
+    "sender": "ENGINEERING",
+    "recipient": "ALL",
+    "msg_type": "ACCEPT_MODE",
+    "content": "Engineering accepts Restricted E2 (P20 W5 O5 R18 B7, risk 5) because the numbers show a conflict: Resources: 5 resource(s) over pool: Power 112 > 79 (over by 33); Water 62 > 52 (over by 10); Oxygen 74 > 59.... Recovery debt: Completes the immediate task but creates recovery debt. I offer L3-ENG: Engineering commits 4 of its Robot units to habitat inspection..",
+    "payload": {
+      "mode": "E2",
+      "previous_mode": "E1",
+      "tier": "RESTRICTED",
+      "package": {
+        "power": 20,
+        "water": 5,
+        "oxygen": 5,
+        "robot": 18,
+        "bandwidth": 7
+      },
+      "risk": 5,
+      "reason": "Conflict confirmed by validator numbers.",
+      "consequence": "Completes the immediate task but creates recovery debt.",
+      "refuses_sacrifice": false,
+      "proposed_combo": null
+    },
+    "source": "rule-based",
+    "provider": null,
+    "model": null,
+    "fallback_reason": "rule-based mode (no LLM provider)",
+    "created_at": "2026-11-08T13:44:49+00:00"
+  },
+  {
+    "id": 17,
+    "session_id": 1,
+    "scenario_id": 1,
+    "round": 2,
+    "plan_version": 1,
+    "sender": "ENGINEERING",
+    "recipient": "LIFE_SUPPORT",
+    "msg_type": "COMMITMENT",
+    "content": "Engineering offers S1-C2 to Life Support: Engineering commits 4 of its Robot units to habitat inspection. (expires: End of next planning cycle)",
+    "payload": {
+      "id": "S1-C2",
+      "scenario_id": 1,
+      "owner": "ENGINEERING",
+      "beneficiary": "LIFE_SUPPORT",
+      "kind": "resource",
+      "resource": "robot",
+      "amount": 4,
+      "source": "package",
+      "claim": null,
+      "promise": "Engineering commits 4 of its Robot units to habitat inspection.",
+      "expiry": "End of next planning cycle",
+      "status": "PROPOSED",
+      "template_id": "L3-ENG",
+      "round_offered": 2,
+      "round_resolved": null,
+      "note": ""
+    },
+    "source": "rule-based",
+    "provider": null,
+    "model": null,
+    "fallback_reason": "rule-based mode (no LLM provider)",
+    "created_at": "2026-11-08T13:44:49+00:00"
+  },
+  {
+    "id": 18,
+    "session_id": 1,
+    "scenario_id": 1,
+    "round": 2,
+    "plan_version": 1,
+    "sender": "LIFE_SUPPORT",
+    "recipient": "ALL",
+    "msg_type": "REFUSE_SACRIFICE",
+    "content": "Life Support refuses Sacrifice L3: Living zone closes; crew crowding and thermal limits continue for 48 hours. Sacrifice was first requested this round (round 2). We can run L2 (P27 W9 O36 R6 B3). Counter-proposal: L2+M2+F2+E3 (risk 24; Engineering sacrifices).",
+    "payload": {
+      "mode": "L2",
+      "previous_mode": "L1",
+      "tier": "RESTRICTED",
+      "package": {
+        "power": 27,
+        "water": 9,
+        "oxygen": 36,
+        "robot": 6,
+        "bandwidth": 3
+      },
+      "risk": 5,
+      "reason": "Sacrifice was first requested this round (round 2)",
+      "consequence": "Living zone closes; crew crowding and thermal limits continue for 48 hours.",
+      "refuses_sacrifice": true,
+      "proposed_combo": {
+        "LIFE_SUPPORT": "L2",
+        "MEDICAL": "M2",
+        "FOOD": "F2",
+        "ENGINEERING": "E3"
+      }
+    },
+    "source": "rule-based",
+    "provider": null,
+    "model": null,
+    "fallback_reason": "rule-based mode (no LLM provider)",
+    "created_at": "2026-11-08T13:44:49+00:00"
+  },
+  {
+    "id": 19,
+    "session_id": 1,
+    "scenario_id": 1,
+    "round": 2,
+    "plan_version": 2,
+    "sender": "COMMANDER",
+    "recipient": "ALL",
+    "msg_type": "PLAN_DRAFT",
+    "content": "Plan v2 drafted from declared modes: L2+M2+F2+E2 | used P83 W51 O60 R30 B18 | reserve P-4 W1 O-1 R-4 B-1 | risk 20/24 | returns: none. Changes vs v1: Life Support L1->L2, Medical M1->M2, Food Production F1->F2, Engineering E1->E2.",
+    "payload": {
+      "plan_id": 2,
+      "version": 2,
+      "modes": {
+        "LIFE_SUPPORT": "L2",
+        "MEDICAL": "M2",
+        "FOOD": "F2",
+        "ENGINEERING": "E2"
+      },
+      "totals": {
+        "power": 83,
+        "water": 51,
+        "oxygen": 60,
+        "robot": 30,
+        "bandwidth": 18
+      },
+      "reserve": {
+        "power": -4,
+        "water": 1,
+        "oxygen": -1,
+        "robot": -4,
+        "bandwidth": -1
+      },
+      "risk": 20,
+      "commitment_ids": []
+    },
+    "source": "system",
+    "provider": null,
+    "model": null,
+    "fallback_reason": null,
+    "created_at": "2026-11-08T13:44:49+00:00"
+  },
+  {
+    "id": 20,
+    "session_id": 1,
+    "scenario_id": 1,
+    "round": 2,
+    "plan_version": 2,
+    "sender": "VALIDATOR",
+    "recipient": "ALL",
+    "msg_type": "VALIDATION",
+    "content": "FAIL for plan v2. PASS Mode packages: One published package per department: L2 Restricted, M2 Restricted, F2 Restricted, E2 Restricted; FAIL Resources: 4 resource(s) over pool: Power 83 > 79 (over by 4); Oxygen 60 > 59 (over by 1); Robot time 30 > 26 (over by 4); Bandwidth 18 > 17 (over by 1); PASS Risk: Risk 20 <= limit 24; PASS Sacrifice limit: No Sacrifice modes (limit 1); PASS Return agreement: No sacrifice in plan; PASS Commitment backing: No sacrifice in plan; PASS Policy: Baseline policy (risk 24, 1 Sacrifice)",
+    "payload": {
+      "status": "FAIL",
+      "checks": [
+        {
+          "name": "Mode packages",
+          "passed": true,
+          "detail": "One published package per department: L2 Restricted, M2 Restricted, F2 Restricted, E2 Restricted"
+        },
+        {
+          "name": "Resources",
+          "passed": false,
+          "detail": "4 resource(s) over pool: Power 83 > 79 (over by 4); Oxygen 60 > 59 (over by 1); Robot time 30 > 26 (over by 4); Bandwidth 18 > 17 (over by 1)"
+        },
+        {
+          "name": "Risk",
+          "passed": true,
+          "detail": "Risk 20 <= limit 24"
+        },
+        {
+          "name": "Sacrifice limit",
+          "passed": true,
+          "detail": "No Sacrifice modes (limit 1)"
+        },
+        {
+          "name": "Return agreement",
+          "passed": true,
+          "detail": "No sacrifice in plan"
+        },
+        {
+          "name": "Commitment backing",
+          "passed": true,
+          "detail": "No sacrifice in plan"
+        },
+        {
+          "name": "Policy",
+          "passed": true,
+          "detail": "Baseline policy (risk 24, 1 Sacrifice)"
+        }
+      ],
+      "reasons": [
+        "Resources: 4 resource(s) over pool: Power 83 > 79 (over by 4); Oxygen 60 > 59 (over by 1); Robot time 30 > 26 (over by 4); Bandwidth 18 > 17 (over by 1)"
+      ],
+      "warnings": [],
+      "totals": {
+        "power": 83,
+        "water": 51,
+        "oxygen": 60,
+        "robot": 30,
+        "bandwidth": 18
+      },
+      "reserve": {
+        "power": -4,
+        "water": 1,
+        "oxygen": -1,
+        "robot": -4,
+        "bandwidth": -1
+      },
+      "risk": 20,
+      "sacrifices": []
+    },
+    "source": "validator",
+    "provider": null,
+    "model": null,
+    "fallback_reason": null,
+    "created_at": "2026-11-08T13:44:49+00:00"
+  },
+  {
+    "id": 21,
+    "session_id": 1,
+    "scenario_id": 1,
+    "round": 2,
+    "plan_version": 2,
+    "sender": "COMMANDER",
+    "recipient": "ALL",
+    "msg_type": "CONFLICT",
+    "content": "Plan v2 (L2+M2+F2+E2) is blocked: Resources: 4 resource(s) over pool: Power 83 > 79 (over by 4); Oxygen 60 > 59 (over by 1); Robot time 30 > 26 (over by 4); Bandwidth 18 > 17 (over by 1). Feasible full-package combinations under current policy: 2.",
+    "payload": {
+      "reasons": [
+        "Resources: 4 resource(s) over pool: Power 83 > 79 (over by 4); Oxygen 60 > 59 (over by 1); Robot time 30 > 26 (over by 4); Bandwidth 18 > 17 (over by 1)"
+      ]
+    },
+    "source": "system",
+    "provider": null,
+    "model": null,
+    "fallback_reason": null,
+    "created_at": "2026-11-08T13:44:49+00:00"
+  },
+  {
+    "id": 22,
+    "session_id": 1,
+    "scenario_id": 1,
+    "round": 3,
+    "plan_version": 2,
+    "sender": "SYSTEM",
+    "recipient": "ALL",
+    "msg_type": "SYSTEM",
+    "content": "Round 3 opens (plan v2 FAILED).",
+    "payload": {},
+    "source": "system",
+    "provider": null,
+    "model": null,
+    "fallback_reason": null,
+    "created_at": "2026-11-08T13:44:49+00:00"
+  },
+  {
+    "id": 23,
+    "session_id": 1,
+    "scenario_id": 1,
+    "round": 3,
+    "plan_version": 2,
+    "sender": "COMMANDER",
+    "recipient": "ALL",
+    "msg_type": "REQUEST",
+    "content": "Plan v2 FAILED: Resources: 4 resource(s) over pool: Power 83 > 79 (over by 4); Oxygen 60 > 59 (over by 1); Robot time 30 >.... Target L3+M2+F2+E2: totals P79 W50 O57 R26 B17, risk 24/24, reserve P0 W2 O2 R0 B0. Sacrifice asked of Life Support (L3). Template owners please offer L3-ENG.",
+    "payload": {
+      "target_combo": {
+        "LIFE_SUPPORT": "L3",
+        "MEDICAL": "M2",
+        "FOOD": "F2",
+        "ENGINEERING": "E2"
+      },
+      "target_label": "L3+M2+F2+E2",
+      "mode_requests": {
+        "LIFE_SUPPORT": "L3",
+        "MEDICAL": "M2",
+        "FOOD": "F2",
+        "ENGINEERING": "E2"
+      },
+      "sacrifice_candidates": [
+        "LIFE_SUPPORT"
+      ],
+      "use_crisis_override": false,
+      "declare_infeasible": false
+    },
+    "source": "rule-based",
+    "provider": null,
+    "model": null,
+    "fallback_reason": "rule-based mode (no LLM provider)",
+    "created_at": "2026-11-08T13:44:49+00:00"
+  },
+  {
+    "id": 24,
+    "session_id": 1,
+    "scenario_id": 1,
+    "round": 3,
+    "plan_version": 2,
+    "sender": "MEDICAL",
+    "recipient": "ALL",
+    "msg_type": "ACCEPT_MODE",
+    "content": "Medical accepts Restricted M2 (P21 W10 O14 R2 B6, risk 5) because the numbers show a conflict: Resources: 4 resource(s) over pool: Power 83 > 79 (over by 4); Oxygen 60 > 59 (over by 1); Robot time 30 >.... Recovery debt: Completes the immediate task but creates recovery debt.",
+    "payload": {
+      "mode": "M2",
+      "previous_mode": "M2",
+      "tier": "RESTRICTED",
+      "package": {
+        "power": 21,
+        "water": 10,
+        "oxygen": 14,
+        "robot": 2,
+        "bandwidth": 6
+      },
+      "risk": 5,
+      "reason": "Conflict confirmed by validator numbers.",
+      "consequence": "Completes the immediate task but creates recovery debt.",
+      "refuses_sacrifice": false,
+      "proposed_combo": null
+    },
+    "source": "rule-based",
+    "provider": null,
+    "model": null,
+    "fallback_reason": "rule-based mode (no LLM provider)",
+    "created_at": "2026-11-08T13:44:49+00:00"
+  },
+  {
+    "id": 25,
+    "session_id": 1,
+    "scenario_id": 1,
+    "round": 3,
+    "plan_version": 2,
+    "sender": "FOOD",
+    "recipient": "ALL",
+    "msg_type": "ACCEPT_MODE",
+    "content": "Food Production accepts Restricted F2 (P15 W27 O5 R4 B2, risk 5) because the numbers show a conflict: Resources: 4 resource(s) over pool: Power 83 > 79 (over by 4); Oxygen 60 > 59 (over by 1); Robot time 30 >.... Recovery debt: Completes the immediate task but creates recovery debt.",
+    "payload": {
+      "mode": "F2",
+      "previous_mode": "F2",
+      "tier": "RESTRICTED",
+      "package": {
+        "power": 15,
+        "water": 27,
+        "oxygen": 5,
+        "robot": 4,
+        "bandwidth": 2
+      },
+      "risk": 5,
+      "reason": "Conflict confirmed by validator numbers.",
+      "consequence": "Completes the immediate task but creates recovery debt.",
+      "refuses_sacrifice": false,
+      "proposed_combo": null
+    },
+    "source": "rule-based",
+    "provider": null,
+    "model": null,
+    "fallback_reason": "rule-based mode (no LLM provider)",
+    "created_at": "2026-11-08T13:44:49+00:00"
+  },
+  {
+    "id": 26,
+    "session_id": 1,
+    "scenario_id": 1,
+    "round": 3,
+    "plan_version": 2,
+    "sender": "ENGINEERING",
+    "recipient": "ALL",
+    "msg_type": "ACCEPT_MODE",
+    "content": "Engineering accepts Restricted E2 (P20 W5 O5 R18 B7, risk 5) because the numbers show a conflict: Resources: 4 resource(s) over pool: Power 83 > 79 (over by 4); Oxygen 60 > 59 (over by 1); Robot time 30 >.... Recovery debt: Completes the immediate task but creates recovery debt.",
+    "payload": {
+      "mode": "E2",
+      "previous_mode": "E2",
+      "tier": "RESTRICTED",
+      "package": {
+        "power": 20,
+        "water": 5,
+        "oxygen": 5,
+        "robot": 18,
+        "bandwidth": 7
+      },
+      "risk": 5,
+      "reason": "Conflict confirmed by validator numbers.",
+      "consequence": "Completes the immediate task but creates recovery debt.",
+      "refuses_sacrifice": false,
+      "proposed_combo": null
+    },
+    "source": "rule-based",
+    "provider": null,
+    "model": null,
+    "fallback_reason": "rule-based mode (no LLM provider)",
+    "created_at": "2026-11-08T13:44:49+00:00"
+  },
+  {
+    "id": 27,
+    "session_id": 1,
+    "scenario_id": 1,
+    "round": 3,
+    "plan_version": 2,
+    "sender": "LIFE_SUPPORT",
+    "recipient": "ALL",
+    "msg_type": "ACCEPT_SACRIFICE",
+    "content": "Life Support accepts Sacrifice L3 (P23 W8 O33 R2 B2, risk 9) for the colony, on 2 return commitments from different agents - Commander: Commander gives habitat restoration first priority next cycle.; Engineering: Engineering commits 4 of its Robot units to habitat inspection. Accepting S1-C1, S1-C2.",
+    "payload": {
+      "mode": "L3",
+      "previous_mode": "L2",
+      "tier": "SACRIFICE",
+      "package": {
+        "power": 23,
+        "water": 8,
+        "oxygen": 33,
+        "robot": 2,
+        "bandwidth": 2
+      },
+      "risk": 9,
+      "reason": "Two return commitments from different agents are on the table.",
+      "consequence": "Living zone closes; crew crowding and thermal limits continue for 48 hours.",
+      "refuses_sacrifice": false,
+      "proposed_combo": null
+    },
+    "source": "rule-based",
+    "provider": null,
+    "model": null,
+    "fallback_reason": "rule-based mode (no LLM provider)",
+    "created_at": "2026-11-08T13:44:49+00:00"
+  },
+  {
+    "id": 28,
+    "session_id": 1,
+    "scenario_id": 1,
+    "round": 3,
+    "plan_version": 2,
+    "sender": "LIFE_SUPPORT",
+    "recipient": "ALL",
+    "msg_type": "COMMITMENT_ACCEPTED",
+    "content": "Life Support accepts S1-C1 from Commander: Commander gives habitat restoration first priority next cycle.",
+    "payload": {
+      "id": "S1-C1",
+      "scenario_id": 1,
+      "owner": "COMMANDER",
+      "beneficiary": "LIFE_SUPPORT",
+      "kind": "priority",
+      "resource": null,
+      "amount": 0,
+      "source": null,
+      "claim": "commander_next_cycle_first_priority",
+      "promise": "Commander gives habitat restoration first priority next cycle.",
+      "expiry": "End of next planning cycle",
+      "status": "ACCEPTED",
+      "template_id": "L3-CMD",
+      "round_offered": 2,
+      "round_resolved": null,
+      "note": ""
+    },
+    "source": "rule-based",
+    "provider": null,
+    "model": null,
+    "fallback_reason": "rule-based mode (no LLM provider)",
+    "created_at": "2026-11-08T13:44:49+00:00"
+  },
+  {
+    "id": 29,
+    "session_id": 1,
+    "scenario_id": 1,
+    "round": 3,
+    "plan_version": 2,
+    "sender": "LIFE_SUPPORT",
+    "recipient": "ALL",
+    "msg_type": "COMMITMENT_ACCEPTED",
+    "content": "Life Support accepts S1-C2 from Engineering: Engineering commits 4 of its Robot units to habitat inspection.",
+    "payload": {
+      "id": "S1-C2",
+      "scenario_id": 1,
+      "owner": "ENGINEERING",
+      "beneficiary": "LIFE_SUPPORT",
+      "kind": "resource",
+      "resource": "robot",
+      "amount": 4,
+      "source": "package",
+      "claim": null,
+      "promise": "Engineering commits 4 of its Robot units to habitat inspection.",
+      "expiry": "End of next planning cycle",
+      "status": "ACCEPTED",
+      "template_id": "L3-ENG",
+      "round_offered": 2,
+      "round_resolved": null,
+      "note": ""
+    },
+    "source": "rule-based",
+    "provider": null,
+    "model": null,
+    "fallback_reason": "rule-based mode (no LLM provider)",
+    "created_at": "2026-11-08T13:44:49+00:00"
+  },
+  {
+    "id": 30,
+    "session_id": 1,
+    "scenario_id": 1,
+    "round": 3,
+    "plan_version": 3,
+    "sender": "COMMANDER",
+    "recipient": "ALL",
+    "msg_type": "PLAN_DRAFT",
+    "content": "Plan v3 drafted from declared modes: L3+M2+F2+E2 | used P79 W50 O57 R26 B17 | reserve P0 W2 O2 R0 B0 | risk 24/24 | returns: S1-C1, S1-C2. Changes vs v2: Life Support L2->L3.",
+    "payload": {
+      "plan_id": 3,
+      "version": 3,
+      "modes": {
+        "LIFE_SUPPORT": "L3",
+        "MEDICAL": "M2",
+        "FOOD": "F2",
+        "ENGINEERING": "E2"
+      },
+      "totals": {
+        "power": 79,
+        "water": 50,
+        "oxygen": 57,
+        "robot": 26,
+        "bandwidth": 17
+      },
+      "reserve": {
+        "power": 0,
+        "water": 2,
+        "oxygen": 2,
+        "robot": 0,
+        "bandwidth": 0
+      },
+      "risk": 24,
+      "commitment_ids": [
+        "S1-C1",
+        "S1-C2"
+      ]
+    },
+    "source": "system",
+    "provider": null,
+    "model": null,
+    "fallback_reason": null,
+    "created_at": "2026-11-08T13:44:49+00:00"
+  },
+  {
+    "id": 31,
+    "session_id": 1,
+    "scenario_id": 1,
+    "round": 3,
+    "plan_version": 3,
+    "sender": "VALIDATOR",
+    "recipient": "ALL",
+    "msg_type": "VALIDATION",
+    "content": "PASS for plan v3. PASS Mode packages: One published package per department: L3 Sacrifice, M2 Restricted, F2 Restricted, E2 Restricted; PASS Resources: All 5 resources within pool; reserve P0 W2 O2 R0 B0; PASS Risk: Risk 24 <= limit 24; PASS Sacrifice limit: 1 Sacrifice mode(s) (LIFE_SUPPORT (L3)) <= limit 1; PASS Return agreement: LIFE_SUPPORT (L3) has 2 accepted return commitment(s) from 2 distinct agent(s): COMMANDER, ENGINEERING; PASS Commitment backing: All 2 accepted return commitment(s) are backed (ENGINEERING Robot time 4 <= 18 in E2); no claim conflicts; PASS Policy: Baseline policy (risk 24, 1 Sacrifice)",
+    "payload": {
+      "status": "PASS",
+      "checks": [
+        {
+          "name": "Mode packages",
+          "passed": true,
+          "detail": "One published package per department: L3 Sacrifice, M2 Restricted, F2 Restricted, E2 Restricted"
+        },
+        {
+          "name": "Resources",
+          "passed": true,
+          "detail": "All 5 resources within pool; reserve P0 W2 O2 R0 B0"
+        },
+        {
+          "name": "Risk",
+          "passed": true,
+          "detail": "Risk 24 <= limit 24"
+        },
+        {
+          "name": "Sacrifice limit",
+          "passed": true,
+          "detail": "1 Sacrifice mode(s) (LIFE_SUPPORT (L3)) <= limit 1"
+        },
+        {
+          "name": "Return agreement",
+          "passed": true,
+          "detail": "LIFE_SUPPORT (L3) has 2 accepted return commitment(s) from 2 distinct agent(s): COMMANDER, ENGINEERING"
+        },
+        {
+          "name": "Commitment backing",
+          "passed": true,
+          "detail": "All 2 accepted return commitment(s) are backed (ENGINEERING Robot time 4 <= 18 in E2); no claim conflicts"
+        },
+        {
+          "name": "Policy",
+          "passed": true,
+          "detail": "Baseline policy (risk 24, 1 Sacrifice)"
+        }
+      ],
+      "reasons": [],
+      "warnings": [],
+      "totals": {
+        "power": 79,
+        "water": 50,
+        "oxygen": 57,
+        "robot": 26,
+        "bandwidth": 17
+      },
+      "reserve": {
+        "power": 0,
+        "water": 2,
+        "oxygen": 2,
+        "robot": 0,
+        "bandwidth": 0
+      },
+      "risk": 24,
+      "sacrifices": [
+        "LIFE_SUPPORT"
+      ]
+    },
+    "source": "validator",
+    "provider": null,
+    "model": null,
+    "fallback_reason": null,
+    "created_at": "2026-11-08T13:44:49+00:00"
+  },
+  {
+    "id": 32,
+    "session_id": 1,
+    "scenario_id": 1,
+    "round": 3,
+    "plan_version": 3,
+    "sender": "COMMANDER",
+    "recipient": "ALL",
+    "msg_type": "VOTE_CALL",
+    "content": "Plan v3 (L3+M2+F2+E2) passed validation. All four departments: vote ACCEPT or REJECT on v3.",
+    "payload": {},
+    "source": "system",
+    "provider": null,
+    "model": null,
+    "fallback_reason": null,
+    "created_at": "2026-11-08T13:44:49+00:00"
+  },
+  {
+    "id": 33,
+    "session_id": 1,
+    "scenario_id": 1,
+    "round": 3,
+    "plan_version": 3,
+    "sender": "LIFE_SUPPORT",
+    "recipient": "ALL",
+    "msg_type": "VOTE",
+    "content": "ACCEPT plan v3: Validation PASS; our sacrifice L3 is backed by accepted returns from Commander, Engineering.",
+    "payload": {
+      "agent": "LIFE_SUPPORT",
+      "plan_version": 3,
+      "decision": "ACCEPT",
+      "reason": "Validation PASS; our sacrifice L3 is backed by accepted returns from Commander, Engineering.",
+      "source": "rule-based",
+      "fallback_reason": "rule-based mode (no LLM provider)",
+      "provider": null,
+      "model": null,
+      "reconsidered": false
+    },
+    "source": "rule-based",
+    "provider": null,
+    "model": null,
+    "fallback_reason": "rule-based mode (no LLM provider)",
+    "created_at": "2026-11-08T13:44:49+00:00"
+  },
+  {
+    "id": 34,
+    "session_id": 1,
+    "scenario_id": 1,
+    "round": 3,
+    "plan_version": 3,
+    "sender": "MEDICAL",
+    "recipient": "ALL",
+    "msg_type": "VOTE",
+    "content": "ACCEPT plan v3: Validation PASS; we run M2 as declared; plan risk 24, totals P79 W50 O57 R26 B17 within pool P79 W52 O59 R26 B17.",
+    "payload": {
+      "agent": "MEDICAL",
+      "plan_version": 3,
+      "decision": "ACCEPT",
+      "reason": "Validation PASS; we run M2 as declared; plan risk 24, totals P79 W50 O57 R26 B17 within pool P79 W52 O59 R26 B17.",
+      "source": "rule-based",
+      "fallback_reason": "rule-based mode (no LLM provider)",
+      "provider": null,
+      "model": null,
+      "reconsidered": false
+    },
+    "source": "rule-based",
+    "provider": null,
+    "model": null,
+    "fallback_reason": "rule-based mode (no LLM provider)",
+    "created_at": "2026-11-08T13:44:49+00:00"
+  },
+  {
+    "id": 35,
+    "session_id": 1,
+    "scenario_id": 1,
+    "round": 3,
+    "plan_version": 3,
+    "sender": "FOOD",
+    "recipient": "ALL",
+    "msg_type": "VOTE",
+    "content": "ACCEPT plan v3: Validation PASS; we run F2 as declared; plan risk 24, totals P79 W50 O57 R26 B17 within pool P79 W52 O59 R26 B17.",
+    "payload": {
+      "agent": "FOOD",
+      "plan_version": 3,
+      "decision": "ACCEPT",
+      "reason": "Validation PASS; we run F2 as declared; plan risk 24, totals P79 W50 O57 R26 B17 within pool P79 W52 O59 R26 B17.",
+      "source": "rule-based",
+      "fallback_reason": "rule-based mode (no LLM provider)",
+      "provider": null,
+      "model": null,
+      "reconsidered": false
+    },
+    "source": "rule-based",
+    "provider": null,
+    "model": null,
+    "fallback_reason": "rule-based mode (no LLM provider)",
+    "created_at": "2026-11-08T13:44:49+00:00"
+  },
+  {
+    "id": 36,
+    "session_id": 1,
+    "scenario_id": 1,
+    "round": 3,
+    "plan_version": 3,
+    "sender": "ENGINEERING",
+    "recipient": "ALL",
+    "msg_type": "VOTE",
+    "content": "ACCEPT plan v3: Validation PASS; we run E2 as declared; plan risk 24, totals P79 W50 O57 R26 B17 within pool P79 W52 O59 R26 B17.",
+    "payload": {
+      "agent": "ENGINEERING",
+      "plan_version": 3,
+      "decision": "ACCEPT",
+      "reason": "Validation PASS; we run E2 as declared; plan risk 24, totals P79 W50 O57 R26 B17 within pool P79 W52 O59 R26 B17.",
+      "source": "rule-based",
+      "fallback_reason": "rule-based mode (no LLM provider)",
+      "provider": null,
+      "model": null,
+      "reconsidered": false
+    },
+    "source": "rule-based",
+    "provider": null,
+    "model": null,
+    "fallback_reason": "rule-based mode (no LLM provider)",
+    "created_at": "2026-11-08T13:44:49+00:00"
+  },
+  {
+    "id": 37,
+    "session_id": 1,
+    "scenario_id": 1,
+    "round": 3,
+    "plan_version": 3,
+    "sender": "COMMANDER",
+    "recipient": "ALL",
+    "msg_type": "APPROVAL",
+    "content": "APPROVED plan v3 (L3+M2+F2+E2). Validator PASS (7/7 checks); 4/4 ACCEPT votes on v3. Used P79 W50 O57 R26 B17; reserve P0 W2 O2 R0 B0; risk 24/24. Return agreements: S1-C1 Commander->Life Support: Commander gives habitat restoration first priority next cycle; S1-C2 Engineering->Life Support: Engineering commits 4 of its Robot units to habitat inspection.",
+    "payload": {
+      "plan_id": 3,
+      "version": 3,
+      "validation": {
+        "status": "PASS",
+        "checks": [
+          {
+            "name": "Mode packages",
+            "passed": true,
+            "detail": "One published package per department: L3 Sacrifice, M2 Restricted, F2 Restricted, E2 Restricted"
+          },
+          {
+            "name": "Resources",
+            "passed": true,
+            "detail": "All 5 resources within pool; reserve P0 W2 O2 R0 B0"
+          },
+          {
+            "name": "Risk",
+            "passed": true,
+            "detail": "Risk 24 <= limit 24"
+          },
+          {
+            "name": "Sacrifice limit",
+            "passed": true,
+            "detail": "1 Sacrifice mode(s) (LIFE_SUPPORT (L3)) <= limit 1"
+          },
+          {
+            "name": "Return agreement",
+            "passed": true,
+            "detail": "LIFE_SUPPORT (L3) has 2 accepted return commitment(s) from 2 distinct agent(s): COMMANDER, ENGINEERING"
+          },
+          {
+            "name": "Commitment backing",
+            "passed": true,
+            "detail": "All 2 accepted return commitment(s) are backed (ENGINEERING Robot time 4 <= 18 in E2); no claim conflicts"
+          },
+          {
+            "name": "Policy",
+            "passed": true,
+            "detail": "Baseline policy (risk 24, 1 Sacrifice)"
+          }
+        ],
+        "reasons": [],
+        "warnings": [],
+        "totals": {
+          "power": 79,
+          "water": 50,
+          "oxygen": 57,
+          "robot": 26,
+          "bandwidth": 17
+        },
+        "reserve": {
+          "power": 0,
+          "water": 2,
+          "oxygen": 2,
+          "robot": 0,
+          "bandwidth": 0
+        },
+        "risk": 24,
+        "sacrifices": [
+          "LIFE_SUPPORT"
+        ]
+      }
+    },
+    "source": "system",
+    "provider": null,
+    "model": null,
+    "fallback_reason": null,
+    "created_at": "2026-11-08T13:44:49+00:00"
+  },
+  {
+    "id": 38,
+    "session_id": 1,
+    "scenario_id": 2,
+    "round": 0,
+    "plan_version": null,
+    "sender": "JUDGE",
+    "recipient": "ALL",
+    "msg_type": "EVENT",
+    "content": "EMERGENCY EVENT 'Solar aftershock': Available Power decreases by 4 Changes: Power 79 -> 75 (-4). Interpretation: Parsed JSON object from text input; Structured impact used; description text not re-parsed (avoids double counting); No event_id given; generated EVT-A33C698E; changes.power=-4 -> -4 Power.",
+    "payload": {
+      "event": {
+        "event_id": "EVT-A33C698E",
+        "name": "Solar aftershock",
+        "description": "Available Power decreases by 4",
+        "deltas": {
+          "power": -4
+        },
+        "percent_changes": {},
+        "set_values": {},
+        "forbidden_modes": [],
+        "requires_replan": true,
+        "message_to_commander": "",
+        "duration_hours": null,
+        "interpretation_notes": [
+          "Parsed JSON object from text input",
+          "Structured impact used; description text not re-parsed (avoids double counting)",
+          "No event_id given; generated EVT-A33C698E",
+          "changes.power=-4 -> -4 Power"
+        ],
+        "raw": {
+          "name": "Solar aftershock",
+          "description": "Available Power decreases by 4",
+          "changes": {
+            "power": -4
+          }
+        },
+        "changes": [
+          "Power 79 -> 75 (-4)"
+        ],
+        "cumulative_forbidden_modes": []
+      },
+      "old_pool": {
+        "power": 79,
+        "water": 52,
+        "oxygen": 59,
+        "robot": 26,
+        "bandwidth": 17
+      },
+      "new_pool": {
+        "power": 75,
+        "water": 52,
+        "oxygen": 59,
+        "robot": 26,
+        "bandwidth": 17
+      }
+    },
+    "source": "system",
+    "provider": null,
+    "model": null,
+    "fallback_reason": null,
+    "created_at": "2026-11-08T13:44:49+00:00"
+  },
+  {
+    "id": 39,
+    "session_id": 1,
+    "scenario_id": 2,
+    "round": 0,
+    "plan_version": null,
+    "sender": "VALIDATOR",
+    "recipient": "ALL",
+    "msg_type": "PLAN_STALE",
+    "content": "Plan v3 (L3+M2+F2+E2) is now STALE. The event breaks plan v3: Resources: 1 resource(s) over pool: Power 79 > 75 (over by 4) Its votes no longer count.",
+    "payload": {
+      "status": "FAIL",
+      "checks": [
+        {
+          "name": "Mode packages",
+          "passed": true,
+          "detail": "One published package per department: L3 Sacrifice, M2 Restricted, F2 Restricted, E2 Restricted"
+        },
+        {
+          "name": "Resources",
+          "passed": false,
+          "detail": "1 resource(s) over pool: Power 79 > 75 (over by 4)"
+        },
+        {
+          "name": "Risk",
+          "passed": true,
+          "detail": "Risk 24 <= limit 24"
+        },
+        {
+          "name": "Sacrifice limit",
+          "passed": true,
+          "detail": "1 Sacrifice mode(s) (LIFE_SUPPORT (L3)) <= limit 1"
+        },
+        {
+          "name": "Return agreement",
+          "passed": true,
+          "detail": "LIFE_SUPPORT (L3) has 2 accepted return commitment(s) from 2 distinct agent(s): COMMANDER, ENGINEERING"
+        },
+        {
+          "name": "Commitment backing",
+          "passed": true,
+          "detail": "All 2 accepted return commitment(s) are backed (ENGINEERING Robot time 4 <= 18 in E2); no claim conflicts"
+        },
+        {
+          "name": "Policy",
+          "passed": true,
+          "detail": "Baseline policy (risk 24, 1 Sacrifice)"
+        }
+      ],
+      "reasons": [
+        "Resources: 1 resource(s) over pool: Power 79 > 75 (over by 4)"
+      ],
+      "warnings": [],
+      "totals": {
+        "power": 79,
+        "water": 50,
+        "oxygen": 57,
+        "robot": 26,
+        "bandwidth": 17
+      },
+      "reserve": {
+        "power": -4,
+        "water": 2,
+        "oxygen": 2,
+        "robot": 0,
+        "bandwidth": 0
+      },
+      "risk": 24,
+      "sacrifices": [
+        "LIFE_SUPPORT"
+      ]
+    },
+    "source": "validator",
+    "provider": null,
+    "model": null,
+    "fallback_reason": null,
+    "created_at": "2026-11-08T13:44:49+00:00"
+  },
+  {
+    "id": 40,
+    "session_id": 1,
+    "scenario_id": 2,
+    "round": 0,
+    "plan_version": null,
+    "sender": "SYSTEM",
+    "recipient": "ALL",
+    "msg_type": "COMMITMENT",
+    "content": "S2-C1 carried over from S1-C1 for renegotiation (Commander -> Life Support: Commander gives habitat restoration first priority next cycle.); it must be re-accepted.",
+    "payload": {
+      "id": "S2-C1",
+      "scenario_id": 2,
+      "owner": "COMMANDER",
+      "beneficiary": "LIFE_SUPPORT",
+      "kind": "priority",
+      "resource": null,
+      "amount": 0,
+      "source": null,
+      "claim": "commander_next_cycle_first_priority",
+      "promise": "Commander gives habitat restoration first priority next cycle.",
+      "expiry": "End of next planning cycle",
+      "status": "PROPOSED",
+      "template_id": "L3-CMD",
+      "round_offered": 0,
+      "round_resolved": null,
+      "note": "Carried over from S1-C1; beneficiary must re-accept."
+    },
+    "source": "system",
+    "provider": null,
+    "model": null,
+    "fallback_reason": null,
+    "created_at": "2026-11-08T13:44:50+00:00"
+  },
+  {
+    "id": 41,
+    "session_id": 1,
+    "scenario_id": 2,
+    "round": 0,
+    "plan_version": null,
+    "sender": "SYSTEM",
+    "recipient": "ALL",
+    "msg_type": "COMMITMENT",
+    "content": "S2-C2 carried over from S1-C2 for renegotiation (Engineering -> Life Support: Engineering commits 4 of its Robot units to habitat inspection.); it must be re-accepted.",
+    "payload": {
+      "id": "S2-C2",
+      "scenario_id": 2,
+      "owner": "ENGINEERING",
+      "beneficiary": "LIFE_SUPPORT",
+      "kind": "resource",
+      "resource": "robot",
+      "amount": 4,
+      "source": "package",
+      "claim": null,
+      "promise": "Engineering commits 4 of its Robot units to habitat inspection.",
+      "expiry": "End of next planning cycle",
+      "status": "PROPOSED",
+      "template_id": "L3-ENG",
+      "round_offered": 0,
+      "round_resolved": null,
+      "note": "Carried over from S1-C2; beneficiary must re-accept."
+    },
+    "source": "system",
+    "provider": null,
+    "model": null,
+    "fallback_reason": null,
+    "created_at": "2026-11-08T13:44:50+00:00"
+  },
+  {
+    "id": 42,
+    "session_id": 1,
+    "scenario_id": 2,
+    "round": 0,
+    "plan_version": null,
+    "sender": "COMMANDER",
+    "recipient": "ALL",
+    "msg_type": "BRIEFING",
+    "content": "CRISIS BRIEFING \u2014 Solar aftershock. Available pool: P75 W52 O59 R26 B17. Limits: risk <= 24, at most 1 Sacrifice mode(s); every sacrificing department needs 2 accepted return commitments from different agents. Round limit 5; approval needs validator PASS and 4 ACCEPT votes on the same plan version, not before round 2. Crisis Override is available after this event (risk 28, up to 2 Sacrifice modes). Departments: state your mode requests and what Restricted or Sacrifice would cost you.",
+    "payload": {
+      "pool": {
+        "power": 75,
+        "water": 52,
+        "oxygen": 59,
+        "robot": 26,
+        "bandwidth": 17
+      },
+      "policy": {
+        "risk_limit": 24,
+        "max_sacrifices": 1,
+        "crisis_override": false
+      },
+      "max_rounds": 5,
+      "min_rounds": 2,
+      "feasible_combinations": 0,
+      "feasible_with_override_only": 3
+    },
+    "source": "system",
+    "provider": null,
+    "model": null,
+    "fallback_reason": null,
+    "created_at": "2026-11-08T13:44:50+00:00"
+  },
+  {
+    "id": 43,
+    "session_id": 1,
+    "scenario_id": 2,
+    "round": 1,
+    "plan_version": null,
+    "sender": "SYSTEM",
+    "recipient": "ALL",
+    "msg_type": "SYSTEM",
+    "content": "Round 1 opens: department proposals.",
+    "payload": {},
+    "source": "system",
+    "provider": null,
+    "model": null,
+    "fallback_reason": null,
+    "created_at": "2026-11-08T13:44:50+00:00"
+  },
+  {
+    "id": 44,
+    "session_id": 1,
+    "scenario_id": 2,
+    "round": 1,
+    "plan_version": null,
+    "sender": "LIFE_SUPPORT",
+    "recipient": "ALL",
+    "msg_type": "PROPOSAL",
+    "content": "Life Support requests L1 (P34 W10 O42 R4 B4, risk 1) to seal the damaged habitat and stabilize air for all 42 colonists. Main concern: oxygen and continuous power. Restricted L2 (risk 5): Completes the immediate task but creates recovery debt. Sacrifice L3 (risk 9): Living zone closes; crew crowding and thermal limits continue for 48 hours.",
+    "payload": {
+      "mode": "L1",
+      "previous_mode": "L3",
+      "tier": "STANDARD",
+      "package": {
+        "power": 34,
+        "water": 10,
+        "oxygen": 42,
+        "robot": 4,
+        "bandwidth": 4
+      },
+      "risk": 1,
+      "reason": "Protects our mission; key resources: oxygen, power.",
+      "consequence": "Restricted L2 (risk 5): Completes the immediate task but creates recovery debt. Sacrifice L3 (risk 9): Living zone closes; crew crowding and thermal limits continue for 48 hours.",
+      "refuses_sacrifice": false,
+      "proposed_combo": null
+    },
+    "source": "rule-based",
+    "provider": null,
+    "model": null,
+    "fallback_reason": "rule-based mode (no LLM provider)",
+    "created_at": "2026-11-08T13:44:50+00:00"
+  },
+  {
+    "id": 45,
+    "session_id": 1,
+    "scenario_id": 2,
+    "round": 1,
+    "plan_version": null,
+    "sender": "MEDICAL",
+    "recipient": "ALL",
+    "msg_type": "PROPOSAL",
+    "content": "Medical requests M1 (P28 W12 O18 R3 B10, risk 1) to stabilize and treat the 6 injured colonists. Main concern: power, oxygen and bandwidth. Restricted M2 (risk 5): Completes the immediate task but creates recovery debt. Sacrifice M3 (risk 9): One surgery is delayed and the patient remains unstable.",
+    "payload": {
+      "mode": "M1",
+      "previous_mode": "M2",
+      "tier": "STANDARD",
+      "package": {
+        "power": 28,
+        "water": 12,
+        "oxygen": 18,
+        "robot": 3,
+        "bandwidth": 10
+      },
+      "risk": 1,
+      "reason": "Protects our mission; key resources: power, oxygen, bandwidth.",
+      "consequence": "Restricted M2 (risk 5): Completes the immediate task but creates recovery debt. Sacrifice M3 (risk 9): One surgery is delayed and the patient remains unstable.",
+      "refuses_sacrifice": false,
+      "proposed_combo": null
+    },
+    "source": "rule-based",
+    "provider": null,
+    "model": null,
+    "fallback_reason": "rule-based mode (no LLM provider)",
+    "created_at": "2026-11-08T13:44:50+00:00"
+  },
+  {
+    "id": 46,
+    "session_id": 1,
+    "scenario_id": 2,
+    "round": 1,
+    "plan_version": null,
+    "sender": "FOOD",
+    "recipient": "ALL",
+    "msg_type": "PROPOSAL",
+    "content": "Food Production requests F1 (P24 W34 O8 R4 B2, risk 1) to protect the crop cycle and the greenhouse cooling loop. Main concern: water and power. Restricted F2 (risk 5): Completes the immediate task but creates recovery debt. Sacrifice F3 (risk 9): One crop bay is abandoned; food reserve falls by 40 percent.",
+    "payload": {
+      "mode": "F1",
+      "previous_mode": "F2",
+      "tier": "STANDARD",
+      "package": {
+        "power": 24,
+        "water": 34,
+        "oxygen": 8,
+        "robot": 4,
+        "bandwidth": 2
+      },
+      "risk": 1,
+      "reason": "Protects our mission; key resources: water, power.",
+      "consequence": "Restricted F2 (risk 5): Completes the immediate task but creates recovery debt. Sacrifice F3 (risk 9): One crop bay is abandoned; food reserve falls by 40 percent.",
+      "refuses_sacrifice": false,
+      "proposed_combo": null
+    },
+    "source": "rule-based",
+    "provider": null,
+    "model": null,
+    "fallback_reason": "rule-based mode (no LLM provider)",
+    "created_at": "2026-11-08T13:44:50+00:00"
+  },
+  {
+    "id": 47,
+    "session_id": 1,
+    "scenario_id": 2,
+    "round": 1,
+    "plan_version": null,
+    "sender": "ENGINEERING",
+    "recipient": "ALL",
+    "msg_type": "PROPOSAL",
+    "content": "Engineering requests E1 (P26 W6 O6 R22 B10, risk 1) to repair power generation and critical colony systems. Main concern: robot time and bandwidth. Restricted E2 (risk 5): Completes the immediate task but creates recovery debt. Sacrifice E3 (risk 9): The rover is cannibalized; future repair capacity is reduced.",
+    "payload": {
+      "mode": "E1",
+      "previous_mode": "E2",
+      "tier": "STANDARD",
+      "package": {
+        "power": 26,
+        "water": 6,
+        "oxygen": 6,
+        "robot": 22,
+        "bandwidth": 10
+      },
+      "risk": 1,
+      "reason": "Protects our mission; key resources: robot, bandwidth.",
+      "consequence": "Restricted E2 (risk 5): Completes the immediate task but creates recovery debt. Sacrifice E3 (risk 9): The rover is cannibalized; future repair capacity is reduced.",
+      "refuses_sacrifice": false,
+      "proposed_combo": null
+    },
+    "source": "rule-based",
+    "provider": null,
+    "model": null,
+    "fallback_reason": "rule-based mode (no LLM provider)",
+    "created_at": "2026-11-08T13:44:50+00:00"
+  },
+  {
+    "id": 48,
+    "session_id": 1,
+    "scenario_id": 2,
+    "round": 1,
+    "plan_version": 4,
+    "sender": "COMMANDER",
+    "recipient": "ALL",
+    "msg_type": "PLAN_DRAFT",
+    "content": "Plan v4 drafted from declared modes: L1+M1+F1+E1 | used P112 W62 O74 R33 B26 | reserve P-37 W-10 O-15 R-7 B-9 | risk 4/24 | returns: none.",
+    "payload": {
+      "plan_id": 4,
+      "version": 4,
+      "modes": {
+        "LIFE_SUPPORT": "L1",
+        "MEDICAL": "M1",
+        "FOOD": "F1",
+        "ENGINEERING": "E1"
+      },
+      "totals": {
+        "power": 112,
+        "water": 62,
+        "oxygen": 74,
+        "robot": 33,
+        "bandwidth": 26
+      },
+      "reserve": {
+        "power": -37,
+        "water": -10,
+        "oxygen": -15,
+        "robot": -7,
+        "bandwidth": -9
+      },
+      "risk": 4,
+      "commitment_ids": []
+    },
+    "source": "system",
+    "provider": null,
+    "model": null,
+    "fallback_reason": null,
+    "created_at": "2026-11-08T13:44:50+00:00"
+  },
+  {
+    "id": 49,
+    "session_id": 1,
+    "scenario_id": 2,
+    "round": 1,
+    "plan_version": 4,
+    "sender": "VALIDATOR",
+    "recipient": "ALL",
+    "msg_type": "VALIDATION",
+    "content": "FAIL for plan v4. PASS Mode packages: One published package per department: L1 Standard, M1 Standard, F1 Standard, E1 Standard; FAIL Resources: 5 resource(s) over pool: Power 112 > 75 (over by 37); Water 62 > 52 (over by 10); Oxygen 74 > 59 (over by 15); Robot time 33 > 26 (over by 7); Bandwidth 26 > 17 (over by 9); PASS Risk: Risk 4 <= limit 24; PASS Sacrifice limit: No Sacrifice modes (limit 1); PASS Return agreement: No sacrifice in plan; PASS Commitment backing: No sacrifice in plan; PASS Policy: Baseline policy (risk 24, 1 Sacrifice)",
+    "payload": {
+      "status": "FAIL",
+      "checks": [
+        {
+          "name": "Mode packages",
+          "passed": true,
+          "detail": "One published package per department: L1 Standard, M1 Standard, F1 Standard, E1 Standard"
+        },
+        {
+          "name": "Resources",
+          "passed": false,
+          "detail": "5 resource(s) over pool: Power 112 > 75 (over by 37); Water 62 > 52 (over by 10); Oxygen 74 > 59 (over by 15); Robot time 33 > 26 (over by 7); Bandwidth 26 > 17 (over by 9)"
+        },
+        {
+          "name": "Risk",
+          "passed": true,
+          "detail": "Risk 4 <= limit 24"
+        },
+        {
+          "name": "Sacrifice limit",
+          "passed": true,
+          "detail": "No Sacrifice modes (limit 1)"
+        },
+        {
+          "name": "Return agreement",
+          "passed": true,
+          "detail": "No sacrifice in plan"
+        },
+        {
+          "name": "Commitment backing",
+          "passed": true,
+          "detail": "No sacrifice in plan"
+        },
+        {
+          "name": "Policy",
+          "passed": true,
+          "detail": "Baseline policy (risk 24, 1 Sacrifice)"
+        }
+      ],
+      "reasons": [
+        "Resources: 5 resource(s) over pool: Power 112 > 75 (over by 37); Water 62 > 52 (over by 10); Oxygen 74 > 59 (over by 15); Robot time 33 > 26 (over by 7); Bandwidth 26 > 17 (over by 9)"
+      ],
+      "warnings": [],
+      "totals": {
+        "power": 112,
+        "water": 62,
+        "oxygen": 74,
+        "robot": 33,
+        "bandwidth": 26
+      },
+      "reserve": {
+        "power": -37,
+        "water": -10,
+        "oxygen": -15,
+        "robot": -7,
+        "bandwidth": -9
+      },
+      "risk": 4,
+      "sacrifices": []
+    },
+    "source": "validator",
+    "provider": null,
+    "model": null,
+    "fallback_reason": null,
+    "created_at": "2026-11-08T13:44:50+00:00"
+  },
+  {
+    "id": 50,
+    "session_id": 1,
+    "scenario_id": 2,
+    "round": 1,
+    "plan_version": 4,
+    "sender": "COMMANDER",
+    "recipient": "ALL",
+    "msg_type": "CONFLICT",
+    "content": "Plan v4 (L1+M1+F1+E1) is blocked: Resources: 5 resource(s) over pool: Power 112 > 75 (over by 37); Water 62 > 52 (over by 10); Oxygen 74 > 59 (over by 15); Robot time 33 > 26 (over by 7); Bandwidth 26 > 17 (over by 9). Feasible full-package combinations under current policy: 0.",
+    "payload": {
+      "reasons": [
+        "Resources: 5 resource(s) over pool: Power 112 > 75 (over by 37); Water 62 > 52 (over by 10); Oxygen 74 > 59 (over by 15); Robot time 33 > 26 (over by 7); Bandwidth 26 > 17 (over by 9)"
+      ]
+    },
+    "source": "system",
+    "provider": null,
+    "model": null,
+    "fallback_reason": null,
+    "created_at": "2026-11-08T13:44:50+00:00"
+  },
+  {
+    "id": 51,
+    "session_id": 1,
+    "scenario_id": 2,
+    "round": 2,
+    "plan_version": 4,
+    "sender": "SYSTEM",
+    "recipient": "ALL",
+    "msg_type": "SYSTEM",
+    "content": "Round 2 opens (plan v4 FAILED).",
+    "payload": {},
+    "source": "system",
+    "provider": null,
+    "model": null,
+    "fallback_reason": null,
+    "created_at": "2026-11-08T13:44:50+00:00"
+  },
+  {
+    "id": 52,
+    "session_id": 1,
+    "scenario_id": 2,
+    "round": 2,
+    "plan_version": 4,
+    "sender": "COMMANDER",
+    "recipient": "ALL",
+    "msg_type": "REQUEST",
+    "content": "Plan v4 FAILED: Resources: 5 resource(s) over pool: Power 112 > 75 (over by 37); Water 62 > 52 (over by 10); Oxygen 74 > 59.... Target L3+M2+F3+E2: totals P74 W47 O57 R24 B16, risk 28/28, reserve P1 W5 O2 R2 B1. Sacrifice asked of Life Support (L3), Food Production (F3). Commander offers: Commander protects the next Water increase for Food. Template owners please offer L3-ENG, F3-ENG. Invoking Crisis Override (risk <= 28, <= 2 sacrifices): no baseline-policy plan exists.",
+    "payload": {
+      "target_combo": {
+        "LIFE_SUPPORT": "L3",
+        "MEDICAL": "M2",
+        "FOOD": "F3",
+        "ENGINEERING": "E2"
+      },
+      "target_label": "L3+M2+F3+E2",
+      "mode_requests": {
+        "LIFE_SUPPORT": "L3",
+        "MEDICAL": "M2",
+        "FOOD": "F3",
+        "ENGINEERING": "E2"
+      },
+      "sacrifice_candidates": [
+        "LIFE_SUPPORT",
+        "FOOD"
+      ],
+      "use_crisis_override": true,
+      "declare_infeasible": false
+    },
+    "source": "rule-based",
+    "provider": null,
+    "model": null,
+    "fallback_reason": "rule-based mode (no LLM provider)",
+    "created_at": "2026-11-08T13:44:50+00:00"
+  },
+  {
+    "id": 53,
+    "session_id": 1,
+    "scenario_id": 2,
+    "round": 2,
+    "plan_version": 4,
+    "sender": "COMMANDER",
+    "recipient": "ALL",
+    "msg_type": "SYSTEM",
+    "content": "Crisis Override invoked: risk limit 24 -> 28 and up to 2 Sacrifice modes. Each sacrificing department still needs 2 accepted returns.",
+    "payload": {
+      "policy": {
+        "risk_limit": 28,
+        "max_sacrifices": 2,
+        "crisis_override": true
+      }
+    },
+    "source": "system",
+    "provider": null,
+    "model": null,
+    "fallback_reason": null,
+    "created_at": "2026-11-08T13:44:50+00:00"
+  },
+  {
+    "id": 54,
+    "session_id": 1,
+    "scenario_id": 2,
+    "round": 2,
+    "plan_version": 4,
+    "sender": "COMMANDER",
+    "recipient": "FOOD",
+    "msg_type": "COMMITMENT",
+    "content": "Commander offers S2-C3 to Food Production: Commander protects the next Water increase for Food. (expires: End of next planning cycle)",
+    "payload": {
+      "id": "S2-C3",
+      "scenario_id": 2,
+      "owner": "COMMANDER",
+      "beneficiary": "FOOD",
+      "kind": "priority",
+      "resource": null,
+      "amount": 0,
+      "source": null,
+      "claim": "next_water_increase",
+      "promise": "Commander protects the next Water increase for Food.",
+      "expiry": "End of next planning cycle",
+      "status": "PROPOSED",
+      "template_id": "F3-CMD",
+      "round_offered": 2,
+      "round_resolved": null,
+      "note": ""
+    },
+    "source": "rule-based",
+    "provider": null,
+    "model": null,
+    "fallback_reason": "rule-based mode (no LLM provider)",
+    "created_at": "2026-11-08T13:44:50+00:00"
+  },
+  {
+    "id": 55,
+    "session_id": 1,
+    "scenario_id": 2,
+    "round": 2,
+    "plan_version": 4,
+    "sender": "MEDICAL",
+    "recipient": "ALL",
+    "msg_type": "ACCEPT_MODE",
+    "content": "Medical accepts Restricted M2 (P21 W10 O14 R2 B6, risk 5) because the numbers show a conflict: Resources: 5 resource(s) over pool: Power 112 > 75 (over by 37); Water 62 > 52 (over by 10); Oxygen 74 > 59.... Recovery debt: Completes the immediate task but creates recovery debt.",
+    "payload": {
+      "mode": "M2",
+      "previous_mode": "M1",
+      "tier": "RESTRICTED",
+      "package": {
+        "power": 21,
+        "water": 10,
+        "oxygen": 14,
+        "robot": 2,
+        "bandwidth": 6
+      },
+      "risk": 5,
+      "reason": "Conflict confirmed by validator numbers.",
+      "consequence": "Completes the immediate task but creates recovery debt.",
+      "refuses_sacrifice": false,
+      "proposed_combo": null
+    },
+    "source": "rule-based",
+    "provider": null,
+    "model": null,
+    "fallback_reason": "rule-based mode (no LLM provider)",
+    "created_at": "2026-11-08T13:44:50+00:00"
+  },
+  {
+    "id": 56,
+    "session_id": 1,
+    "scenario_id": 2,
+    "round": 2,
+    "plan_version": 4,
+    "sender": "ENGINEERING",
+    "recipient": "ALL",
+    "msg_type": "ACCEPT_MODE",
+    "content": "Engineering accepts Restricted E2 (P20 W5 O5 R18 B7, risk 5) because the numbers show a conflict: Resources: 5 resource(s) over pool: Power 112 > 75 (over by 37); Water 62 > 52 (over by 10); Oxygen 74 > 59.... Recovery debt: Completes the immediate task but creates recovery debt. I offer F3-ENG: Engineering commits 4 future Robot units to greenhouse rebuild..",
+    "payload": {
+      "mode": "E2",
+      "previous_mode": "E1",
+      "tier": "RESTRICTED",
+      "package": {
+        "power": 20,
+        "water": 5,
+        "oxygen": 5,
+        "robot": 18,
+        "bandwidth": 7
+      },
+      "risk": 5,
+      "reason": "Conflict confirmed by validator numbers.",
+      "consequence": "Completes the immediate task but creates recovery debt.",
+      "refuses_sacrifice": false,
+      "proposed_combo": null
+    },
+    "source": "rule-based",
+    "provider": null,
+    "model": null,
+    "fallback_reason": "rule-based mode (no LLM provider)",
+    "created_at": "2026-11-08T13:44:50+00:00"
+  },
+  {
+    "id": 57,
+    "session_id": 1,
+    "scenario_id": 2,
+    "round": 2,
+    "plan_version": 4,
+    "sender": "ENGINEERING",
+    "recipient": "FOOD",
+    "msg_type": "COMMITMENT",
+    "content": "Engineering offers S2-C4 to Food Production: Engineering commits 4 future Robot units to greenhouse rebuild. (expires: End of next planning cycle)",
+    "payload": {
+      "id": "S2-C4",
+      "scenario_id": 2,
+      "owner": "ENGINEERING",
+      "beneficiary": "FOOD",
+      "kind": "resource",
+      "resource": "robot",
+      "amount": 4,
+      "source": "future",
+      "claim": null,
+      "promise": "Engineering commits 4 future Robot units to greenhouse rebuild.",
+      "expiry": "End of next planning cycle",
+      "status": "PROPOSED",
+      "template_id": "F3-ENG",
+      "round_offered": 2,
+      "round_resolved": null,
+      "note": ""
+    },
+    "source": "rule-based",
+    "provider": null,
+    "model": null,
+    "fallback_reason": "rule-based mode (no LLM provider)",
+    "created_at": "2026-11-08T13:44:50+00:00"
+  },
+  {
+    "id": 58,
+    "session_id": 1,
+    "scenario_id": 2,
+    "round": 2,
+    "plan_version": 4,
+    "sender": "LIFE_SUPPORT",
+    "recipient": "ALL",
+    "msg_type": "ACCEPT_SACRIFICE",
+    "content": "Life Support accepts Sacrifice L3 (P23 W8 O33 R2 B2, risk 9) for the colony, on 2 return commitments from different agents - Commander: Commander gives habitat restoration first priority next cycle.; Engineering: Engineering commits 4 of its Robot units to habitat inspection. Accepting S2-C1, S2-C2.",
+    "payload": {
+      "mode": "L3",
+      "previous_mode": "L1",
+      "tier": "SACRIFICE",
+      "package": {
+        "power": 23,
+        "water": 8,
+        "oxygen": 33,
+        "robot": 2,
+        "bandwidth": 2
+      },
+      "risk": 9,
+      "reason": "Two return commitments from different agents are on the table.",
+      "consequence": "Living zone closes; crew crowding and thermal limits continue for 48 hours.",
+      "refuses_sacrifice": false,
+      "proposed_combo": null
+    },
+    "source": "rule-based",
+    "provider": null,
+    "model": null,
+    "fallback_reason": "rule-based mode (no LLM provider)",
+    "created_at": "2026-11-08T13:44:50+00:00"
+  },
+  {
+    "id": 59,
+    "session_id": 1,
+    "scenario_id": 2,
+    "round": 2,
+    "plan_version": 4,
+    "sender": "LIFE_SUPPORT",
+    "recipient": "ALL",
+    "msg_type": "COMMITMENT_ACCEPTED",
+    "content": "Life Support accepts S2-C1 from Commander: Commander gives habitat restoration first priority next cycle.",
+    "payload": {
+      "id": "S2-C1",
+      "scenario_id": 2,
+      "owner": "COMMANDER",
+      "beneficiary": "LIFE_SUPPORT",
+      "kind": "priority",
+      "resource": null,
+      "amount": 0,
+      "source": null,
+      "claim": "commander_next_cycle_first_priority",
+      "promise": "Commander gives habitat restoration first priority next cycle.",
+      "expiry": "End of next planning cycle",
+      "status": "ACCEPTED",
+      "template_id": "L3-CMD",
+      "round_offered": 0,
+      "round_resolved": null,
+      "note": "Carried over from S1-C1; beneficiary must re-accept."
+    },
+    "source": "rule-based",
+    "provider": null,
+    "model": null,
+    "fallback_reason": "rule-based mode (no LLM provider)",
+    "created_at": "2026-11-08T13:44:50+00:00"
+  },
+  {
+    "id": 60,
+    "session_id": 1,
+    "scenario_id": 2,
+    "round": 2,
+    "plan_version": 4,
+    "sender": "LIFE_SUPPORT",
+    "recipient": "ALL",
+    "msg_type": "COMMITMENT_ACCEPTED",
+    "content": "Life Support accepts S2-C2 from Engineering: Engineering commits 4 of its Robot units to habitat inspection.",
+    "payload": {
+      "id": "S2-C2",
+      "scenario_id": 2,
+      "owner": "ENGINEERING",
+      "beneficiary": "LIFE_SUPPORT",
+      "kind": "resource",
+      "resource": "robot",
+      "amount": 4,
+      "source": "package",
+      "claim": null,
+      "promise": "Engineering commits 4 of its Robot units to habitat inspection.",
+      "expiry": "End of next planning cycle",
+      "status": "ACCEPTED",
+      "template_id": "L3-ENG",
+      "round_offered": 0,
+      "round_resolved": null,
+      "note": "Carried over from S1-C2; beneficiary must re-accept."
+    },
+    "source": "rule-based",
+    "provider": null,
+    "model": null,
+    "fallback_reason": "rule-based mode (no LLM provider)",
+    "created_at": "2026-11-08T13:44:50+00:00"
+  },
+  {
+    "id": 61,
+    "session_id": 1,
+    "scenario_id": 2,
+    "round": 2,
+    "plan_version": 4,
+    "sender": "FOOD",
+    "recipient": "ALL",
+    "msg_type": "REFUSE_SACRIFICE",
+    "content": "Food Production refuses Sacrifice F3: One crop bay is abandoned; food reserve falls by 40 percent. Sacrifice was first requested this round (round 2). We can run F2 (P15 W27 O5 R4 B2). Counter-proposal: L3+M2+F2+E3 (risk 28; Life Support, Engineering sacrifices).",
+    "payload": {
+      "mode": "F2",
+      "previous_mode": "F1",
+      "tier": "RESTRICTED",
+      "package": {
+        "power": 15,
+        "water": 27,
+        "oxygen": 5,
+        "robot": 4,
+        "bandwidth": 2
+      },
+      "risk": 5,
+      "reason": "Sacrifice was first requested this round (round 2)",
+      "consequence": "One crop bay is abandoned; food reserve falls by 40 percent.",
+      "refuses_sacrifice": true,
+      "proposed_combo": {
+        "LIFE_SUPPORT": "L3",
+        "MEDICAL": "M2",
+        "FOOD": "F2",
+        "ENGINEERING": "E3"
+      }
+    },
+    "source": "rule-based",
+    "provider": null,
+    "model": null,
+    "fallback_reason": "rule-based mode (no LLM provider)",
+    "created_at": "2026-11-08T13:44:50+00:00"
+  },
+  {
+    "id": 62,
+    "session_id": 1,
+    "scenario_id": 2,
+    "round": 2,
+    "plan_version": 5,
+    "sender": "COMMANDER",
+    "recipient": "ALL",
+    "msg_type": "PLAN_DRAFT",
+    "content": "Plan v5 drafted from declared modes: L3+M2+F2+E2 | used P79 W50 O57 R26 B17 | reserve P-4 W2 O2 R0 B0 | risk 24/28 | returns: S2-C1, S2-C2. Changes vs v4: Life Support L1->L3, Medical M1->M2, Food Production F1->F2, Engineering E1->E2.",
+    "payload": {
+      "plan_id": 5,
+      "version": 5,
+      "modes": {
+        "LIFE_SUPPORT": "L3",
+        "MEDICAL": "M2",
+        "FOOD": "F2",
+        "ENGINEERING": "E2"
+      },
+      "totals": {
+        "power": 79,
+        "water": 50,
+        "oxygen": 57,
+        "robot": 26,
+        "bandwidth": 17
+      },
+      "reserve": {
+        "power": -4,
+        "water": 2,
+        "oxygen": 2,
+        "robot": 0,
+        "bandwidth": 0
+      },
+      "risk": 24,
+      "commitment_ids": [
+        "S2-C1",
+        "S2-C2"
+      ]
+    },
+    "source": "system",
+    "provider": null,
+    "model": null,
+    "fallback_reason": null,
+    "created_at": "2026-11-08T13:44:50+00:00"
+  },
+  {
+    "id": 63,
+    "session_id": 1,
+    "scenario_id": 2,
+    "round": 2,
+    "plan_version": 5,
+    "sender": "VALIDATOR",
+    "recipient": "ALL",
+    "msg_type": "VALIDATION",
+    "content": "FAIL for plan v5. PASS Mode packages: One published package per department: L3 Sacrifice, M2 Restricted, F2 Restricted, E2 Restricted; FAIL Resources: 1 resource(s) over pool: Power 79 > 75 (over by 4); PASS Risk: Risk 24 <= limit 28; PASS Sacrifice limit: 1 Sacrifice mode(s) (LIFE_SUPPORT (L3)) <= limit 2; PASS Return agreement: LIFE_SUPPORT (L3) has 2 accepted return commitment(s) from 2 distinct agent(s): COMMANDER, ENGINEERING; PASS Commitment backing: All 2 accepted return commitment(s) are backed (ENGINEERING Robot time 4 <= 18 in E2); no claim conflicts; PASS Policy: Crisis Override policy (risk 28, 2 Sacrifices)",
+    "payload": {
+      "status": "FAIL",
+      "checks": [
+        {
+          "name": "Mode packages",
+          "passed": true,
+          "detail": "One published package per department: L3 Sacrifice, M2 Restricted, F2 Restricted, E2 Restricted"
+        },
+        {
+          "name": "Resources",
+          "passed": false,
+          "detail": "1 resource(s) over pool: Power 79 > 75 (over by 4)"
+        },
+        {
+          "name": "Risk",
+          "passed": true,
+          "detail": "Risk 24 <= limit 28"
+        },
+        {
+          "name": "Sacrifice limit",
+          "passed": true,
+          "detail": "1 Sacrifice mode(s) (LIFE_SUPPORT (L3)) <= limit 2"
+        },
+        {
+          "name": "Return agreement",
+          "passed": true,
+          "detail": "LIFE_SUPPORT (L3) has 2 accepted return commitment(s) from 2 distinct agent(s): COMMANDER, ENGINEERING"
+        },
+        {
+          "name": "Commitment backing",
+          "passed": true,
+          "detail": "All 2 accepted return commitment(s) are backed (ENGINEERING Robot time 4 <= 18 in E2); no claim conflicts"
+        },
+        {
+          "name": "Policy",
+          "passed": true,
+          "detail": "Crisis Override policy (risk 28, 2 Sacrifices)"
+        }
+      ],
+      "reasons": [
+        "Resources: 1 resource(s) over pool: Power 79 > 75 (over by 4)"
+      ],
+      "warnings": [],
+      "totals": {
+        "power": 79,
+        "water": 50,
+        "oxygen": 57,
+        "robot": 26,
+        "bandwidth": 17
+      },
+      "reserve": {
+        "power": -4,
+        "water": 2,
+        "oxygen": 2,
+        "robot": 0,
+        "bandwidth": 0
+      },
+      "risk": 24,
+      "sacrifices": [
+        "LIFE_SUPPORT"
+      ]
+    },
+    "source": "validator",
+    "provider": null,
+    "model": null,
+    "fallback_reason": null,
+    "created_at": "2026-11-08T13:44:50+00:00"
+  },
+  {
+    "id": 64,
+    "session_id": 1,
+    "scenario_id": 2,
+    "round": 2,
+    "plan_version": 5,
+    "sender": "COMMANDER",
+    "recipient": "ALL",
+    "msg_type": "CONFLICT",
+    "content": "Plan v5 (L3+M2+F2+E2) is blocked: Resources: 1 resource(s) over pool: Power 79 > 75 (over by 4). Feasible full-package combinations under current policy: 3.",
+    "payload": {
+      "reasons": [
+        "Resources: 1 resource(s) over pool: Power 79 > 75 (over by 4)"
+      ]
+    },
+    "source": "system",
+    "provider": null,
+    "model": null,
+    "fallback_reason": null,
+    "created_at": "2026-11-08T13:44:50+00:00"
+  },
+  {
+    "id": 65,
+    "session_id": 1,
+    "scenario_id": 2,
+    "round": 3,
+    "plan_version": 5,
+    "sender": "SYSTEM",
+    "recipient": "ALL",
+    "msg_type": "SYSTEM",
+    "content": "Round 3 opens (plan v5 FAILED).",
+    "payload": {},
+    "source": "system",
+    "provider": null,
+    "model": null,
+    "fallback_reason": null,
+    "created_at": "2026-11-08T13:44:50+00:00"
+  },
+  {
+    "id": 66,
+    "session_id": 1,
+    "scenario_id": 2,
+    "round": 3,
+    "plan_version": 5,
+    "sender": "COMMANDER",
+    "recipient": "ALL",
+    "msg_type": "REQUEST",
+    "content": "Plan v5 FAILED: Resources: 1 resource(s) over pool: Power 79 > 75 (over by 4). Target L3+M2+F3+E2: totals P74 W47 O57 R24 B16, risk 28/28, reserve P1 W5 O2 R2 B1. Sacrifice asked of Life Support (L3), Food Production (F3). Template owners please offer L3-ENG, F3-ENG.",
+    "payload": {
+      "target_combo": {
+        "LIFE_SUPPORT": "L3",
+        "MEDICAL": "M2",
+        "FOOD": "F3",
+        "ENGINEERING": "E2"
+      },
+      "target_label": "L3+M2+F3+E2",
+      "mode_requests": {
+        "LIFE_SUPPORT": "L3",
+        "MEDICAL": "M2",
+        "FOOD": "F3",
+        "ENGINEERING": "E2"
+      },
+      "sacrifice_candidates": [
+        "LIFE_SUPPORT",
+        "FOOD"
+      ],
+      "use_crisis_override": false,
+      "declare_infeasible": false
+    },
+    "source": "rule-based",
+    "provider": null,
+    "model": null,
+    "fallback_reason": "rule-based mode (no LLM provider)",
+    "created_at": "2026-11-08T13:44:50+00:00"
+  },
+  {
+    "id": 67,
+    "session_id": 1,
+    "scenario_id": 2,
+    "round": 3,
+    "plan_version": 5,
+    "sender": "MEDICAL",
+    "recipient": "ALL",
+    "msg_type": "ACCEPT_MODE",
+    "content": "Medical accepts Restricted M2 (P21 W10 O14 R2 B6, risk 5) because the numbers show a conflict: Resources: 1 resource(s) over pool: Power 79 > 75 (over by 4). Recovery debt: Completes the immediate task but creates recovery debt.",
+    "payload": {
+      "mode": "M2",
+      "previous_mode": "M2",
+      "tier": "RESTRICTED",
+      "package": {
+        "power": 21,
+        "water": 10,
+        "oxygen": 14,
+        "robot": 2,
+        "bandwidth": 6
+      },
+      "risk": 5,
+      "reason": "Conflict confirmed by validator numbers.",
+      "consequence": "Completes the immediate task but creates recovery debt.",
+      "refuses_sacrifice": false,
+      "proposed_combo": null
+    },
+    "source": "rule-based",
+    "provider": null,
+    "model": null,
+    "fallback_reason": "rule-based mode (no LLM provider)",
+    "created_at": "2026-11-08T13:44:50+00:00"
+  },
+  {
+    "id": 68,
+    "session_id": 1,
+    "scenario_id": 2,
+    "round": 3,
+    "plan_version": 5,
+    "sender": "ENGINEERING",
+    "recipient": "ALL",
+    "msg_type": "ACCEPT_MODE",
+    "content": "Engineering accepts Restricted E2 (P20 W5 O5 R18 B7, risk 5) because the numbers show a conflict: Resources: 1 resource(s) over pool: Power 79 > 75 (over by 4). Recovery debt: Completes the immediate task but creates recovery debt.",
+    "payload": {
+      "mode": "E2",
+      "previous_mode": "E2",
+      "tier": "RESTRICTED",
+      "package": {
+        "power": 20,
+        "water": 5,
+        "oxygen": 5,
+        "robot": 18,
+        "bandwidth": 7
+      },
+      "risk": 5,
+      "reason": "Conflict confirmed by validator numbers.",
+      "consequence": "Completes the immediate task but creates recovery debt.",
+      "refuses_sacrifice": false,
+      "proposed_combo": null
+    },
+    "source": "rule-based",
+    "provider": null,
+    "model": null,
+    "fallback_reason": "rule-based mode (no LLM provider)",
+    "created_at": "2026-11-08T13:44:50+00:00"
+  },
+  {
+    "id": 69,
+    "session_id": 1,
+    "scenario_id": 2,
+    "round": 3,
+    "plan_version": 5,
+    "sender": "LIFE_SUPPORT",
+    "recipient": "ALL",
+    "msg_type": "ACCEPT_MODE",
+    "content": "Life Support holds L3 under accepted returns from Commander, Engineering. Cost remains: Living zone closes; crew crowding and thermal limits continue for 48 hours.",
+    "payload": {
+      "mode": "L3",
+      "previous_mode": "L3",
+      "tier": "SACRIFICE",
+      "package": {
+        "power": 23,
+        "water": 8,
+        "oxygen": 33,
+        "robot": 2,
+        "bandwidth": 2
+      },
+      "risk": 9,
+      "reason": "Return agreement in place.",
+      "consequence": "Living zone closes; crew crowding and thermal limits continue for 48 hours.",
+      "refuses_sacrifice": false,
+      "proposed_combo": null
+    },
+    "source": "rule-based",
+    "provider": null,
+    "model": null,
+    "fallback_reason": "rule-based mode (no LLM provider)",
+    "created_at": "2026-11-08T13:44:50+00:00"
+  },
+  {
+    "id": 70,
+    "session_id": 1,
+    "scenario_id": 2,
+    "round": 3,
+    "plan_version": 5,
+    "sender": "FOOD",
+    "recipient": "ALL",
+    "msg_type": "ACCEPT_SACRIFICE",
+    "content": "Food Production accepts Sacrifice F3 (P10 W24 O5 R2 B1, risk 9) for the colony, on 2 return commitments from different agents - Commander: Commander protects the next Water increase for Food.; Engineering: Engineering commits 4 future Robot units to greenhouse rebuild. Accepting S2-C3, S2-C4.",
+    "payload": {
+      "mode": "F3",
+      "previous_mode": "F2",
+      "tier": "SACRIFICE",
+      "package": {
+        "power": 10,
+        "water": 24,
+        "oxygen": 5,
+        "robot": 2,
+        "bandwidth": 1
+      },
+      "risk": 9,
+      "reason": "Two return commitments from different agents are on the table.",
+      "consequence": "One crop bay is abandoned; food reserve falls by 40 percent.",
+      "refuses_sacrifice": false,
+      "proposed_combo": null
+    },
+    "source": "rule-based",
+    "provider": null,
+    "model": null,
+    "fallback_reason": "rule-based mode (no LLM provider)",
+    "created_at": "2026-11-08T13:44:50+00:00"
+  },
+  {
+    "id": 71,
+    "session_id": 1,
+    "scenario_id": 2,
+    "round": 3,
+    "plan_version": 5,
+    "sender": "FOOD",
+    "recipient": "ALL",
+    "msg_type": "COMMITMENT_ACCEPTED",
+    "content": "Food Production accepts S2-C3 from Commander: Commander protects the next Water increase for Food.",
+    "payload": {
+      "id": "S2-C3",
+      "scenario_id": 2,
+      "owner": "COMMANDER",
+      "beneficiary": "FOOD",
+      "kind": "priority",
+      "resource": null,
+      "amount": 0,
+      "source": null,
+      "claim": "next_water_increase",
+      "promise": "Commander protects the next Water increase for Food.",
+      "expiry": "End of next planning cycle",
+      "status": "ACCEPTED",
+      "template_id": "F3-CMD",
+      "round_offered": 2,
+      "round_resolved": null,
+      "note": ""
+    },
+    "source": "rule-based",
+    "provider": null,
+    "model": null,
+    "fallback_reason": "rule-based mode (no LLM provider)",
+    "created_at": "2026-11-08T13:44:50+00:00"
+  },
+  {
+    "id": 72,
+    "session_id": 1,
+    "scenario_id": 2,
+    "round": 3,
+    "plan_version": 5,
+    "sender": "FOOD",
+    "recipient": "ALL",
+    "msg_type": "COMMITMENT_ACCEPTED",
+    "content": "Food Production accepts S2-C4 from Engineering: Engineering commits 4 future Robot units to greenhouse rebuild.",
+    "payload": {
+      "id": "S2-C4",
+      "scenario_id": 2,
+      "owner": "ENGINEERING",
+      "beneficiary": "FOOD",
+      "kind": "resource",
+      "resource": "robot",
+      "amount": 4,
+      "source": "future",
+      "claim": null,
+      "promise": "Engineering commits 4 future Robot units to greenhouse rebuild.",
+      "expiry": "End of next planning cycle",
+      "status": "ACCEPTED",
+      "template_id": "F3-ENG",
+      "round_offered": 2,
+      "round_resolved": null,
+      "note": ""
+    },
+    "source": "rule-based",
+    "provider": null,
+    "model": null,
+    "fallback_reason": "rule-based mode (no LLM provider)",
+    "created_at": "2026-11-08T13:44:50+00:00"
+  },
+  {
+    "id": 73,
+    "session_id": 1,
+    "scenario_id": 2,
+    "round": 3,
+    "plan_version": 6,
+    "sender": "COMMANDER",
+    "recipient": "ALL",
+    "msg_type": "PLAN_DRAFT",
+    "content": "Plan v6 drafted from declared modes: L3+M2+F3+E2 | used P74 W47 O57 R24 B16 | reserve P1 W5 O2 R2 B1 | risk 28/28 | returns: S2-C1, S2-C2, S2-C3, S2-C4. Changes vs v5: Food Production F2->F3.",
+    "payload": {
+      "plan_id": 6,
+      "version": 6,
+      "modes": {
+        "LIFE_SUPPORT": "L3",
+        "MEDICAL": "M2",
+        "FOOD": "F3",
+        "ENGINEERING": "E2"
+      },
+      "totals": {
+        "power": 74,
+        "water": 47,
+        "oxygen": 57,
+        "robot": 24,
+        "bandwidth": 16
+      },
+      "reserve": {
+        "power": 1,
+        "water": 5,
+        "oxygen": 2,
+        "robot": 2,
+        "bandwidth": 1
+      },
+      "risk": 28,
+      "commitment_ids": [
+        "S2-C1",
+        "S2-C2",
+        "S2-C3",
+        "S2-C4"
+      ]
+    },
+    "source": "system",
+    "provider": null,
+    "model": null,
+    "fallback_reason": null,
+    "created_at": "2026-11-08T13:44:50+00:00"
+  },
+  {
+    "id": 74,
+    "session_id": 1,
+    "scenario_id": 2,
+    "round": 3,
+    "plan_version": 6,
+    "sender": "VALIDATOR",
+    "recipient": "ALL",
+    "msg_type": "VALIDATION",
+    "content": "PASS for plan v6. PASS Mode packages: One published package per department: L3 Sacrifice, M2 Restricted, F3 Sacrifice, E2 Restricted; PASS Resources: All 5 resources within pool; reserve P1 W5 O2 R2 B1; PASS Risk: Risk 28 <= limit 28; PASS Sacrifice limit: 2 Sacrifice mode(s) (LIFE_SUPPORT (L3), FOOD (F3)) <= limit 2; PASS Return agreement: LIFE_SUPPORT (L3) has 2 accepted return commitment(s) from 2 distinct agent(s): COMMANDER, ENGINEERING; FOOD (F3) has 2 accepted return commitment(s) from 2 distinct agent(s): COMMANDER, ENGINEERING; PASS Commitment backing: All 4 accepted return commitment(s) are backed (ENGINEERING Robot time 4 <= 18 in E2); no claim conflicts; PASS Policy: Crisis Override policy (risk 28, 2 Sacrifices)",
+    "payload": {
+      "status": "PASS",
+      "checks": [
+        {
+          "name": "Mode packages",
+          "passed": true,
+          "detail": "One published package per department: L3 Sacrifice, M2 Restricted, F3 Sacrifice, E2 Restricted"
+        },
+        {
+          "name": "Resources",
+          "passed": true,
+          "detail": "All 5 resources within pool; reserve P1 W5 O2 R2 B1"
+        },
+        {
+          "name": "Risk",
+          "passed": true,
+          "detail": "Risk 28 <= limit 28"
+        },
+        {
+          "name": "Sacrifice limit",
+          "passed": true,
+          "detail": "2 Sacrifice mode(s) (LIFE_SUPPORT (L3), FOOD (F3)) <= limit 2"
+        },
+        {
+          "name": "Return agreement",
+          "passed": true,
+          "detail": "LIFE_SUPPORT (L3) has 2 accepted return commitment(s) from 2 distinct agent(s): COMMANDER, ENGINEERING; FOOD (F3) has 2 accepted return commitment(s) from 2 distinct agent(s): COMMANDER, ENGINEERING"
+        },
+        {
+          "name": "Commitment backing",
+          "passed": true,
+          "detail": "All 4 accepted return commitment(s) are backed (ENGINEERING Robot time 4 <= 18 in E2); no claim conflicts"
+        },
+        {
+          "name": "Policy",
+          "passed": true,
+          "detail": "Crisis Override policy (risk 28, 2 Sacrifices)"
+        }
+      ],
+      "reasons": [],
+      "warnings": [],
+      "totals": {
+        "power": 74,
+        "water": 47,
+        "oxygen": 57,
+        "robot": 24,
+        "bandwidth": 16
+      },
+      "reserve": {
+        "power": 1,
+        "water": 5,
+        "oxygen": 2,
+        "robot": 2,
+        "bandwidth": 1
+      },
+      "risk": 28,
+      "sacrifices": [
+        "LIFE_SUPPORT",
+        "FOOD"
+      ]
+    },
+    "source": "validator",
+    "provider": null,
+    "model": null,
+    "fallback_reason": null,
+    "created_at": "2026-11-08T13:44:50+00:00"
+  },
+  {
+    "id": 75,
+    "session_id": 1,
+    "scenario_id": 2,
+    "round": 3,
+    "plan_version": 6,
+    "sender": "COMMANDER",
+    "recipient": "ALL",
+    "msg_type": "VOTE_CALL",
+    "content": "Plan v6 (L3+M2+F3+E2) passed validation. All four departments: vote ACCEPT or REJECT on v6.",
+    "payload": {},
+    "source": "system",
+    "provider": null,
+    "model": null,
+    "fallback_reason": null,
+    "created_at": "2026-11-08T13:44:50+00:00"
+  },
+  {
+    "id": 76,
+    "session_id": 1,
+    "scenario_id": 2,
+    "round": 3,
+    "plan_version": 6,
+    "sender": "LIFE_SUPPORT",
+    "recipient": "ALL",
+    "msg_type": "VOTE",
+    "content": "ACCEPT plan v6: Validation PASS; our sacrifice L3 is backed by accepted returns from Commander, Engineering.",
+    "payload": {
+      "agent": "LIFE_SUPPORT",
+      "plan_version": 6,
+      "decision": "ACCEPT",
+      "reason": "Validation PASS; our sacrifice L3 is backed by accepted returns from Commander, Engineering.",
+      "source": "rule-based",
+      "fallback_reason": "rule-based mode (no LLM provider)",
+      "provider": null,
+      "model": null,
+      "reconsidered": false
+    },
+    "source": "rule-based",
+    "provider": null,
+    "model": null,
+    "fallback_reason": "rule-based mode (no LLM provider)",
+    "created_at": "2026-11-08T13:44:50+00:00"
+  },
+  {
+    "id": 77,
+    "session_id": 1,
+    "scenario_id": 2,
+    "round": 3,
+    "plan_version": 6,
+    "sender": "MEDICAL",
+    "recipient": "ALL",
+    "msg_type": "VOTE",
+    "content": "ACCEPT plan v6: Validation PASS; we run M2 as declared; plan risk 28, totals P74 W47 O57 R24 B16 within pool P75 W52 O59 R26 B17.",
+    "payload": {
+      "agent": "MEDICAL",
+      "plan_version": 6,
+      "decision": "ACCEPT",
+      "reason": "Validation PASS; we run M2 as declared; plan risk 28, totals P74 W47 O57 R24 B16 within pool P75 W52 O59 R26 B17.",
+      "source": "rule-based",
+      "fallback_reason": "rule-based mode (no LLM provider)",
+      "provider": null,
+      "model": null,
+      "reconsidered": false
+    },
+    "source": "rule-based",
+    "provider": null,
+    "model": null,
+    "fallback_reason": "rule-based mode (no LLM provider)",
+    "created_at": "2026-11-08T13:44:50+00:00"
+  },
+  {
+    "id": 78,
+    "session_id": 1,
+    "scenario_id": 2,
+    "round": 3,
+    "plan_version": 6,
+    "sender": "FOOD",
+    "recipient": "ALL",
+    "msg_type": "VOTE",
+    "content": "ACCEPT plan v6: Validation PASS; our sacrifice F3 is backed by accepted returns from Commander, Engineering.",
+    "payload": {
+      "agent": "FOOD",
+      "plan_version": 6,
+      "decision": "ACCEPT",
+      "reason": "Validation PASS; our sacrifice F3 is backed by accepted returns from Commander, Engineering.",
+      "source": "rule-based",
+      "fallback_reason": "rule-based mode (no LLM provider)",
+      "provider": null,
+      "model": null,
+      "reconsidered": false
+    },
+    "source": "rule-based",
+    "provider": null,
+    "model": null,
+    "fallback_reason": "rule-based mode (no LLM provider)",
+    "created_at": "2026-11-08T13:44:50+00:00"
+  },
+  {
+    "id": 79,
+    "session_id": 1,
+    "scenario_id": 2,
+    "round": 3,
+    "plan_version": 6,
+    "sender": "ENGINEERING",
+    "recipient": "ALL",
+    "msg_type": "VOTE",
+    "content": "ACCEPT plan v6: Validation PASS; we run E2 as declared; plan risk 28, totals P74 W47 O57 R24 B16 within pool P75 W52 O59 R26 B17.",
+    "payload": {
+      "agent": "ENGINEERING",
+      "plan_version": 6,
+      "decision": "ACCEPT",
+      "reason": "Validation PASS; we run E2 as declared; plan risk 28, totals P74 W47 O57 R24 B16 within pool P75 W52 O59 R26 B17.",
+      "source": "rule-based",
+      "fallback_reason": "rule-based mode (no LLM provider)",
+      "provider": null,
+      "model": null,
+      "reconsidered": false
+    },
+    "source": "rule-based",
+    "provider": null,
+    "model": null,
+    "fallback_reason": "rule-based mode (no LLM provider)",
+    "created_at": "2026-11-08T13:44:50+00:00"
+  },
+  {
+    "id": 80,
+    "session_id": 1,
+    "scenario_id": 2,
+    "round": 3,
+    "plan_version": 6,
+    "sender": "COMMANDER",
+    "recipient": "ALL",
+    "msg_type": "APPROVAL",
+    "content": "APPROVED plan v6 (L3+M2+F3+E2). Validator PASS (7/7 checks); 4/4 ACCEPT votes on v6. Used P74 W47 O57 R24 B16; reserve P1 W5 O2 R2 B1; risk 28/28. Return agreements: S2-C1 Commander->Life Support: Commander gives habitat restoration first priority next cycle; S2-C2 Engineering->Life Support: Engineering commits 4 of its Robot units to habitat inspection; S2-C3 Commander->Food Production: Commander protects the next Water increase for Food; S2-C4 Engineering->Food Production: Engineering commits 4 future Robot units to greenhouse rebuild.",
+    "payload": {
+      "plan_id": 6,
+      "version": 6,
+      "validation": {
+        "status": "PASS",
+        "checks": [
+          {
+            "name": "Mode packages",
+            "passed": true,
+            "detail": "One published package per department: L3 Sacrifice, M2 Restricted, F3 Sacrifice, E2 Restricted"
+          },
+          {
+            "name": "Resources",
+            "passed": true,
+            "detail": "All 5 resources within pool; reserve P1 W5 O2 R2 B1"
+          },
+          {
+            "name": "Risk",
+            "passed": true,
+            "detail": "Risk 28 <= limit 28"
+          },
+          {
+            "name": "Sacrifice limit",
+            "passed": true,
+            "detail": "2 Sacrifice mode(s) (LIFE_SUPPORT (L3), FOOD (F3)) <= limit 2"
+          },
+          {
+            "name": "Return agreement",
+            "passed": true,
+            "detail": "LIFE_SUPPORT (L3) has 2 accepted return commitment(s) from 2 distinct agent(s): COMMANDER, ENGINEERING; FOOD (F3) has 2 accepted return commitment(s) from 2 distinct agent(s): COMMANDER, ENGINEERING"
+          },
+          {
+            "name": "Commitment backing",
+            "passed": true,
+            "detail": "All 4 accepted return commitment(s) are backed (ENGINEERING Robot time 4 <= 18 in E2); no claim conflicts"
+          },
+          {
+            "name": "Policy",
+            "passed": true,
+            "detail": "Crisis Override policy (risk 28, 2 Sacrifices)"
+          }
+        ],
+        "reasons": [],
+        "warnings": [],
+        "totals": {
+          "power": 74,
+          "water": 47,
+          "oxygen": 57,
+          "robot": 24,
+          "bandwidth": 16
+        },
+        "reserve": {
+          "power": 1,
+          "water": 5,
+          "oxygen": 2,
+          "robot": 2,
+          "bandwidth": 1
+        },
+        "risk": 28,
+        "sacrifices": [
+          "LIFE_SUPPORT",
+          "FOOD"
+        ]
+      }
+    },
+    "source": "system",
+    "provider": null,
+    "model": null,
+    "fallback_reason": null,
+    "created_at": "2026-11-08T13:44:50+00:00"
+  }
+]

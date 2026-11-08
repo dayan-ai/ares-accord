@@ -3,10 +3,11 @@
 Usage (repo root):
     .venv/Scripts/python scripts/smoke_run.py                       # rule-based, Power -4 event
     .venv/Scripts/python scripts/smoke_run.py --provider groq
-    .venv/Scripts/python scripts/smoke_run.py --event starter_kit/event_injection_format.json
+    .venv/Scripts/python scripts/smoke_run.py --event tests/fixtures/event_injection_format.json
     .venv/Scripts/python scripts/smoke_run.py --db data/smoke.db --export exports/smoke
 
-Uses a separate database (default data/smoke.db) so the dashboard history is untouched.
+The database at --db (default data/smoke.db) is DELETED and recreated on every run, so each run starts clean.
+The script refuses to use the dashboard database (ARES_DB_PATH, default data/ares.db).
 """
 from __future__ import annotations
 
@@ -21,6 +22,7 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
 from ares.config import load_settings  # noqa: E402
+from ares.log import configure_logging  # noqa: E402
 from ares.service import Service  # noqa: E402
 from ares.storage import Store  # noqa: E402
 
@@ -54,10 +56,16 @@ def main() -> int:
     ap.add_argument("--export", default="", help="directory to write the export bundle into")
     ap.add_argument("--quiet", action="store_true")
     args = ap.parse_args()
+    configure_logging("WARNING" if args.quiet else None)
 
+    settings = load_settings()
+    if Path(args.db).resolve() == Path(settings.db_path).resolve():
+        print(f"Refusing to use the dashboard database {settings.db_path} with --db: this script deletes and "
+              "recreates its database. Pass a separate path, e.g. --db data/smoke.db.", file=sys.stderr)
+        return 2
     if os.path.exists(args.db):
         os.remove(args.db)
-    svc = Service(settings=load_settings(), store=Store(args.db))
+    svc = Service(settings=settings, store=Store(args.db))
 
     def show(m: dict) -> None:
         if args.quiet:

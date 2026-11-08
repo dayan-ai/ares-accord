@@ -16,6 +16,8 @@ from typing import Any, Protocol, runtime_checkable
 
 import requests
 
+from ares.log import redact_secrets
+
 log = logging.getLogger(__name__)
 
 
@@ -155,7 +157,7 @@ def _retry_after(resp: Any) -> float | None:
 
 
 def short_error(resp: Any) -> str:
-    """Short, key-free error description from an HTTP response."""
+    """Short, key-free error description from an HTTP response (provider text is passed through redaction)."""
     msg = ""
     try:
         data = resp.json()
@@ -170,7 +172,8 @@ def short_error(resp: Any) -> str:
         except Exception:
             msg = ""
     msg = " ".join(msg.split())
-    return msg[:160]
+    # redact before truncating so a key can never be cut into an unrecognisable (but still sensitive) prefix
+    return redact_secrets(msg)[:160]
 
 
 def _backoff(attempt: int) -> float:
@@ -230,11 +233,15 @@ def post_json(name: str, url: str, headers: dict[str, str], payload: dict[str, A
             else:
                 if status not in (400, 404, 422):
                     _record_fail(st)          # 401/403 etc.: config problem, fail fast next time
+                log.warning("llm_http_error provider=%s status=%s", name, status)
                 raise LLMHTTPError(f"{name}: HTTP {status} {short_error(resp)}".strip(), status)
         if attempt < attempts - 1:
             if time.monotonic() + delay > deadline - 0.5:
                 last += " (no budget left to retry)"
                 break
+            log.info("llm_retry provider=%s attempt=%d/%d reason=%r delay_s=%.1f", name, attempt + 1, attempts,
+                     last, delay)
             time.sleep(delay)
     _record_fail(st)
+    log.warning("llm_call_failed provider=%s reason=%r", name, last)
     raise LLMError(f"{name}: {last}")

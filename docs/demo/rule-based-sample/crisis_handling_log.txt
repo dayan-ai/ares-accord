@@ -1,0 +1,15 @@
+EVENT S2: Solar aftershock
+  Description: Available Power decreases by 4
+  Pool before: {'power': 79, 'water': 52, 'oxygen': 59, 'robot': 26, 'bandwidth': 17}
+  Pool after:  {'power': 75, 'water': 52, 'oxygen': 59, 'robot': 26, 'bandwidth': 17}
+  Changes: Power 79 -> 75 (-4)
+  Interpretation: Parsed JSON object from text input; Structured impact used; description text not re-parsed (avoids double counting); No event_id given; generated EVT-A33C698E; changes.power=-4 -> -4 Power
+  - R0 PLAN_STALE: Plan v3 (L3+M2+F2+E2) is now STALE. The event breaks plan v3: Resources: 1 resource(s) over pool: Power 79 > 75 (over by 4) Its votes no longer count.
+  - R0 COMMITMENT: S2-C1 carried over from S1-C1 for renegotiation (Commander -> Life Support: Commander gives habitat restoration first priority next cycle.); it must be re-accepted.
+  - R0 COMMITMENT: S2-C2 carried over from S1-C2 for renegotiation (Engineering -> Life Support: Engineering commits 4 of its Robot units to habitat inspection.); it must be re-accepted.
+  - R2 SYSTEM: Crisis Override invoked: risk limit 24 -> 28 and up to 2 Sacrifice modes. Each sacrificing department still needs 2 accepted returns.
+  - R2 COMMITMENT: Commander offers S2-C3 to Food Production: Commander protects the next Water increase for Food. (expires: End of next planning cycle)
+  - R2 COMMITMENT: Engineering offers S2-C4 to Food Production: Engineering commits 4 future Robot units to greenhouse rebuild. (expires: End of next planning cycle)
+  - R3 APPROVAL: APPROVED plan v6 (L3+M2+F3+E2). Validator PASS (7/7 checks); 4/4 ACCEPT votes on v6. Used P74 W47 O57 R24 B16; reserve P1 W5 O2 R2 B1; risk 28/28. Return agreements: S2-C1 Commander->Life Support: Commander gives habitat restoration first priority next cycle; S2-C2 Engineering->Life Support: Engineering commits 4 of its Robot units to habitat inspection; S2-C3 Commander->Food Production: Commander protects the next Water increase for Food; S2-C4 Engineering->Food Production: Engineering commits 4 future Robot units to greenhouse rebuild.
+  Rounds: 3  Policy: {'risk_limit': 28, 'max_sacrifices': 2, 'crisis_override': True}
+  RESULT: APPROVED — Plan v6 approved in round 3.
