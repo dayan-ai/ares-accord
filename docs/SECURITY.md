@@ -17,3 +17,23 @@ Checked 2026-10-10 (commands below are re-runnable).
 | Paid model guard | OK | OpenRouter accepts only `:free` ids or `openrouter/free` unless `OPENROUTER_ALLOW_PAID=1` |
 
 Before submission: run the secret grep above and `git status --ignored` and confirm `.env` and `data/*.db` are ignored.
+
+## Post-hackathon hardening (2026-11)
+
+Each item has regression tests in `tests/test_hardening.py` or `tests/test_observability.py`.
+
+| Item | Change | Test |
+|---|---|---|
+| Approval-gate bypass | Inspection found no path to `APPROVED` except through `approval_gate` (plus the judge co-sign, which only acts after the gate). Locked in with an exhaustive check of all 81 combinations × 2 policies against an independent oracle, and a single-precondition mutation matrix. | `test_gate_*` |
+| Prompt injection | Untrusted text (event name and description, transcript, memory, custom-offer promises, original vote reasons) is wrapped in `[[ ]]`, with delimiters inside it neutralised. All four system prompts state that delimited text is data. This is defence in depth only; the guarantee remains the sanitizer plus the gate. | `test_untrusted_text_is_delimited_in_every_prompt` |
+| Hostile or malformed event input | Non-finite values, or values beyond ±1,000,000, are ignored with an interpretation note. They previously raised `OverflowError`. | `test_out_of_range_*` |
+| Config values | `nan`, `inf` or negative numeric env settings fall back to defaults with a warning. A NaN deadline previously never expired. | `test_invalid_deadline_env_*`, `test_non_finite_llm_env_values_fall_back` |
+| Secrets in logs and errors | `ares.log.redact_secrets` masks configured `*_API_KEY` / `*_TOKEN` / `*_SECRET` values and key-shaped tokens. It is applied to provider error text (`short_error`) and, through a handler filter, to every `ares.*` log record. | `test_redact_*`, `test_short_error_*`, `test_log_handler_*` |
+| SQL | Values are parameterised. Dynamic `UPDATE` column names are validated against `PRAGMA table_info`. | `test_store_rejects_unknown_or_injected_column_names` |
+| HTML output | Provider and model names inside `unsafe_allow_html` are now escaped; all other dynamic values already were. | covered by `test_ui_smoke.py` rendering |
+| Destructive script | `scripts/smoke_run.py` deletes its `--db` file, so it now refuses the dashboard database. | `test_smoke_run_refuses_to_delete_the_dashboard_database` |
+
+Residual risks:
+- LLM text is rendered as Markdown (links and images would display).
+- The app has no authentication; it is a single-user local tool.
+- Transitive dependencies are not locked.
