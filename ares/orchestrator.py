@@ -90,8 +90,8 @@ def _sanitize_pool(pool: dict[str, Any]) -> dict[str, int]:
     for r in RESOURCES:
         try:
             out[r] = max(0, int(pool.get(r, 0)))
-        except (TypeError, ValueError):
-            raise ValueError(f"Resource '{r}' must be a whole number, got {pool.get(r)!r}")
+        except (TypeError, ValueError) as exc:
+            raise ValueError(f"Resource '{r}' must be a whole number, got {pool.get(r)!r}") from exc
     return out
 
 
@@ -415,8 +415,9 @@ class Orchestrator:
         for offer in t.offers or []:
             self._offer(run, d, offer, meta)
         by_id = {c.id: c for c in self.store.commitments(run.scenario_id)}
-        for cid, new_status, mtype in [(i, "ACCEPTED", "COMMITMENT_ACCEPTED") for i in t.accept_commitment_ids or []] + \
-                                       [(i, "REJECTED", "COMMITMENT_REJECTED") for i in t.reject_commitment_ids or []]:
+        decisions = ([(i, "ACCEPTED", "COMMITMENT_ACCEPTED") for i in t.accept_commitment_ids or []]
+                     + [(i, "REJECTED", "COMMITMENT_REJECTED") for i in t.reject_commitment_ids or []])
+        for cid, new_status, mtype in decisions:
             c = by_id.get(cid)
             if not c or c.beneficiary != d or c.status != "PROPOSED":
                 continue
@@ -455,7 +456,8 @@ class Orchestrator:
                           expiry=o.expiry or "End of next planning cycle", template_id=None)
         for c in self.store.commitments(run.scenario_id):
             if c.owner == owner and c.beneficiary == fields["beneficiary"] and c.status in ("PROPOSED", "ACCEPTED") \
-                    and ((fields["template_id"] and c.template_id == fields["template_id"]) or c.promise == fields["promise"]):
+                    and ((fields["template_id"] and c.template_id == fields["template_id"])
+                         or c.promise == fields["promise"]):
                 return  # already on the table
         c = Commitment(id=self.store.next_commitment_id(run.scenario_id), scenario_id=run.scenario_id, owner=owner,
                        status="PROPOSED", round_offered=run.round, **fields)
@@ -637,7 +639,8 @@ class Orchestrator:
         n = len(validation.get("checks") or [])
         return (f"APPROVED plan v{plan['version']} ({_combo_label(plan['modes'])}). Validator PASS ({n}/{n} checks); "
                 f"4/4 ACCEPT votes on v{plan['version']}{'; co-signed by the judge' if cosigned else ''}. "
-                f"Used {_fmt_res(validation.get('totals') or {})}; reserve {_fmt_res(validation.get('reserve') or {})}; "
+                f"Used {_fmt_res(validation.get('totals') or {})}; "
+                f"reserve {_fmt_res(validation.get('reserve') or {})}; "
                 f"risk {validation.get('risk')}/{(plan.get('policy') or {}).get('risk_limit')}. "
                 f"Return agreements: {returns or 'none required'}.")
 

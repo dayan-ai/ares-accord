@@ -10,13 +10,14 @@ import pytest
 from ares.models import BASELINE_POOL, CrisisEvent, Policy
 from ares.events import apply_event, parse_event
 from ares.optimizer import enumerate_candidates
+from tests._paths import starter_file
 
 ROOT = Path(__file__).resolve().parents[1]
 POOL = dict(BASELINE_POOL)
 
 
 def official() -> dict:
-    return json.loads((ROOT / "starter_kit" / "event_injection_format.json").read_text(encoding="utf-8"))
+    return json.loads(starter_file("event_injection_format.json").read_text(encoding="utf-8"))
 
 
 def test_official_starter_format():

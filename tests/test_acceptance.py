@@ -23,6 +23,7 @@ from ares.models import (
 from ares.service import Service
 from ares.storage import Store
 from ares.validator import plan_totals, validate_plan
+from tests._paths import starter_file
 
 ROOT = Path(__file__).resolve().parent.parent
 PDF_PATHS = {  # PDF p6 / PRD Appendix A: the only two valid baseline plans
@@ -319,7 +320,7 @@ def test_practice_event_recovery(tmp_path, res, delta, ev_json, ev_text, form):
 def test_official_starter_event_is_infeasible_immediately(tmp_path):
     """FR-27, FR-28, FR-33 (exception), FR-35: the official starter_kit/event_injection_format.json (30% power cut)
     leaves no plan even with Crisis Override -> INFEASIBLE at once with blocking constraints and a requested change."""
-    ev = json.loads((ROOT / "starter_kit" / "event_injection_format.json").read_text(encoding="utf-8"))
+    ev = json.loads(starter_file("event_injection_format.json").read_text(encoding="utf-8"))
     s = svc(tmp_path)
     assert baseline(s)["status"] == "APPROVED"
     t0 = time.monotonic()
@@ -451,11 +452,11 @@ def test_export_bundle_files_and_shapes(tmp_path):
         assert sc["final_plan"] is not None
         modes = sc["final_plan"]["modes"]
         assert set(modes) == set(DEPARTMENTS)
-        for d, m in modes.items():  # package values exported exactly as published (FR-02, FR-26)
+        for _d, m in modes.items():  # package values exported exactly as published (FR-02, FR-26)
             pkg = MODE_PACKAGES[m["code"]]
             assert all(m[r] == pkg.resources()[r] for r in RESOURCES) and m["risk"] == pkg.risk
     fa = json.loads(b["final_allocation.json"])
-    starter_keys = set(json.loads((ROOT / "starter_kit" / "output_schema.json").read_text(encoding="utf-8")))
+    starter_keys = set(json.loads(starter_file("output_schema.json").read_text(encoding="utf-8")))
     assert len(fa["records"]) == 5
     assert {r["agent_id"] for r in fa["records"]} == set(DEPARTMENTS) | {COMMANDER}
     for r in fa["records"]:

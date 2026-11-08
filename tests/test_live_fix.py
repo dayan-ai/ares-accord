@@ -13,16 +13,17 @@ from ares.agents import DepartmentAgent, prompts
 from ares.config import Settings
 from ares.llm.base import LLMError
 from ares.models import (
-    ACCEPT, ACCEPT_MODE, ACCEPT_SACRIFICE, BASELINE_POOL, COMMANDER, DEPARTMENTS, ENGINEERING, FOOD, LIFE_SUPPORT,
-    MEDICAL, MODE_PACKAGES, PROPOSAL, REFUSE_SACRIFICE, REJECT, RETURN_TEMPLATES, SACRIFICE, AgentContext,
-    CommanderTurn, Commitment, CommitmentOffer, DepartmentTurn, Policy, Vote, mode_code,
+    ACCEPT, BASELINE_POOL, COMMANDER, DEPARTMENTS, ENGINEERING, FOOD, LIFE_SUPPORT,
+    MEDICAL, MODE_PACKAGES, REFUSE_SACRIFICE, REJECT, RETURN_TEMPLATES, SACRIFICE, AgentContext,
+    CommanderTurn, Commitment, CommitmentOffer, Policy, Vote,
 )
 from ares.optimizer import enumerate_candidates
 from ares.service import Service
 from ares.storage import Store
 
 PLAN_B = {LIFE_SUPPORT: "L2", MEDICAL: "M2", FOOD: "F2", ENGINEERING: "E3"}
-FALSE_REASON = "We are making sacrifices without receiving the required 2 accepted return commitments from different agents."
+FALSE_REASON = ("We are making sacrifices without receiving the required 2 accepted return commitments "
+                "from different agents.")
 
 
 def _comm(cid, owner, status, tid):

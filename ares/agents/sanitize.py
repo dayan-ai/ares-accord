@@ -235,7 +235,8 @@ def commander_turn(raw: dict, agent: Any, ctx: AgentContext, sc: dict) -> Comman
         target = None
     if target is None:
         target = rule_policy.choose_target(ctx, sc)
-        notes.append(f"target {str(raw.get('target_label'))[:20]!r} not a feasible candidate; using {A.cand_label(target)}")
+        notes.append(f"target {str(raw.get('target_label'))[:20]!r} not a feasible candidate; "
+                     f"using {A.cand_label(target)}")
     sacs = A.cand_sacrifices(target)
     offers: list[CommitmentOffer] = []
     seen = set()

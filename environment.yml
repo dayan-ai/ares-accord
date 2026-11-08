@@ -1,0 +1,11 @@
+# Conda environment used by .github/workflows/python-package-conda.yml (and usable locally):
+#   conda env create -f environment.yml && conda activate ares-accord
+#   python -m pip install -r requirements-dev.txt
+# Python packages are installed with pip from the pinned requirements files so that pip and conda users
+# get exactly the same versions.
+name: ares-accord
+channels:
+  - conda-forge
+dependencies:
+  - python=3.12
+  - pip

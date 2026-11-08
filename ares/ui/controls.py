@@ -371,7 +371,8 @@ def render_sidebar(svc: Any, state: dict, running: bool) -> None:
                                    key=f"ares_ev_d_{r}", disabled=running)
         st.multiselect(
             "Forbidden modes (optional)", list(MODE_PACKAGES), key="ares_ev_forbidden", disabled=running,
-            format_func=lambda c: f"{c} · {MODE_PACKAGES[c].tier.title()} ({C.agent_label(MODE_PACKAGES[c].department)})",
+            format_func=lambda c: (f"{c} · {MODE_PACKAGES[c].tier.title()} "
+                                   f"({C.agent_label(MODE_PACKAGES[c].department)})"),
         )
         st.button("Clear form deltas", key="ares_ev_clear", on_click=_clear_form, disabled=running)
         _event_buttons(svc, "form", provider, running)

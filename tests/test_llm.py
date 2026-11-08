@@ -160,7 +160,8 @@ def test_key_from_env_and_google_alias(monkeypatch):
 
 def test_openrouter_requires_free_model(monkeypatch):
     monkeypatch.setenv("OPENROUTER_API_KEY", "k")
-    assert get_provider("openrouter").model in ("openrouter/free",) or get_provider("openrouter").model.endswith(":free")
+    model = get_provider("openrouter").model
+    assert model in ("openrouter/free",) or model.endswith(":free")
     monkeypatch.setenv("OPENROUTER_MODEL", "openai/gpt-paid")
     with pytest.raises(LLMError, match="free"):
         get_provider("openrouter")

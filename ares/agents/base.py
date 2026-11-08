@@ -76,7 +76,7 @@ class AgentBase:
         try:
             raw = self.provider.complete_json(system, user + REPAIR_SUFFIX, remaining)
         except LLMJSONError as exc:
-            raise LLMError(f"invalid JSON after repair retry ({A.short(str(exc), 60)})")
+            raise LLMError(f"invalid JSON after repair retry ({A.short(str(exc), 60)})") from exc
         if ok(raw):
             return raw
         raise LLMError("invalid JSON after repair retry (missing required fields)")

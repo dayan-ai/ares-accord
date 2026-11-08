@@ -214,9 +214,9 @@ def post_json(name: str, url: str, headers: dict[str, str], payload: dict[str, A
             if status == 200:
                 try:
                     data = resp.json()
-                except ValueError:
+                except ValueError as exc:
                     _record_fail(st)
-                    raise LLMError(f"{name}: HTTP 200 with non-JSON body")
+                    raise LLMError(f"{name}: HTTP 200 with non-JSON body") from exc
                 if not isinstance(data, dict):
                     _record_fail(st)
                     raise LLMError(f"{name}: unexpected response shape")

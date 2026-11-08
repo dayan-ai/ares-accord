@@ -1,5 +1,6 @@
-streamlit>=1.40
-pandas>=2.0
-requests>=2.31
-python-dotenv>=1.0
-pytest>=8.0
+# Runtime dependencies, pinned to the versions the test suite was verified with (Python 3.12 and 3.13).
+# Development / test tools live in requirements-dev.txt.
+streamlit==1.67.0
+pandas==3.1.1
+requests==2.34.2
+python-dotenv==1.2.4

@@ -1,0 +1,13 @@
+{
+  "event_id": "CRISIS_002",
+  "event_name": "Solar Aftershock",
+  "trigger_time": "Hour 14",
+  "description": "Secondary solar flare detected. Power generation capacity drops by 30% for next 6 hours.",
+  "impact": {
+    "power_reduction_percent": 30,
+    "duration_hours": 6,
+    "affected_systems": ["solar_array_A", "solar_array_B"]
+  },
+  "requires_replan": true,
+  "message_to_commander": "ALERT: Solar Aftershock detected. Immediate resource reallocation required. Council must reconvene."
+}

@@ -1,0 +1,8 @@
+# Lint gate used locally and in CI (.github/workflows/python-package-conda.yml).
+# pycodestyle errors/warnings, pyflakes and bugbear; the codebase uses 120-character lines.
+line-length = 120
+target-version = "py311"
+extend-exclude = ["data", "exports", "evidence"]
+
+[lint]
+select = ["E", "F", "W", "B"]

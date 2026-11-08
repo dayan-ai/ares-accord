@@ -1,0 +1,14 @@
+{
+  "round": 1,
+  "agent_id": "LIFE_SUPPORT",
+  "proposal": {
+    "oxygen_units": 0,
+    "water_liters": 0,
+    "power_kwh": 0,
+    "food_rations": 0,
+    "justification": ""
+  },
+  "vote": "APPROVE",
+  "risk_score": 0,
+  "flag_human_review": false
+}

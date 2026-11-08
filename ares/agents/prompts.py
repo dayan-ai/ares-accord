@@ -3,7 +3,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from ares.models import (COMMANDER, DEPARTMENTS, MODE_PACKAGES, RETURN_TEMPLATES, SACRIFICE, AgentContext, mode_code)
+from ares.models import (COMMANDER, DEPARTMENTS, RETURN_TEMPLATES, SACRIFICE, AgentContext, mode_code)
 from ares.agents import analysis as A
 from ares.agents.profiles import COLONY_SIZE, INJURED
 from ares import factcheck
@@ -120,7 +120,8 @@ def _options_block(ctx: AgentContext, me: str) -> str:
         nsac = sum(1 for c in modes.values() if A.tier_of(c) == SACRIFICE)
         issues = list(over) + ([f"risk {risk} > {risk_lim}"] if risk > risk_lim else []) + \
             ([f"{nsac} sacrifices > {sac_lim}"] if nsac > sac_lim else [])
-        lines.append(f"  {code} {tier}: " + ("FITS the pool and limits" if not issues else "BREAKS: " + "; ".join(issues)))
+        verdict = "FITS the pool and limits" if not issues else "BREAKS: " + "; ".join(issues)
+        lines.append(f"  {code} {tier}: {verdict}")
     return "\n".join(lines)
 
 
@@ -184,8 +185,8 @@ def _dept_system(agent: Any) -> str:
         "(offer_template_ids).\n"
         "7. You may object or disagree, but stay factual. The deterministic validator and the 4 department votes "
         "decide approval; the Commander cannot approve alone.\n"
-        "8. Restricted is NOT Sacrifice. Only refuse Sacrifice (REFUSE_SACRIFICE) if YOU are asked to run your Sacrifice "
-        "code this round.\n"
+        "8. Restricted is NOT Sacrifice. Only refuse Sacrifice (REFUSE_SACRIFICE) if YOU are asked to run your "
+        "Sacrifice code this round.\n"
         f"{UNTRUSTED_RULE}\n"
         f"Reply with ONE JSON object only (no prose), schema:\n{DEPT_SCHEMA}")
 

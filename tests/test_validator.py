@@ -20,8 +20,8 @@ OVR = Policy.override()
 _TEMPLATES = {t.template_id: t for group in RETURN_TEMPLATES.values() for t in group}
 
 
-def modes(l: str, m: str, f: str, e: str) -> dict[str, str]:
-    return {LIFE_SUPPORT: l, MEDICAL: m, FOOD: f, ENGINEERING: e}
+def modes(life: str, med: str, food: str, eng: str) -> dict[str, str]:
+    return {LIFE_SUPPORT: life, MEDICAL: med, FOOD: food, ENGINEERING: eng}
 
 
 def tmpl(template_id: str, status: str = "ACCEPTED", **overrides) -> Commitment:
