@@ -3,7 +3,31 @@
 All notable changes to this project. Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 Test numbers are measured runs (Windows 11, Python 3.13.6, fully offline) unless stated otherwise.
 
-## [Unreleased] — post-hackathon hardening (branch `portfolio/harden-ares-accord`)
+## [Unreleased] — post-merge documentation audit (branch `portfolio/post-merge-audit`)
+
+Documentation and licensing only; no behaviour changed. Three source files gained a comment or docstring line.
+Results re-measured on merged `main` (`c3fa02a`), 2026-11-09:
+312 passed, 88% coverage, ruff clean, mypy 96 errors. GitHub Actions on `main` passes (Python 3.12). Clean
+clones on Windows pass on Python 3.12.14 and 3.13.6.
+
+- **README results and CI.** The results table was re-measured on `main`. The CI badge is pinned to `main` and
+  linked to the workflow. The Python badge and Quick start now say that CI runs 3.12 only and 3.13 is verified
+  locally.
+- **Organiser material.** The README, `PRD.md` and `tests/fixtures/README.md` said organiser materials were
+  not bundled. In fact the scenario, the mode-package table and the official sample event are reproduced, and the
+  organisers' starter repository publishes no licence. The README has a new "Licence and third-party material"
+  section.
+- **Settings wording.** The README and `.env.example` now say exactly which invalid numeric settings fall back to
+  the default and which are clamped. `ARES_LOG_LEVEL` was added to `.env.example`. A value set only in `.env`
+  reaches the dashboard from its first rerun, not at startup.
+- **Licence.** The original work is now released under the MIT License (`LICENSE`, © 2026 MUHAMMAD DAYAN).
+  `THIRD_PARTY_NOTICES.md` lists the organiser material that the licence does not cover. A note pointing to it was
+  added at each place that material appears: `ares/models.py`, `ares/agents/profiles.py`, `ares/ui/controls.py`
+  and `tests/fixtures/README.md`.
+- **Smaller fixes.** The labels of the reset and wipe controls are corrected. The README notes that mypy is
+  installed separately, and lists pytest-cov among the third-party packages.
+
+## [Unreleased] — post-hackathon hardening (branch `portfolio/harden-ares-accord`, merged into `main` as `c3fa02a`)
 
 Starting point: `562dce3` (hackathon submission). **Before:** 255 passed, 3 failed, 62 warnings, 73% coverage, a
 CI workflow that could not run, unpinned dependencies. **After:** 312 passed, 0 failed, 0 warnings, 88% coverage,

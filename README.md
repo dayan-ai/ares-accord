@@ -1,7 +1,7 @@
 # ARES Accord — LLM agents inside a deterministic, verifiable negotiation protocol
 
-![CI](https://github.com/dayan-ai/ares-accord/actions/workflows/python-package-conda.yml/badge.svg)
-![Python](https://img.shields.io/badge/python-3.12%20%7C%203.13-blue)
+[![CI](https://github.com/dayan-ai/ares-accord/actions/workflows/python-package-conda.yml/badge.svg?branch=main)](https://github.com/dayan-ai/ares-accord/actions/workflows/python-package-conda.yml)
+![Python](https://img.shields.io/badge/python-3.12%20%28CI%29%20%7C%203.13%20%28local%29-blue)
 
 A multi-agent crisis-negotiation simulator for a Mars colony. Five LLM agents (Gemini, Groq, OpenRouter or a local
 Ollama model) negotiate how to share scarce resources. **Deterministic code, not a model, decides what gets
@@ -18,7 +18,8 @@ portfolio project. Changes since the submission are listed in [`CHANGELOG.md`](C
 [Problem](#the-problem) · [What it does](#what-it-does) · [How it works](#how-it-works) ·
 [Quick start](#quick-start) · [Configuration](#configuration) · [Reproducible demo](#reproducible-demo) ·
 [Using the dashboard](#using-the-dashboard) · [Testing and quality](#testing-and-quality) ·
-[Security](#security-considerations) · [Limitations](#limitations) · [Roadmap](#future-improvements)
+[Security](#security-considerations) · [Limitations](#limitations) · [Roadmap](#future-improvements) ·
+[Licence](#licence-and-third-party-material)
 
 ## The problem
 
@@ -137,7 +138,8 @@ flowchart LR
 
 ## Quick start
 
-Requires **Python 3.12 or 3.13** (both verified). No API key is needed for the rule-based mode.
+Requires **Python 3.12 or 3.13**. Both pass a clean install, the tests and a Streamlit health check locally;
+GitHub Actions CI runs Python 3.12 only. No API key is needed for the rule-based mode.
 
 ```bash
 git clone https://github.com/dayan-ai/ares-accord.git
@@ -158,8 +160,9 @@ Conda users: `conda env create -f environment.yml && conda activate ares-accord`
 ## Configuration
 
 Copy `.env.example` to `.env` and fill in **only** the provider you use. `.env` is git-ignored and must never be
-committed. Numeric settings that are not finite numbers (`nan`, `inf`), or that are negative, are ignored with a
-logged warning.
+committed. Numeric settings that are non-numeric or not finite (`nan`, `inf`) fall back to their default, with a
+logged warning (except `ARES_LLM_MAX_RETRIES`). Negative deadlines are ignored the same way; LLM timing and retry
+values are clamped to the ranges below.
 
 | Provider (`ARES_PROVIDER`) | Variables | Notes |
 |---|---|---|
@@ -178,7 +181,7 @@ logged warning.
 | `ARES_SCENARIO_DEADLINE_S` | 170 | Wall-clock budget after a crisis event, giving TIMEOUT (the challenge allows 3 minutes) |
 | `ARES_BASELINE_DEADLINE_S` | 600 | Wall-clock budget for the baseline run |
 | `ARES_DB_PATH` | `data/ares.db` | SQLite history used by the dashboard |
-| `ARES_LOG_LEVEL` | INFO | DEBUG / INFO / WARNING / ERROR |
+| `ARES_LOG_LEVEL` | INFO | DEBUG / INFO / WARNING / ERROR. In the dashboard, a value set only in `.env` applies from the first rerun; set it in the environment to apply at startup. |
 
 Default model ids and fallbacks are in `ares/llm/providers.py`. Provider quotas and model availability change
 over time.
@@ -217,7 +220,8 @@ quality**; see [Limitations](#limitations).
 5. **Export**: prepare and download the bundle. `final_allocation.json` (one record per agent in the starter-kit
    shape), `final_plan.json`, `council_transcript.json/.csv/.txt`, `crisis_handling_log.txt`, `plans.csv`,
    `full_history_all_sessions.csv`.
-6. **Reset session** keeps history. **Wipe history** clears the SQLite store.
+6. **↺ Reset session (keep history)** clears the current session only. **🗑 Wipe all history** clears the SQLite
+   store once you tick its confirmation box.
 
 ## Testing and quality
 
@@ -225,18 +229,20 @@ quality**; see [Limitations](#limitations).
 python -m pip install -r requirements-dev.txt
 python -m ruff check .
 python -m pytest -q --cov=ares
+python -m pip install mypy && python -m mypy ares --ignore-missing-imports   # optional; not a gate
 ```
 
-Measured on 2026-11-08 (Windows 11, Python 3.13.6). Every run is offline and needs no API key; LLM behaviour is
-tested with fake providers.
+Re-measured on merged `main` (`c3fa02a`) on 2026-11-09. Every run is offline and needs no API key; LLM behaviour
+is tested with fake providers.
 
 | Check | Result |
 |---|---|
 | pytest | **312 passed**, 0 failed, 0 warnings |
 | Coverage (`--cov=ares`) | **88%** (validator 97%, optimizer 98%, orchestrator 93%; UI modules 57–88%) |
 | ruff (`ruff.toml`: E, F, W, B) | all checks passed |
-| mypy (`mypy ares --ignore-missing-imports`) | 96 errors. A known gap: mostly `Optional` narrowing; not yet a gate. |
-| Clean clone, Python 3.12 and 3.13 | install, lint, tests, headless run and Streamlit health check pass |
+| mypy 2.4.1 (`mypy ares --ignore-missing-imports`) | **96 errors** in 14 files. A known gap: mostly `Optional` narrowing; not a gate, and not in `requirements-dev.txt`. |
+| GitHub Actions on `main` (Ubuntu, conda, Python 3.12.16) | ruff clean, 312 passed, 88% coverage |
+| Clean clone on Windows, Python 3.12.14 and 3.13.6 | pinned install, ruff, 312 passed, headless demo and Streamlit health check pass |
 
 What the suites cover:
 
@@ -251,9 +257,10 @@ What the suites cover:
 | `test_ui_smoke.py` | Renders the real Streamlit app and drives a run to APPROVED |
 | `test_observability.py` | Structured logs and secret redaction |
 
-CI: `.github/workflows/python-package-conda.yml` (conda env from `environment.yml`, pinned
-`requirements-dev.txt`, ruff, pytest with coverage). Dependencies are pinned in `requirements.txt` (runtime) and
-`requirements-dev.txt` (tooling).
+CI: `.github/workflows/python-package-conda.yml` runs on every push and pull request: a conda environment from
+`environment.yml` (Python 3.12), the pinned `requirements-dev.txt`, ruff, and pytest with coverage. Dependencies
+are pinned in `requirements.txt` (runtime) and `requirements-dev.txt` (tooling); transitive dependencies are not
+locked.
 
 ## Security considerations
 
@@ -300,8 +307,11 @@ Details and threat notes: [`docs/SECURITY.md`](docs/SECURITY.md) and
   conservatively.
 - **Typing and structure.** 96 mypy errors remain, and a few functions are long
   (`sanitize.department_turn`, `rule_policy.department_turn`).
-- **Test fixtures.** One fixture (`tests/fixtures/output_schema.json`) is reconstructed from documentation
-  because the organisers' starter kit is not redistributed. See `tests/fixtures/README.md`.
+- **CI covers one Python version.** GitHub Actions runs Python 3.12 only; Python 3.13 is verified by local
+  clean-clone runs.
+- **Test fixtures.** `tests/fixtures/output_schema.json` is reconstructed from documentation, and
+  `tests/fixtures/event_injection_format.json` is the organisers' official sample event. See
+  `tests/fixtures/README.md`.
 
 ## Future improvements
 
@@ -316,8 +326,8 @@ Details and threat notes: [`docs/SECURITY.md`](docs/SECURITY.md) and
 ## Project history and declarations
 
 - Built in 24 hours for the ARES Accord hackathon (Participant Guide v2.1, Looplab × LifixLabs; the
-  [official starter repository](https://github.com/lifix-prog/Loopverse-AI_ML_Virtual_Module)). Organiser
-  materials are not bundled pending redistribution permission. Requirements: [`PRD.md`](PRD.md).
+  [official starter repository](https://github.com/lifix-prog/Loopverse-AI_ML_Virtual_Module)). Requirements:
+  [`PRD.md`](PRD.md).
 - `docs/TEST_REPORT.md` and `docs/REQUIREMENTS_TRACEABILITY.md` are the hackathon-time snapshots (258 tests at
   submission). Current status is in this README and [`CHANGELOG.md`](CHANGELOG.md).
 - **AI assistance:** Claude Code (Anthropic) was used for code, tests and documentation, both during the
@@ -325,5 +335,19 @@ Details and threat notes: [`docs/SECURITY.md`](docs/SECURITY.md) and
 - Third-party software: [Streamlit](https://streamlit.io) (Apache-2.0), [pandas](https://pandas.pydata.org)
   (BSD-3), [requests](https://requests.readthedocs.io) (Apache-2.0),
   [python-dotenv](https://github.com/theskumar/python-dotenv) (BSD-3), [pytest](https://pytest.org) (MIT),
-  [ruff](https://docs.astral.sh/ruff/) (MIT); SQLite via the Python standard library. LLM APIs are optional and
-  use your own keys.
+  [pytest-cov](https://github.com/pytest-dev/pytest-cov) (MIT), [ruff](https://docs.astral.sh/ruff/) (MIT); SQLite
+  via the Python standard library. None of them is bundled in this repository. LLM APIs are optional and use your
+  own keys.
+
+## Licence and third-party material
+
+- **Original work: [MIT License](LICENSE)**, © 2026 MUHAMMAD DAYAN. It covers the code, tests, scripts, diagrams
+  and documentation written for this project.
+- **Not covered: organiser material.** The organisers' starter kit (challenge PDF, rules and schema files) is not
+  redistributed, but the repository contains material taken from it:
+  - the scenario, and the 12 mode packages with their figures and consequence texts (`ares/models.py`,
+    `ares/agents/profiles.py`);
+  - the official sample event, verbatim, in `tests/fixtures/event_injection_format.json` and `ares/ui/controls.py`.
+
+  The starter repository publishes no licence, so this material remains the organisers'. The full list and reuse
+  guidance are in [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md).
