@@ -181,7 +181,7 @@ values are clamped to the ranges below.
 | `ARES_SCENARIO_DEADLINE_S` | 170 | Wall-clock budget after a crisis event, giving TIMEOUT (the challenge allows 3 minutes) |
 | `ARES_BASELINE_DEADLINE_S` | 600 | Wall-clock budget for the baseline run |
 | `ARES_DB_PATH` | `data/ares.db` | SQLite history used by the dashboard |
-| `ARES_LOG_LEVEL` | INFO | DEBUG / INFO / WARNING / ERROR. In the dashboard, a value set only in `.env` applies from the first rerun; set it in the environment to apply at startup. |
+| `ARES_LOG_LEVEL` | INFO | DEBUG / INFO / WARNING / ERROR; an invalid value falls back to INFO with a warning |
 
 Default model ids and fallbacks are in `ares/llm/providers.py`. Provider quotas and model availability change
 over time.
@@ -232,12 +232,13 @@ python -m pytest -q --cov=ares
 python -m pip install mypy && python -m mypy ares --ignore-missing-imports   # optional; not a gate
 ```
 
-Re-measured on merged `main` (`c3fa02a`) on 2026-11-09. Every run is offline and needs no API key; LLM behaviour
-is tested with fake providers.
+Measured on 2026-11-09. The CI and clean-clone rows were run on `main` at `c3fa02a`, when the suite had 312 tests;
+the local rows include the `ARES_LOG_LEVEL` regression test added since. Every run is offline and needs no API
+key; LLM behaviour is tested with fake providers.
 
 | Check | Result |
 |---|---|
-| pytest | **312 passed**, 0 failed, 0 warnings |
+| pytest | **313 passed**, 0 failed, 0 warnings |
 | Coverage (`--cov=ares`) | **88%** (validator 97%, optimizer 98%, orchestrator 93%; UI modules 57–88%) |
 | ruff (`ruff.toml`: E, F, W, B) | all checks passed |
 | mypy 2.4.1 (`mypy ares --ignore-missing-imports`) | **96 errors** in 14 files. A known gap: mostly `Optional` narrowing; not a gate, and not in `requirements-dev.txt`. |

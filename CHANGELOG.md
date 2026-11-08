@@ -3,7 +3,20 @@
 All notable changes to this project. Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 Test numbers are measured runs (Windows 11, Python 3.13.6, fully offline) unless stated otherwise.
 
-## [Unreleased] — post-merge documentation audit (branch `portfolio/post-merge-audit`)
+## [Unreleased] — `ARES_LOG_LEVEL` from `.env` (branch `fix/log-level-from-dotenv`)
+
+- **Fix.** An `ARES_LOG_LEVEL` set only in `.env` was ignored on the dashboard's first script run.
+  - **Cause:** `app.py` configures logging before anything imports `ares.config`, which is what loads `.env`. The
+    value applied only from the next rerun.
+  - **Change:** `configure_logging()` now imports `ares.config` first.
+  - **Test:** `test_configure_logging_applies_level_from_dotenv_on_first_call` runs in a fresh interpreter with a
+    stub `dotenv`, so no real `.env` is touched.
+  - **Docs:** the first-rerun caveat is removed from the README and `.env.example`.
+- **Results:** ruff clean, **313 passed** (312 plus the new test), 88% coverage, mypy unchanged at 96 errors
+  (`ares/log.py` is clean). A manual check with a real `.env` in a scratch clone shows the first run now logs at
+  the configured level.
+
+## [Unreleased] — post-merge documentation audit (merged into `main` as `cc5e79f`)
 
 Documentation and licensing only; no behaviour changed. Three source files gained a comment or docstring line.
 Results re-measured on merged `main` (`c3fa02a`), 2026-11-09:
