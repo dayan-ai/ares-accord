@@ -66,6 +66,52 @@ def test_out_of_range_duration_is_dropped_not_crashing(raw):
     assert event.deltas == {"power": -4}
 
 
+# Found by hostile-input probing (2026-11-08): free-text parsing is super-linear in the number of
+# number/resource mentions per sentence (66 kB took 72.7 s), so oversized input must be refused up front.
+def test_oversized_event_text_is_rejected_before_parsing():
+    soup = "5% power and 7 water, " * 9000  # ~200 kB; used to block the app for minutes
+    with pytest.raises(ValueError, match="too long"):
+        parse_event(soup)
+    with pytest.raises(ValueError, match="too long"):
+        parse_event({"name": "x", "description": soup})
+
+
+def test_worst_case_event_text_at_the_size_limit_parses_quickly():
+    import time
+
+    from ares.events import MAX_EVENT_INPUT_CHARS
+    unit = "5% power and 7 water, "
+    text = unit * (MAX_EVENT_INPUT_CHARS // len(unit))
+    assert len(text) <= MAX_EVENT_INPUT_CHARS
+    t0 = time.perf_counter()
+    parse_event(text)
+    assert time.perf_counter() - t0 < 5.0
+
+
+def test_deeply_nested_event_input_raises_value_error_not_recursion_error():
+    deep: dict = {}
+    cur = deep
+    for _ in range(3000):
+        cur["power"] = {}
+        cur = cur["power"]
+    with pytest.raises(ValueError):
+        parse_event({"name": "deep", "changes": deep})
+    with pytest.raises(ValueError):
+        parse_event('{"a":' * 900 + "1" + "}" * 900)
+
+
+@pytest.mark.parametrize("value, expected_power_delta", [("1e999", None), ("1e3", 1000), ("2.5E1", 25)])
+def test_scientific_notation_strings_are_read_whole(value, expected_power_delta):
+    # "1e999" used to be read as "1" (+1 Power, silently); now the whole token is parsed
+    event = parse_event({"name": "sci", "changes": {"power": value}})
+    new_pool, _ = apply_event(POOL, event)
+    if expected_power_delta is None:
+        assert new_pool == POOL
+        assert any("outside the accepted range" in n for n in event.interpretation_notes)
+    else:
+        assert new_pool["power"] == POOL["power"] + expected_power_delta
+
+
 # ------------------------------------------------------------------------------------------ P0-2 env config
 @pytest.mark.parametrize("raw", ["nan", "inf", "-inf", "-5", "not-a-number"])
 def test_invalid_deadline_env_falls_back_to_default(monkeypatch, caplog, raw):

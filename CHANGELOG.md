@@ -6,8 +6,27 @@ Test numbers are measured runs (Windows 11, Python 3.13.6, fully offline) unless
 ## [Unreleased] — post-hackathon hardening (branch `portfolio/harden-ares-accord`)
 
 Starting point: `562dce3` (hackathon submission). **Before:** 255 passed, 3 failed, 62 warnings, 73% coverage, a
-CI workflow that could not run, unpinned dependencies. **After:** 303 passed, 0 failed, 0 warnings, 88% coverage,
+CI workflow that could not run, unpinned dependencies. **After:** 310 passed, 0 failed, 0 warnings, 88% coverage,
 ruff clean, pinned dependencies, and a corrected CI workflow (validated with actionlint; not yet run on GitHub).
+
+### Hostile-input findings — event-input limits and traceback redaction
+
+These were found by adversarial probing after the documentation pass. Each has a regression test written
+before the fix.
+
+#### Fixed
+- **Availability.** Free-text event parsing is super-linear in the number of number/resource mentions per
+  sentence (measured: 22 kB → 9 s, 66 kB → 73 s), so a single pasted event could block the single-process app.
+  Event input over 5,000 characters (`MAX_EVENT_INPUT_CHARS`, raw text or serialised JSON) is now rejected
+  before parsing, with a clear message. At the limit, the worst case measured 0.59–0.62 s (3 runs, dev
+  machine); the test allows 5 s.
+- **Nesting.** Deeply nested event input raised `RecursionError`, contradicting `parse_event`'s documented
+  contract. It now raises `ValueError`.
+- **Scientific notation.** Numeric strings such as `"1e999"` were read as their leading digit (+1 Power,
+  silently). Exponents are now part of the token: `"1e3"` is 1000, and `"1e999"` is out of range and ignored
+  with a note.
+- **Tracebacks.** Log redaction covered messages but not tracebacks (`exc_info`) or stack info, so a key inside
+  an exception message could reach the log. Both are now redacted.
 
 ### Security and correctness — `370fb5c`
 

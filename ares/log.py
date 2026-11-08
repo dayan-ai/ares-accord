@@ -54,6 +54,13 @@ class RedactingFilter(logging.Filter):
         redacted = redact_secrets(message)
         if redacted != message:
             record.msg, record.args = redacted, None
+        # tracebacks and stack info are appended by the formatter after the message: redact them too
+        if record.exc_info and not record.exc_text:
+            record.exc_text = logging.Formatter().formatException(record.exc_info)
+        if record.exc_text:
+            record.exc_text = redact_secrets(record.exc_text)
+        if record.stack_info:
+            record.stack_info = redact_secrets(record.stack_info)
         return True
 
 

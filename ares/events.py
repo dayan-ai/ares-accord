@@ -50,6 +50,10 @@ _IMPACT_KEYS = ("impact", "impacts", "effects", "effect")
 # Largest absolute value accepted for any resource change, set value or percentage. Colony pools are in the
 # tens to hundreds; anything beyond this is a typo or hostile input and would overflow int/float conversions.
 MAX_EVENT_MAGNITUDE = 1_000_000.0
+# Largest event input accepted (raw text, or the JSON-serialised dict). Official events are a few hundred
+# characters. Free-text parsing is super-linear in the number of number/resource mentions per sentence
+# (measured: 22 kB -> 9 s, 66 kB -> 73 s), so oversized input is refused before any parsing.
+MAX_EVENT_INPUT_CHARS = 5_000
 _FORBID_KEYS = ("forbidden_modes", "unavailable_modes", "disabled_modes", "blocked_modes", "forbidden")
 _TEXT_KEYS = ("description", "text", "summary", "details", "message", "event")
 _META_KEYS = ({"event_id", "id", "event_name", "name", "title", "message_to_commander", "trigger_time", "time",
@@ -171,7 +175,9 @@ def _parse_value(value: Any) -> tuple[float, bool, bool] | None:
         number = _to_float(value)
         return None if math.isnan(number) else (number, False, False)
     if isinstance(value, str):
-        m = re.match(r"^\s*(=|set\s*(?:to)?|to)?\s*([+-]?\d+(?:\.\d+)?)\s*(%|percent|pct)?", value, re.IGNORECASE)
+        # the exponent is part of the token: "1e3" is 1000 and "1e999" is out of range, never just "1"
+        m = re.match(r"^\s*(=|set\s*(?:to)?|to)?\s*([+-]?\d+(?:\.\d+)?(?:[eE][+-]?\d+)?)\s*(%|percent|pct)?", value,
+                     re.IGNORECASE)
         if m:
             return _to_float(m.group(2)), bool(m.group(3)), bool(m.group(1))
     return None
@@ -444,11 +450,36 @@ def _round_delta(value: float, res: str, notes: list[str]) -> int:
     return out
 
 
+def _check_input_size(data: Any) -> None:
+    """Refuse oversized or pathologically nested input before any parsing (see MAX_EVENT_INPUT_CHARS)."""
+    if isinstance(data, (bytes, str)):
+        size = len(data.strip())
+    elif isinstance(data, Mapping):
+        try:
+            size = len(json.dumps(data, default=str))
+        except (RecursionError, ValueError) as exc:
+            raise ValueError("Event input is nested too deeply to interpret") from exc
+    else:
+        return  # wrong types are reported by the parser itself
+    if size > MAX_EVENT_INPUT_CHARS:
+        raise ValueError(f"Event input is too long ({size:,} characters; the limit is {MAX_EVENT_INPUT_CHARS:,}). "
+                         "Describe the crisis in a few sentences or use the JSON event format.")
+
+
 def parse_event(data: dict | str) -> CrisisEvent:
     """Parse a judge-supplied event (dict, JSON string, or free text) into a CrisisEvent.
 
-    Raises ValueError only when the input is empty or not a dict/str.
+    Raises ValueError when the input is empty, not a dict/str, longer than MAX_EVENT_INPUT_CHARS,
+    or nested too deeply to interpret. Out-of-range values inside a valid event are ignored with a note.
     """
+    _check_input_size(data)
+    try:
+        return _parse_event(data)
+    except RecursionError as exc:
+        raise ValueError("Event input is nested too deeply to interpret") from exc
+
+
+def _parse_event(data: dict | str) -> CrisisEvent:
     if isinstance(data, bytes):
         data = data.decode("utf-8", errors="replace")
     notes: list[str] = []

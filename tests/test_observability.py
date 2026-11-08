@@ -53,6 +53,26 @@ def test_short_error_never_returns_a_key_echoed_by_the_provider():
     assert FAKE_OPENAI not in out and "Incorrect API key provided" in out
 
 
+def test_log_handler_redacts_secrets_in_tracebacks():
+    # Found by probing: exc_info tracebacks bypassed message-only redaction.
+    logger = logging.getLogger("ares")
+    saved_level, saved_handlers = logger.level, list(logger.handlers)
+    try:
+        configure_logging("INFO")
+        handler = next(h for h in logger.handlers if h.get_name() == "ares-default")
+        try:
+            raise RuntimeError(f"provider echoed {FAKE_GROQ}")
+        except RuntimeError:
+            record = logging.getLogger("ares.orchestrator").makeRecord(
+                "ares.orchestrator", logging.ERROR, __file__, 1, "negotiation_internal_error", (), sys.exc_info())
+        assert handler.filter(record)
+        rendered = handler.format(record)
+        assert "RuntimeError" in rendered and FAKE_GROQ not in rendered
+    finally:
+        logger.setLevel(saved_level)
+        logger.handlers[:] = saved_handlers
+
+
 def test_log_handler_redacts_secrets_from_every_ares_logger():
     logger = logging.getLogger("ares")
     saved_level, saved_handlers = logger.level, list(logger.handlers)

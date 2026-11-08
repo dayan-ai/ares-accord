@@ -232,7 +232,7 @@ tested with fake providers.
 
 | Check | Result |
 |---|---|
-| pytest | **303 passed**, 0 failed, 0 warnings |
+| pytest | **310 passed**, 0 failed, 0 warnings |
 | Coverage (`--cov=ares`) | **88%** (validator 97%, optimizer 98%, orchestrator 93%; UI modules 57–88%) |
 | ruff (`ruff.toml`: E, F, W, B) | all checks passed |
 | mypy (`mypy ares --ignore-missing-imports`) | 96 errors. A known gap: mostly `Optional` narrowing; not yet a gate. |
@@ -258,8 +258,9 @@ CI: `.github/workflows/python-package-conda.yml` (conda env from `environment.ym
 ## Security considerations
 
 - **Secrets.** Keys come only from environment variables or `.env` (git-ignored). They are sent only in HTTP
-  headers, hidden from object `repr`, and never written to exports. Provider error messages and every log line
-  pass through `redact_secrets`, which masks configured key values and key-shaped tokens.
+  headers, hidden from object `repr`, and never written to exports. Provider error messages pass through
+  `redact_secrets`, which masks configured key values and key-shaped tokens. So does every log record emitted
+  through the `ares` handler, including tracebacks.
 - **Model output is data.** It is parsed as JSON, sanitised, and never passed to `eval` or `exec`. Approval is
   decided only by the deterministic gate.
 - **Prompt injection.**
@@ -267,8 +268,10 @@ CI: `.github/workflows/python-package-conda.yml` (conda env from `environment.ym
     `[[ ]]`, and every system prompt says that delimited text is data, not instructions.
   - That is defence in depth. The guarantee comes from the sanitizer and the gate: a successfully injected agent
     can only argue or vote, and cannot make an invalid plan pass.
-- **Input bounds.** Event values that are non-finite or larger than 1,000,000 in magnitude are ignored with a
-  note.
+- **Input bounds.**
+  - Event input larger than 5,000 characters, or nested too deeply, is rejected with a clear error before any
+    parsing. Free-text parsing cost grows faster than linearly; a 66 kB input took 73 s before this limit.
+  - Event values that are non-finite or larger than 1,000,000 in magnitude are ignored with a note.
 - **Storage.** All SQL values are parameterised, and dynamic column names are checked against the schema.
 - **UI.** Every dynamic value rendered as HTML is escaped.
 

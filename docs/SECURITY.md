@@ -32,6 +32,10 @@ Each item has regression tests in `tests/test_hardening.py` or `tests/test_obser
 | SQL | Values are parameterised. Dynamic `UPDATE` column names are validated against `PRAGMA table_info`. | `test_store_rejects_unknown_or_injected_column_names` |
 | HTML output | Provider and model names inside `unsafe_allow_html` are now escaped; all other dynamic values already were. | covered by `test_ui_smoke.py` rendering |
 | Destructive script | `scripts/smoke_run.py` deletes its `--db` file, so it now refuses the dashboard database. | `test_smoke_run_refuses_to_delete_the_dashboard_database` |
+| Oversized event input (availability) | Found by hostile-input probing: free-text parsing is super-linear (22 kB → 9 s, 66 kB → 73 s), so one pasted event could block the app for minutes. Input over 5,000 characters (raw text or serialised JSON) is now rejected before parsing. | `test_oversized_event_text_is_rejected_before_parsing`, `test_worst_case_event_text_at_the_size_limit_parses_quickly` |
+| Deeply nested event input | It raised `RecursionError`; it now raises `ValueError` with a clear message. | `test_deeply_nested_event_input_raises_value_error_not_recursion_error` |
+| Scientific-notation strings | `"1e999"` was silently read as `1` (+1 Power). The whole token is now parsed, so it is out of range and ignored with a note, while `"1e3"` reads as 1000. | `test_scientific_notation_strings_are_read_whole` |
+| Secrets in tracebacks | Log redaction covered messages but not `exc_info` tracebacks or stack info. Both are now redacted. | `test_log_handler_redacts_secrets_in_tracebacks` |
 
 Residual risks:
 - LLM text is rendered as Markdown (links and images would display).
