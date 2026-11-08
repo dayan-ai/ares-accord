@@ -96,6 +96,35 @@ def test_timeout_raises_llmerror(monkeypatch):
         p.complete_json("s", "u", 5)
 
 
+def test_circuit_breaker_opens_after_consecutive_failures_and_fails_fast(monkeypatch):
+    calls = []
+
+    def always_503(*a, **k):
+        calls.append(1)
+        return FakeResp(503, {"error": "down"})
+
+    monkeypatch.setattr(llm_base.requests, "post", always_503)
+    for _ in range(llm_base.CIRCUIT_FAILURES):
+        with pytest.raises(LLMError, match="503"):
+            llm_base.post_json("breaker", "u", {}, {}, timeout_s=5, max_retries=0)
+    sent = len(calls)
+    with pytest.raises(LLMError, match="cooling down"):
+        llm_base.post_json("breaker", "u", {}, {}, timeout_s=5, max_retries=0)
+    assert len(calls) == sent  # open circuit: no HTTP request is made
+
+
+def test_circuit_breaker_resets_after_a_success(monkeypatch):
+    n = llm_base.CIRCUIT_FAILURES
+    responses = ([FakeResp(503, {"error": "down"})] * (n - 1) + [FakeResp(200, {"ok": True})]
+                 + [FakeResp(503, {"error": "down"})] * (n - 1) + [FakeResp(200, {"ok": True})])
+    monkeypatch.setattr(llm_base.requests, "post", lambda *a, **k: responses.pop(0))
+    for _ in range(2):  # (n - 1) failures, then a success that resets the count, twice
+        for _ in range(n - 1):
+            with pytest.raises(LLMError, match="503"):
+                llm_base.post_json("breaker-reset", "u", {}, {}, timeout_s=5, max_retries=0)
+        assert llm_base.post_json("breaker-reset", "u", {}, {}, timeout_s=5, max_retries=0) == {"ok": True}
+
+
 def test_gemini_request_shape_and_parse(monkeypatch):
     seen = {}
 

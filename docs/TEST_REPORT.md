@@ -1,6 +1,6 @@
 # ARES Accord — Test Report
 
-> **Historical snapshot (hackathon submission, 2026-10-10).** For current results (310 tests, coverage, lint, CI)
+> **Historical snapshot (hackathon submission, 2026-10-10).** For current results (312 tests, coverage, lint, CI)
 > see the README's "Testing and quality" section and [`CHANGELOG.md`](../CHANGELOG.md).
 
 ## Latest verified run

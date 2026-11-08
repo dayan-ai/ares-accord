@@ -6,7 +6,7 @@ Test numbers are measured runs (Windows 11, Python 3.13.6, fully offline) unless
 ## [Unreleased] — post-hackathon hardening (branch `portfolio/harden-ares-accord`)
 
 Starting point: `562dce3` (hackathon submission). **Before:** 255 passed, 3 failed, 62 warnings, 73% coverage, a
-CI workflow that could not run, unpinned dependencies. **After:** 310 passed, 0 failed, 0 warnings, 88% coverage,
+CI workflow that could not run, unpinned dependencies. **After:** 312 passed, 0 failed, 0 warnings, 88% coverage,
 ruff clean, pinned dependencies, and a corrected CI workflow (validated with actionlint; not yet run on GitHub).
 
 ### Hostile-input findings — event-input limits and traceback redaction
@@ -27,6 +27,12 @@ before the fix.
   with a note.
 - **Tracebacks.** Log redaction covered messages but not tracebacks (`exc_info`) or stack info, so a key inside
   an exception message could reach the log. Both are now redacted.
+
+### Test coverage of documented behaviour
+
+#### Added
+- Circuit-breaker tests: the breaker opens after `CIRCUIT_FAILURES` consecutive failures, fails fast without
+  making an HTTP request, and resets after a success. The README advertised the breaker, but no test covered it.
 
 ### Security and correctness — `370fb5c`
 

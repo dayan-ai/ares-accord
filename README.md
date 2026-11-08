@@ -232,7 +232,7 @@ tested with fake providers.
 
 | Check | Result |
 |---|---|
-| pytest | **310 passed**, 0 failed, 0 warnings |
+| pytest | **312 passed**, 0 failed, 0 warnings |
 | Coverage (`--cov=ares`) | **88%** (validator 97%, optimizer 98%, orchestrator 93%; UI modules 57–88%) |
 | ruff (`ruff.toml`: E, F, W, B) | all checks passed |
 | mypy (`mypy ares --ignore-missing-imports`) | 96 errors. A known gap: mostly `Optional` narrowing; not yet a gate. |
@@ -245,7 +245,7 @@ What the suites cover:
 | `test_validator.py`, `test_optimizer.py` | Every rule and the approval gate |
 | `test_hardening.py` | Exhaustive gate property, prompt-injection delimiting, event-input bounds, config validation, storage allowlist |
 | `test_events.py` | Event parsing in all three input styles |
-| `test_llm.py` | HTTP 429/5xx, timeouts, malformed JSON, 404 model fallback |
+| `test_llm.py` | HTTP 429/5xx, timeouts, malformed JSON, 404 model fallback, circuit breaker |
 | `test_agents.py`, `test_orchestrator*.py`, `test_live_fix.py` | Hostile agents, bypass attempts, deadlocks, deadlines, fallbacks |
 | `test_acceptance.py` | End-to-end scenarios and export shapes |
 | `test_ui_smoke.py` | Renders the real Streamlit app and drives a run to APPROVED |
