@@ -341,12 +341,13 @@ Details and threat notes: [`docs/SECURITY.md`](docs/SECURITY.md) and
 
 ## Licence and third-party material
 
-- **No licence has been chosen yet.** Until a `LICENSE` file is added, the default is all rights reserved.
-- **Organiser material.** The organisers' starter kit (challenge PDF, rules and schema files) is not
-  redistributed. The repository does contain material taken from it:
+- **Original work: [MIT License](LICENSE)**, © 2026 MUHAMMAD DAYAN. It covers the code, tests, scripts, diagrams
+  and documentation written for this project.
+- **Not covered: organiser material.** The organisers' starter kit (challenge PDF, rules and schema files) is not
+  redistributed, but the repository contains material taken from it:
   - the scenario, and the 12 mode packages with their figures and consequence texts (`ares/models.py`,
     `ares/agents/profiles.py`);
   - the official sample event, verbatim, in `tests/fixtures/event_injection_format.json` and `ares/ui/controls.py`.
 
-  The starter repository publishes no licence, so this material remains the organisers'. It is not covered by any
-  licence later applied to the original code.
+  The starter repository publishes no licence, so this material remains the organisers'. The full list and reuse
+  guidance are in [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md).

@@ -5,6 +5,8 @@ redefine these constants or shapes. Changes to this file are contract changes.
 
 All values in MODE_PACKAGES are copied verbatim from the participant guide
 (AI ML - Virtual.pdf, v2.1, page 4) and are immutable at runtime.
+They are the hackathon organisers' material and are not covered by this repository's
+MIT License; see THIRD_PARTY_NOTICES.md.
 """
 from __future__ import annotations
 

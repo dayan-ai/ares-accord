@@ -5,7 +5,8 @@ Test numbers are measured runs (Windows 11, Python 3.13.6, fully offline) unless
 
 ## [Unreleased] — post-merge documentation audit (branch `portfolio/post-merge-audit`)
 
-Documentation only; no application code changed. Results re-measured on merged `main` (`c3fa02a`), 2026-11-09:
+Documentation and licensing only; no behaviour changed. Three source files gained a comment or docstring line.
+Results re-measured on merged `main` (`c3fa02a`), 2026-11-09:
 312 passed, 88% coverage, ruff clean, mypy 96 errors. GitHub Actions on `main` passes (Python 3.12). Clean
 clones on Windows pass on Python 3.12.14 and 3.13.6.
 
@@ -19,6 +20,10 @@ clones on Windows pass on Python 3.12.14 and 3.13.6.
 - **Settings wording.** The README and `.env.example` now say exactly which invalid numeric settings fall back to
   the default and which are clamped. `ARES_LOG_LEVEL` was added to `.env.example`. A value set only in `.env`
   reaches the dashboard from its first rerun, not at startup.
+- **Licence.** The original work is now released under the MIT License (`LICENSE`, © 2026 MUHAMMAD DAYAN).
+  `THIRD_PARTY_NOTICES.md` lists the organiser material that the licence does not cover. A note pointing to it was
+  added at each place that material appears: `ares/models.py`, `ares/agents/profiles.py`, `ares/ui/controls.py`
+  and `tests/fixtures/README.md`.
 - **Smaller fixes.** The labels of the reset and wipe controls are corrected. The README notes that mypy is
   installed separately, and lists pytest-cov among the third-party packages.
 

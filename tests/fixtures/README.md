@@ -12,4 +12,5 @@ of its files, so a clean clone carries stand-ins here. Tests use `tests/_paths.p
 If you have the original `starter_kit/`, put it in the repository root and the tests will use it instead.
 
 **Ownership.** `event_injection_format.json` is the organisers' material. Their starter repository publishes no
-licence, so this file is not covered by any licence applied to the rest of this repository.
+licence, so this file is not covered by the MIT License in [`LICENSE`](../../LICENSE). See
+[`THIRD_PARTY_NOTICES.md`](../../THIRD_PARTY_NOTICES.md). `output_schema.json` is an original reconstruction.

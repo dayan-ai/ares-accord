@@ -24,6 +24,7 @@ EXPORT = "ares_export"
 _STARTER_EVENT_PATH = Path(__file__).resolve().parents[2] / "starter_kit" / "event_injection_format.json"
 # Verbatim copy of starter_kit/event_injection_format.json (the official judge format), used only
 # if that file is missing. It is an input example for the JSON box, not a hardcoded run.
+# It is the hackathon organisers' material, not covered by this repository's MIT License; see THIRD_PARTY_NOTICES.md.
 _STARTER_EVENT_FALLBACK = {
     "event_id": "CRISIS_002",
     "event_name": "Solar Aftershock",

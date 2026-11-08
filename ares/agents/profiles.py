@@ -1,4 +1,8 @@
-"""Per-agent profiles (PDF p3): role, goals, constraints, main concern. Colony of 42 people."""
+"""Per-agent profiles (PDF p3): role, goals, constraints, main concern. Colony of 42 people.
+
+Derived from the hackathon organisers' Participant Guide, which is not covered by this repository's MIT License;
+see THIRD_PARTY_NOTICES.md.
+"""
 from __future__ import annotations
 
 from ares.models import COMMANDER, ENGINEERING, FOOD, LIFE_SUPPORT, MEDICAL
