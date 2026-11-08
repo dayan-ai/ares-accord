@@ -6,6 +6,8 @@ stall the scenario. Keys are passed in headers only and never logged or echoed.
 """
 from __future__ import annotations
 
+import logging
+import math
 import os
 import random
 import threading
@@ -13,6 +15,8 @@ import time
 from typing import Any, Protocol, runtime_checkable
 
 import requests
+
+log = logging.getLogger(__name__)
 
 
 class LLMError(Exception):
@@ -41,11 +45,23 @@ class Provider(Protocol):
 # Environment helpers
 # ---------------------------------------------------------------------------
 def env_float(name: str, default: float) -> float:
+    """Finite float from the environment, else `default` (callers clamp the range).
+
+    Non-finite values are rejected: "inf" as a pacing interval would make every LLM call exceed its budget,
+    "nan" slips through max()/min() clamps unpredictably.
+    """
     raw = os.environ.get(name, "")
-    try:
-        return float(raw) if raw.strip() else default
-    except ValueError:
+    if not raw.strip():
         return default
+    try:
+        value = float(raw)
+    except ValueError:
+        log.warning("llm: %s=%r is not a number; using default %s", name, raw, default)
+        return default
+    if not math.isfinite(value):
+        log.warning("llm: %s=%r is not finite; using default %s", name, raw, default)
+        return default
+    return value
 
 
 def env_int(name: str, default: int) -> int:

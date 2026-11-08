@@ -136,6 +136,25 @@ class Store:
         with self._lock:
             self._conn.executescript(SCHEMA)
             self._conn.commit()
+            # Column allowlist for the dynamic UPDATE in `_update` (defence in depth: column names are only ever
+            # internal keyword arguments, but they are interpolated into SQL, so validate them against the schema).
+            self._columns: dict[str, frozenset[str]] = {
+                table: frozenset(r["name"] for r in self._conn.execute(f"PRAGMA table_info({table})"))
+                for table in ("sessions", "scenarios", "messages", "plans", "votes", "commitments", "agent_state")
+            }
+
+    def close(self) -> None:
+        """Close the SQLite connection (idempotent)."""
+        with self._lock:
+            if self._conn is not None:
+                self._conn.close()
+                self._conn = None  # type: ignore[assignment]
+
+    def __enter__(self) -> "Store":
+        return self
+
+    def __exit__(self, *exc: object) -> None:
+        self.close()
 
     # -- helpers ------------------------------------------------------------
     def _exec(self, sql: str, params: Iterable[Any] = ()) -> sqlite3.Cursor:
@@ -159,6 +178,12 @@ class Store:
     def _update(self, table: str, key: str, key_val: Any, fields: dict[str, Any]) -> None:
         if not fields:
             return
+        allowed = self._columns.get(table)
+        if allowed is None:
+            raise ValueError(f"Unknown table {table!r}")
+        unknown = sorted(k for k in fields if k not in allowed or k == key)
+        if unknown:
+            raise ValueError(f"Cannot update {table}: unknown or protected column(s) {unknown}")
         cols = _JSON_COLS.get(table, ())
         sets, vals = [], []
         for k, v in fields.items():

@@ -47,6 +47,9 @@ _CHANGE_CONTAINERS = {"changes": "delta", "resource_changes": "delta", "deltas":
                       "percent": "percent", "set_values": "set", "new_values": "set", "absolute_values": "set",
                       "set": "set"}
 _IMPACT_KEYS = ("impact", "impacts", "effects", "effect")
+# Largest absolute value accepted for any resource change, set value or percentage. Colony pools are in the
+# tens to hundreds; anything beyond this is a typo or hostile input and would overflow int/float conversions.
+MAX_EVENT_MAGNITUDE = 1_000_000.0
 _FORBID_KEYS = ("forbidden_modes", "unavailable_modes", "disabled_modes", "blocked_modes", "forbidden")
 _TEXT_KEYS = ("description", "text", "summary", "details", "message", "event")
 _META_KEYS = ({"event_id", "id", "event_name", "name", "title", "message_to_commander", "trigger_time", "time",
@@ -114,6 +117,11 @@ class _Acc:
         self.count = 0
 
     def add(self, res: str, kind: str, value: float, source: str) -> None:
+        if not math.isfinite(value) or abs(value) > MAX_EVENT_MAGNITUDE:
+            shown = f"{value:.3g}" if math.isfinite(value) else str(value)
+            self.notes.append(f"Ignored {_clip(source)}: {_label(res)} value {shown} is outside the accepted range "
+                              f"(|value| <= {MAX_EVENT_MAGNITUDE:,.0f})")
+            return
         self.count += 1
         if kind == "set":
             value = max(0.0, value)
@@ -136,16 +144,36 @@ class _Acc:
             self.notes.append(f"{source} -> {_signed(value)} {_label(res)}")
 
 
+def _clip(text: str, n: int = 80) -> str:
+    """Keep notes readable when the offending input is enormous."""
+    return text if len(text) <= n else text[: n - 3] + "..."
+
+
+def _to_float(value: Any) -> float:
+    """float() that maps out-of-range integers / digit strings to +-inf instead of raising OverflowError.
+
+    Non-finite results are rejected later, with a readable note, by `_Acc.add` and `_hours`.
+    """
+    try:
+        return float(value)
+    except OverflowError:  # only ints / digit strings beyond ~1e308 get here; compare, never convert again
+        return -math.inf if isinstance(value, int) and value < 0 else math.inf
+
+
 def _parse_value(value: Any) -> tuple[float, bool, bool] | None:
-    """Return (number, is_percent, is_set) for numbers and numeric strings; None otherwise."""
+    """Return (number, is_percent, is_set) for numbers and numeric strings; None otherwise.
+
+    Infinite / out-of-range magnitudes are returned as +-inf so `_Acc.add` can reject them with a note.
+    """
     if isinstance(value, bool) or value is None:
         return None
     if isinstance(value, (int, float)):
-        return (float(value), False, False) if math.isfinite(value) else None
+        number = _to_float(value)
+        return None if math.isnan(number) else (number, False, False)
     if isinstance(value, str):
         m = re.match(r"^\s*(=|set\s*(?:to)?|to)?\s*([+-]?\d+(?:\.\d+)?)\s*(%|percent|pct)?", value, re.IGNORECASE)
         if m:
-            return float(m.group(2)), bool(m.group(3)), bool(m.group(1))
+            return _to_float(m.group(2)), bool(m.group(3)), bool(m.group(1))
     return None
 
 
@@ -375,12 +403,17 @@ def _to_bool(v: Any, default: bool = True) -> bool:
 
 
 def _hours(v: Any) -> float | None:
+    """Duration in hours, or None when absent, unparseable, non-finite or out of range."""
     if isinstance(v, bool) or v is None:
         return None
     if isinstance(v, (int, float)):
-        return float(v)
-    m = re.match(r"^\s*(\d+(?:\.\d+)?)\s*(h|hr|hrs|hours?)?\b", str(v), re.IGNORECASE)
-    return float(m.group(1)) if m else None
+        hours = _to_float(v)
+    else:
+        m = re.match(r"^\s*(\d+(?:\.\d+)?)\s*(h|hr|hrs|hours?)?\b", str(v), re.IGNORECASE)
+        if not m:
+            return None
+        hours = _to_float(m.group(1))
+    return hours if math.isfinite(hours) and 0 <= hours <= MAX_EVENT_MAGNITUDE else None
 
 
 def _first(data: Mapping[str, Any], keys: tuple[str, ...]) -> Any:
@@ -451,7 +484,7 @@ def parse_event(data: dict | str) -> CrisisEvent:
         requires_replan, message, duration = True, "", None
         _parse_text(text_only, acc, forbid, "text")
         dm = re.search(r"(\d+(?:\.\d+)?)\s*(?:hours?|hrs?)\b", text_only, re.IGNORECASE)
-        duration = float(dm.group(1)) if dm else None
+        duration = _hours(dm.group(1)) if dm else None
         event_id = _event_id(raw)
     else:
         assert isinstance(data, Mapping)

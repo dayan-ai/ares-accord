@@ -253,8 +253,9 @@ def _provider_select(svc: Any, running: bool) -> str:
         st.button("Re-check availability", key="ares_prov_refresh", on_click=_cached_providers.clear,
                   disabled=running)
         for prov in providers:
-            st.markdown(f"{'✅' if prov.get('available') else '⛔'} **{C.md(prov.get('name'))}** "
-                        f"{C.md(prov.get('model') or '')}  \n"
+            # name/model come from local config but are rendered inside unsafe_allow_html: escape them
+            st.markdown(f"{'✅' if prov.get('available') else '⛔'} **{C.esc(prov.get('name'))}** "
+                        f"{C.esc(prov.get('model') or '')}  \n"
                         f"<span class='ares-muted'>{C.esc(prov.get('note') or '')}</span>",
                         unsafe_allow_html=True)
     st.session_state["ares_provider_blocked"] = name != "rule-based" and not p.get("available")
