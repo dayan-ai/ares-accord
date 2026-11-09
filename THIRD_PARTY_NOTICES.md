@@ -47,7 +47,7 @@ tests reproduce the challenge.
 | Baseline crisis name and description | `BASELINE_NAME` and `BASELINE_DESCRIPTION` in `ares/orchestrator.py` | Derived from the participant guide, p. 3 |
 | Human co-sign threshold (risk > 20) | `COSIGN_RISK_THRESHOLD` in `ares/orchestrator.py`; the co-sign help text in `ares/ui/controls.py`; `flag_human_review` in `ares/exports.py` | The starter kit's submission checklist (bonus item) |
 | Practice events (resource changes and expected outcomes) | `PRACTICE_EVENTS` in `tests/test_acceptance.py` and `tests/test_optimizer.py` | Participant guide, p. 8 |
-| Baseline name and description, consequence texts and return-agreement texts, repeated in generated output | `docs/demo/rule-based-sample/*` (output of this project's own demo run) | As above |
+| Baseline name and description, consequence texts and return-agreement texts, repeated in generated output | `docs/demo/rule-based-sample/*` (output of this project's own demo run); the dashboard screenshots in `docs/screenshots/*.png` | As above |
 | Summaries of, restatements of, and quotations from the challenge rules and guide | `PRD.md`, `docs/CONTRACT.md`, `docs/DECISIONS_AND_RISKS.md`, `docs/REQUIREMENTS_TRACEABILITY.md`; a short scenario summary in `README.md` | Participant guide; starter files |
 | Organiser identifiers asserted in tests | `tests/test_events.py`, `tests/test_acceptance.py` | The challenge's sample event and guide |
 
@@ -75,8 +75,9 @@ their own distribution channels under their own licences.
 | ruff 0.17.4 | <https://github.com/astral-sh/ruff> | MIT (installed package metadata) | Development dependency |
 | matplotlib (unpinned) | <https://github.com/matplotlib/matplotlib> | Matplotlib License, PSF-based ("License agreement for matplotlib versions 1.3.0 and later", from its LICENSE file) | Optional; only for `scripts/make_architecture_png.py`. It is not in either requirements file. The generated `docs/architecture_diagram.png` is original work. |
 | Transitive dependencies (for example numpy, altair, pyarrow) | PyPI | **Not individually verified.** Review before redistributing a bundled build. | Installed automatically |
-| `actions/checkout@v4` | <https://github.com/actions/checkout> | MIT (repository licence) | Referenced by the CI workflow |
-| `conda-incubator/setup-miniconda@v3` | <https://github.com/conda-incubator/setup-miniconda> | MIT (repository licence) | Referenced by the CI workflow |
+| `actions/checkout@v7` | <https://github.com/actions/checkout> | MIT (repository licence) | Referenced by the CI workflow |
+| `conda-incubator/setup-miniconda@v4` | <https://github.com/conda-incubator/setup-miniconda> | MIT (repository licence) | Referenced by the CI workflow |
+| `actions/setup-python@v7` | <https://github.com/actions/setup-python> | MIT (repository licence) | Referenced by the CI workflow |
 | Python and the conda packages in `environment.yml` | python.org / conda-forge | Their own licences (not reviewed here) | Installed by the user or CI |
 | Gemini, Groq, OpenRouter and Ollama APIs | Each provider | Each provider's terms of service | Optional; called with the user's own keys |
 

@@ -3,7 +3,20 @@
 All notable changes to this project. Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 Test numbers are measured runs (Windows 11, Python 3.13.6, fully offline) unless stated otherwise.
 
-## [Unreleased] — ownership, attribution and licence scope (branch `docs/ownership-licensing`)
+## [Unreleased] — CI on Python 3.13 and dashboard screenshots (branch `chore/ci-py313-and-screenshots`)
+
+- **CI.** A second job installs the pinned requirements with pip on Python 3.13, which is the README's Quick start
+  path, then runs ruff and pytest. The conda job stays on Python 3.12, and both run on every push and pull
+  request. The deprecated Node 20 actions now use their Node 24 majors: `actions/checkout@v7`,
+  `conda-incubator/setup-miniconda@v4` and `actions/setup-python@v7`. The deprecated `auto-activate-base` input is
+  replaced by `auto-activate`. A step prints the conda job's interpreter, so the log shows the environment in use.
+- **Screenshots.** `docs/screenshots/` has three dashboard screenshots from a rule-based baseline run (Mission
+  Control, Validation & Votes, Mode Board), now shown in the README. They were captured with headless Chrome,
+  with every provider key blank. They contain challenge text and are listed in `THIRD_PARTY_NOTICES.md`.
+- **README.** The Python badge and Quick start say that CI covers both versions. The "CI covers one Python
+  version" limitation is removed.
+
+## [Unreleased] — ownership, attribution and licence scope (PR #4)
 
 Documentation and licensing only; no behaviour change. This follows the organiser's written permission of
 2026-11-09.

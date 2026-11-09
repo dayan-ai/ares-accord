@@ -1,7 +1,7 @@
 # ARES Accord — LLM agents inside a deterministic, verifiable negotiation protocol
 
 [![CI](https://github.com/dayan-ai/ares-accord/actions/workflows/python-package-conda.yml/badge.svg?branch=main)](https://github.com/dayan-ai/ares-accord/actions/workflows/python-package-conda.yml)
-![Python](https://img.shields.io/badge/python-3.12%20%28CI%29%20%7C%203.13%20%28local%29-blue)
+![Python](https://img.shields.io/badge/python-3.12%20%7C%203.13-blue)
 
 A multi-agent crisis-negotiation simulator for a Mars colony. Five LLM agents (Gemini, Groq, OpenRouter or a local
 Ollama model) negotiate how to share scarce resources. **Deterministic code, not a model, decides what gets
@@ -20,7 +20,8 @@ an independent open-source project. Changes since the submission are listed in [
 
 ## Contents
 
-[Problem](#the-problem) · [What it does](#what-it-does) · [How it works](#how-it-works) ·
+[Problem](#the-problem) · [What it does](#what-it-does) · [Screenshots](#screenshots) ·
+[How it works](#how-it-works) ·
 [Quick start](#quick-start) · [Configuration](#configuration) · [Reproducible demo](#reproducible-demo) ·
 [Using the dashboard](#using-the-dashboard) · [Testing and quality](#testing-and-quality) ·
 [Security](#security-considerations) · [Limitations](#limitations) · [Roadmap](#future-improvements) ·
@@ -69,6 +70,23 @@ while guaranteeing that nothing invalid is ever approved?**
   scenario history, plus JSON / CSV / TXT exports.
 - **Fully offline mode.** The `rule-based` provider runs the whole protocol without any LLM or API key. This is
   what the tests and the reproducible demo use.
+
+## Screenshots
+
+These show a baseline run with the offline **rule-based** provider, so no LLM is involved. The dashboard says so
+in the red **RULE-BASED FALLBACK** banner.
+
+**Mission Control:** the approved plan, the policy badges, and the scenario and council status.
+
+![Mission Control after an approved baseline run](docs/screenshots/mission-control.png)
+
+**Validation & Votes:** the validator's PASS for the current plan version, and the approval-gate rules.
+
+![Validation and votes for plan v3](docs/screenshots/validation-votes.png)
+
+**Mode Board:** each department's fixed package, risk, consequence and return commitments.
+
+![Mode board with each department's package](docs/screenshots/mode-board.png)
 
 ## How it works
 
@@ -144,8 +162,8 @@ flowchart LR
 
 ## Quick start
 
-Requires **Python 3.12 or 3.13**. Both pass a clean install, the tests and a Streamlit health check locally;
-GitHub Actions CI runs Python 3.12 only. No API key is needed for the rule-based mode.
+Requires **Python 3.12 or 3.13**. CI tests both on every push: 3.12 through conda (`environment.yml`), and 3.13
+through pip, the path below. No API key is needed for the rule-based mode.
 
 ```bash
 git clone https://github.com/dayan-ai/ares-accord.git
@@ -238,8 +256,8 @@ python -m pytest -q --cov=ares
 python -m pip install mypy && python -m mypy ares --ignore-missing-imports   # optional; not a gate
 ```
 
-Measured on 2026-11-09. The CI and clean-clone rows were run on `main` at `c3fa02a`, when the suite had 312 tests;
-the local rows include the `ARES_LOG_LEVEL` regression test added since. Every run is offline and needs no API
+Measured on 2026-11-09. The Python 3.12 clean clone was run on `main` at `c3fa02a`, when the suite had 312 tests;
+every other row includes the `ARES_LOG_LEVEL` regression test added since. Every run is offline and needs no API
 key; LLM behaviour is tested with fake providers.
 
 | Check | Result |
@@ -247,9 +265,10 @@ key; LLM behaviour is tested with fake providers.
 | pytest | **313 passed**, 0 failed, 0 warnings |
 | Coverage (`--cov=ares`) | **88%** (validator 97%, optimizer 98%, orchestrator 93%; UI modules 57–88%) |
 | ruff (`ruff.toml`: E, F, W, B) | all checks passed |
+| pip-audit (`requirements-dev.txt`, including transitive dependencies) | no known vulnerabilities (a one-off check on 2026-11-09; not run in CI) |
 | mypy 2.4.1 (`mypy ares --ignore-missing-imports`) | **96 errors** in 14 files. A known gap: mostly `Optional` narrowing; not a gate, and not in `requirements-dev.txt`. |
-| GitHub Actions on `main` (Ubuntu, conda, Python 3.12.16) | ruff clean, 312 passed, 88% coverage |
-| Clean clone on Windows, Python 3.12.14 and 3.13.6 | pinned install, ruff, 312 passed, headless demo and Streamlit health check pass |
+| GitHub Actions (Ubuntu): conda Python 3.12 and pip Python 3.13 | ruff clean, 313 passed, 88% coverage in both jobs |
+| Clean clone on Windows, Python 3.12.14 and 3.13.6 | pinned install, ruff, full suite passed (312 on 3.12, 313 on 3.13), headless demo and Streamlit health check pass |
 
 What the suites cover:
 
@@ -264,8 +283,9 @@ What the suites cover:
 | `test_ui_smoke.py` | Renders the real Streamlit app and drives a run to APPROVED |
 | `test_observability.py` | Structured logs and secret redaction |
 
-CI: `.github/workflows/python-package-conda.yml` runs on every push and pull request: a conda environment from
-`environment.yml` (Python 3.12), the pinned `requirements-dev.txt`, ruff, and pytest with coverage. Dependencies
+CI: `.github/workflows/python-package-conda.yml` runs two jobs on every push and pull request: a conda
+environment from `environment.yml` (Python 3.12), and a pip install on Python 3.13. Each installs the pinned
+`requirements-dev.txt`, then runs ruff and pytest with coverage. Dependencies
 are pinned in `requirements.txt` (runtime) and `requirements-dev.txt` (tooling); transitive dependencies are not
 locked.
 
@@ -314,8 +334,6 @@ Details and threat notes: [`docs/SECURITY.md`](docs/SECURITY.md) and
   conservatively.
 - **Typing and structure.** 96 mypy errors remain, and a few functions are long
   (`sanitize.department_turn`, `rule_policy.department_turn`).
-- **CI covers one Python version.** GitHub Actions runs Python 3.12 only; Python 3.13 is verified by local
-  clean-clone runs.
 - **Test fixtures.** `tests/fixtures/output_schema.json` is reconstructed from documentation, and
   `tests/fixtures/event_injection_format.json` is the organisers' official sample event. See
   `tests/fixtures/README.md`.

@@ -22,15 +22,46 @@ jobs:
     env:
       ARES_PROVIDER: rule-based  # the test suite never calls a real LLM provider
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Set up conda environment (environment.yml)
-        uses: conda-incubator/setup-miniconda@v3
+        uses: conda-incubator/setup-miniconda@v4
         with:
           environment-file: environment.yml
           activate-environment: ares-accord
-          auto-activate-base: false
+          auto-activate: false
           conda-remove-defaults: "true"
+
+      - name: Show interpreter (must be the ares-accord env, Python 3.12)
+        run: python -c "import sys; print(sys.executable, sys.version)"
+
+      - name: Install pinned Python dependencies
+        run: python -m pip install -r requirements-dev.txt
+
+      - name: Lint (ruff; rules in ruff.toml)
+        run: ruff check .
+
+      - name: Test (pytest + coverage)
+        run: pytest -q --cov=ares --cov-report=term
+
+  test-pip:
+    # The README's Quick start path (pip in a fresh environment) on the newest supported Python.
+    name: lint + test (pip, Python 3.13)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      ARES_PROVIDER: rule-based
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Set up Python 3.13
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.13"
+          cache: pip
+          cache-dependency-path: |
+            requirements.txt
+            requirements-dev.txt
 
       - name: Install pinned Python dependencies
         run: python -m pip install -r requirements-dev.txt
