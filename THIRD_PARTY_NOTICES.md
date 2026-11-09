@@ -5,8 +5,9 @@
 
 ## What the MIT License covers
 
-The MIT License in [`LICENSE`](LICENSE) covers only the **original ARES Accord work by Muhammad Dayan**: the code,
-tests, scripts, configuration, diagrams and documentation he wrote for this project.
+The MIT License in [`LICENSE`](LICENSE) covers only **original ARES Accord work**: the code, tests, scripts,
+configuration, diagrams and documentation written for this project, either by Muhammad Dayan or by contributors
+under the Contributing terms in the README.
 
 It does **not** cover:
 - the challenge materials listed below;
@@ -43,8 +44,11 @@ tests reproduce the challenge.
 | The 12 mode packages (resource figures, risk scores and consequence texts, verbatim) | `MODE_PACKAGES` in `ares/models.py` | Participant guide, p. 4 |
 | Scenario parameters: the starting resource pool, risk and Sacrifice limits, required return agreements, and the 3-minute replanning window | `BASELINE_POOL`, `Policy` limits and `RETURN_TEMPLATES` in `ares/models.py`; the deadline default in `ares/config.py` | Participant guide, pp. 4, 6, 8 and 10 (page references from `PRD.md`) |
 | Colony scenario and agent profiles (roles, goals, constraints) | `ares/agents/profiles.py` | Derived from the participant guide, p. 3 |
-| Consequence and return-agreement texts, repeated in generated output | `docs/demo/rule-based-sample/*` (output of this project's own demo run) | As above |
-| Summaries of, and quotations from, the participant guide | `PRD.md`, `docs/DECISIONS_AND_RISKS.md`, `docs/REQUIREMENTS_TRACEABILITY.md`; a short scenario summary in `README.md` | Participant guide |
+| Baseline crisis name and description | `BASELINE_NAME` and `BASELINE_DESCRIPTION` in `ares/orchestrator.py` | Derived from the participant guide, p. 3 |
+| Human co-sign threshold (risk > 20) | `COSIGN_RISK_THRESHOLD` in `ares/orchestrator.py`; the co-sign help text in `ares/ui/controls.py`; `flag_human_review` in `ares/exports.py` | The starter kit's submission checklist (bonus item) |
+| Practice events (resource changes and expected outcomes) | `PRACTICE_EVENTS` in `tests/test_acceptance.py` and `tests/test_optimizer.py` | Participant guide, p. 8 |
+| Baseline name and description, consequence texts and return-agreement texts, repeated in generated output | `docs/demo/rule-based-sample/*` (output of this project's own demo run) | As above |
+| Summaries of, restatements of, and quotations from the challenge rules and guide | `PRD.md`, `docs/CONTRACT.md`, `docs/DECISIONS_AND_RISKS.md`, `docs/REQUIREMENTS_TRACEABILITY.md`; a short scenario summary in `README.md` | Participant guide; starter files |
 | Organiser identifiers asserted in tests | `tests/test_events.py`, `tests/test_acceptance.py` | The challenge's sample event and guide |
 
 Notes:
@@ -69,6 +73,7 @@ their own distribution channels under their own licences.
 | pytest 9.2.0 | <https://github.com/pytest-dev/pytest> | MIT (installed package metadata) | Development dependency, `requirements-dev.txt` |
 | pytest-cov 7.1.0 | <https://github.com/pytest-dev/pytest-cov> | MIT (installed package metadata) | Development dependency |
 | ruff 0.17.4 | <https://github.com/astral-sh/ruff> | MIT (installed package metadata) | Development dependency |
+| matplotlib (unpinned) | <https://github.com/matplotlib/matplotlib> | Matplotlib License, PSF-based ("License agreement for matplotlib versions 1.3.0 and later", from its LICENSE file) | Optional; only for `scripts/make_architecture_png.py`. It is not in either requirements file. The generated `docs/architecture_diagram.png` is original work. |
 | Transitive dependencies (for example numpy, altair, pyarrow) | PyPI | **Not individually verified.** Review before redistributing a bundled build. | Installed automatically |
 | `actions/checkout@v4` | <https://github.com/actions/checkout> | MIT (repository licence) | Referenced by the CI workflow |
 | `conda-incubator/setup-miniconda@v3` | <https://github.com/conda-incubator/setup-miniconda> | MIT (repository licence) | Referenced by the CI workflow |

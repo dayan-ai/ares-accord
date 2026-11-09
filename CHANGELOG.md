@@ -10,11 +10,19 @@ Documentation and licensing only; no behaviour change. This follows the organise
 - **Attribution.** The README carries the organiser-requested line "Built for the Loopverse Challenge, designed by
   LIFIX Labs." It links the original challenge repository, states individual authorship (Muhammad Dayan) and the
   2nd-place (Runner-up) result, and gains Contributing and Author sections.
-- **`LICENSE`.** The standard MIT text is unchanged. The copyright lines now say that the licence covers only the
-  original ARES Accord work, and that the challenge materials and third-party components stay with their owners.
+- **`LICENSE`.** The standard MIT text is unchanged. The copyright lines now say that the licence covers only
+  original ARES Accord work, meaning Muhammad Dayan's work and contributions accepted under the licence. The
+  challenge materials and third-party components stay with their owners. The README and
+  `THIRD_PARTY_NOTICES.md` state the same scope.
 - **`THIRD_PARTY_NOTICES.md`.** It now summarises the organiser's permission, and lists every place where challenge
-  material appears. That adds the scenario parameters, the demo bundle and the README summary to the earlier
-  list. It also lists each dependency and GitHub Action with its verified licence.
+  material appears. That adds these to the earlier list:
+  - the scenario parameters;
+  - the baseline crisis text and the co-sign threshold;
+  - the practice events in the tests;
+  - the challenge rules restated in `docs/CONTRACT.md`;
+  - the demo bundle and the README summary.
+
+  It also lists each dependency, GitHub Action and the optional matplotlib with its verified licence.
 - **File-level notes.** The `ares/models.py` docstring now names every challenge-derived constant, and
   `docs/demo/README.md` notes the challenge text in the generated bundle.
 

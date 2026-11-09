@@ -343,7 +343,9 @@ Issues and pull requests are welcome.
 4. **Don't add challenge material:** no organiser files, and no third-party code you can't license under MIT. See
    [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md).
 
-By submitting a contribution, you agree that it is licensed under this repository's MIT License.
+By submitting a contribution, you confirm that it is your own work, or compatible with MIT, and that it contains no
+challenge material. You also agree that it is licensed under this repository's MIT License, on the same terms as
+the rest of the original work.
 
 ## Author and project history
 
@@ -368,8 +370,10 @@ By submitting a contribution, you agree that it is licensed under this repositor
 
 ## Licence and third-party material
 
-- **MIT License, for the original work only.** The [MIT License](LICENSE), © 2026 Muhammad Dayan, covers the
-  original ARES Accord code, tests, scripts, configuration, diagrams and documentation written by Muhammad Dayan.
+- **MIT License, for the original work only.** The [MIT License](LICENSE), © 2026 Muhammad Dayan and ARES Accord
+  contributors, covers the original ARES Accord code, tests, scripts, configuration, diagrams and documentation:
+  - the work written by Muhammad Dayan;
+  - contributions accepted under the [Contributing](#contributing) terms.
 - **Challenge material is not covered.** The Loopverse Challenge concept, rules, participant guide and starter
   materials, designed by LIFIX Labs, remain the organisers' and stay under their own terms.
   - The organisers' files are not redistributed; use the
