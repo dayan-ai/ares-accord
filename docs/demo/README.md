@@ -26,3 +26,7 @@ those messages are tagged `[llm/<provider>]`.
 | `final_plan.json` | Approved modes, totals, reserve, risk, validation checks, votes |
 | `final_allocation.json` | One record per agent in the starter-kit output shape |
 | `plans.csv` | Every plan version and its validation status |
+
+**Ownership.** These files are generated output of this project. They repeat the Loopverse challenge's
+mode-package consequence texts and return-agreement texts (designed by LIFIX Labs). That challenge text is not
+covered by this repository's MIT License; see [`THIRD_PARTY_NOTICES.md`](../../THIRD_PARTY_NOTICES.md).

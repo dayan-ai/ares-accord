@@ -3,7 +3,22 @@
 All notable changes to this project. Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 Test numbers are measured runs (Windows 11, Python 3.13.6, fully offline) unless stated otherwise.
 
-## [Unreleased] — `ARES_LOG_LEVEL` from `.env` (branch `fix/log-level-from-dotenv`)
+## [Unreleased] — ownership, attribution and licence scope (branch `docs/ownership-licensing`)
+
+Documentation and licensing only; no behaviour change. This follows the organiser's written permission of
+2026-11-09.
+- **Attribution.** The README carries the organiser-requested line "Built for the Loopverse Challenge, designed by
+  LIFIX Labs." It links the original challenge repository, states individual authorship (Muhammad Dayan) and the
+  2nd-place (Runner-up) result, and gains Contributing and Author sections.
+- **`LICENSE`.** The standard MIT text is unchanged. The copyright lines now say that the licence covers only the
+  original ARES Accord work, and that the challenge materials and third-party components stay with their owners.
+- **`THIRD_PARTY_NOTICES.md`.** It now summarises the organiser's permission, and lists every place where challenge
+  material appears. That adds the scenario parameters, the demo bundle and the README summary to the earlier
+  list. It also lists each dependency and GitHub Action with its verified licence.
+- **File-level notes.** The `ares/models.py` docstring now names every challenge-derived constant, and
+  `docs/demo/README.md` notes the challenge text in the generated bundle.
+
+## [Unreleased] — `ARES_LOG_LEVEL` from `.env` (merged into `main` as `e7cbecf`)
 
 - **Fix.** An `ARES_LOG_LEVEL` set only in `.env` was ignored on the dashboard's first script run.
   - **Cause:** `app.py` configures logging before anything imports `ares.config`, which is what loads `.env`. The

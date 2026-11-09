@@ -8,8 +8,13 @@ Ollama model) negotiate how to share scarce resources. **Deterministic code, not
 approved.** Every plan is re-validated by pure functions, and an approval gate the agents cannot bypass requires a
 validator PASS and four department votes on the current plan version.
 
-Built for the Looplab × LifixLabs **ARES Accord** 24-hour AI/ML hackathon (October 2026), then hardened as a
-portfolio project. Changes since the submission are listed in [`CHANGELOG.md`](CHANGELOG.md).
+**Built for the Loopverse Challenge, designed by LIFIX Labs.** Original challenge repository:
+<https://github.com/lifix-prog/Loopverse-AI_ML_Virtual_Module>. The challenge concept, rules and starter
+materials belong to the organisers.
+
+This implementation was written by **Muhammad Dayan** as an individual submission to the 24-hour ARES Accord
+hackathon (October 2026), where it placed **2nd (Runner-up)**. It has since been hardened and is maintained here as
+an independent open-source project. Changes since the submission are listed in [`CHANGELOG.md`](CHANGELOG.md).
 
 ---
 
@@ -19,6 +24,7 @@ portfolio project. Changes since the submission are listed in [`CHANGELOG.md`](C
 [Quick start](#quick-start) · [Configuration](#configuration) · [Reproducible demo](#reproducible-demo) ·
 [Using the dashboard](#using-the-dashboard) · [Testing and quality](#testing-and-quality) ·
 [Security](#security-considerations) · [Limitations](#limitations) · [Roadmap](#future-improvements) ·
+[Contributing](#contributing) · [Author](#author-and-project-history) ·
 [Licence](#licence-and-third-party-material)
 
 ## The problem
@@ -324,11 +330,31 @@ Details and threat notes: [`docs/SECURITY.md`](docs/SECURITY.md) and
 - Resolve the mypy backlog and make type checking a CI gate. Split the long policy functions.
 - A hosted, rule-based demo deployment.
 
-## Project history and declarations
+## Contributing
 
-- Built in 24 hours for the ARES Accord hackathon (Participant Guide v2.1, Looplab × LifixLabs; the
-  [official starter repository](https://github.com/lifix-prog/Loopverse-AI_ML_Virtual_Module)). Requirements:
-  [`PRD.md`](PRD.md).
+Issues and pull requests are welcome.
+
+1. **Set up:** create a virtual environment and run `python -m pip install -r requirements-dev.txt`. See
+   [Quick start](#quick-start).
+2. **Check before opening a PR:** `python -m ruff check .` and `python -m pytest -q` must pass. CI runs both on
+   every push and pull request.
+3. **Keep the tests offline:** use the `rule-based` provider or a fake provider. Never commit `.env`, API keys or
+   generated databases.
+4. **Don't add challenge material:** no organiser files, and no third-party code you can't license under MIT. See
+   [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md).
+
+By submitting a contribution, you agree that it is licensed under this repository's MIT License.
+
+## Author and project history
+
+- **Author:** Muhammad Dayan ([dayan-ai](https://github.com/dayan-ai)), the sole developer of this implementation.
+- **Hackathon:** built in 24 hours as an individual submission to the ARES Accord challenge, where it placed 2nd
+  (Runner-up).
+  - **Organisers:** the challenge was designed by LIFIX Labs, for the Loopverse Challenge. The original submission
+    also credited Looplab.
+  - **Challenge material:** Participant Guide v2.1 and the
+    [original challenge repository](https://github.com/lifix-prog/Loopverse-AI_ML_Virtual_Module).
+  - **Requirements as interpreted for the build:** [`PRD.md`](PRD.md).
 - `docs/TEST_REPORT.md` and `docs/REQUIREMENTS_TRACEABILITY.md` are the hackathon-time snapshots (258 tests at
   submission). Current status is in this README and [`CHANGELOG.md`](CHANGELOG.md).
 - **AI assistance:** Claude Code (Anthropic) was used for code, tests and documentation, both during the
@@ -342,13 +368,16 @@ Details and threat notes: [`docs/SECURITY.md`](docs/SECURITY.md) and
 
 ## Licence and third-party material
 
-- **Original work: [MIT License](LICENSE)**, © 2026 MUHAMMAD DAYAN. It covers the code, tests, scripts, diagrams
-  and documentation written for this project.
-- **Not covered: organiser material.** The organisers' starter kit (challenge PDF, rules and schema files) is not
-  redistributed, but the repository contains material taken from it:
-  - the scenario, and the 12 mode packages with their figures and consequence texts (`ares/models.py`,
-    `ares/agents/profiles.py`);
-  - the official sample event, verbatim, in `tests/fixtures/event_injection_format.json` and `ares/ui/controls.py`.
-
-  The starter repository publishes no licence, so this material remains the organisers'. The full list and reuse
-  guidance are in [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md).
+- **MIT License, for the original work only.** The [MIT License](LICENSE), © 2026 Muhammad Dayan, covers the
+  original ARES Accord code, tests, scripts, configuration, diagrams and documentation written by Muhammad Dayan.
+- **Challenge material is not covered.** The Loopverse Challenge concept, rules, participant guide and starter
+  materials, designed by LIFIX Labs, remain the organisers' and stay under their own terms.
+  - The organisers' files are not redistributed; use the
+    [original challenge repository](https://github.com/lifix-prog/Loopverse-AI_ML_Virtual_Module).
+  - The project does embed some challenge data so it can reproduce the challenge: the scenario, the 12 mode
+    packages and their texts, the policy limits, the return agreements, and the official sample event. This data
+    is excluded from the MIT License.
+- **Third-party components are not covered either.** Dependencies are installed under their own licences, and none
+  is bundled.
+- **Details and permission:** the full list, the organisers' written permission and reuse guidance are in
+  [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md).
