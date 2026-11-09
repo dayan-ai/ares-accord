@@ -3,7 +3,43 @@
 All notable changes to this project. Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 Test numbers are measured runs (Windows 11, Python 3.13.6, fully offline) unless stated otherwise.
 
-## [Unreleased] — `ARES_LOG_LEVEL` from `.env` (branch `fix/log-level-from-dotenv`)
+## [Unreleased] — CI on Python 3.13 and dashboard screenshots (branch `chore/ci-py313-and-screenshots`)
+
+- **CI.** A second job installs the pinned requirements with pip on Python 3.13, which is the README's Quick start
+  path, then runs ruff and pytest. The conda job stays on Python 3.12, and both run on every push and pull
+  request. The deprecated Node 20 actions now use their Node 24 majors: `actions/checkout@v7`,
+  `conda-incubator/setup-miniconda@v4` and `actions/setup-python@v7`. The deprecated `auto-activate-base` input is
+  replaced by `auto-activate`. A step prints the conda job's interpreter, so the log shows the environment in use.
+- **Screenshots.** `docs/screenshots/` has three dashboard screenshots from a rule-based baseline run (Mission
+  Control, Validation & Votes, Mode Board), now shown in the README. They were captured with headless Chrome,
+  with every provider key blank. They contain challenge text and are listed in `THIRD_PARTY_NOTICES.md`.
+- **README.** The Python badge and Quick start say that CI covers both versions. The "CI covers one Python
+  version" limitation is removed.
+
+## [Unreleased] — ownership, attribution and licence scope (PR #4)
+
+Documentation and licensing only; no behaviour change. This follows the organiser's written permission of
+2026-11-09.
+- **Attribution.** The README carries the organiser-requested line "Built for the Loopverse Challenge, designed by
+  LIFIX Labs." It links the original challenge repository, states individual authorship (Muhammad Dayan) and the
+  2nd-place (Runner-up) result, and gains Contributing and Author sections.
+- **`LICENSE`.** The standard MIT text is unchanged. The copyright lines now say that the licence covers only
+  original ARES Accord work, meaning Muhammad Dayan's work and contributions accepted under the licence. The
+  challenge materials and third-party components stay with their owners. The README and
+  `THIRD_PARTY_NOTICES.md` state the same scope.
+- **`THIRD_PARTY_NOTICES.md`.** It now summarises the organiser's permission, and lists every place where challenge
+  material appears. That adds these to the earlier list:
+  - the scenario parameters;
+  - the baseline crisis text and the co-sign threshold;
+  - the practice events in the tests;
+  - the challenge rules restated in `docs/CONTRACT.md`;
+  - the demo bundle and the README summary.
+
+  It also lists each dependency, GitHub Action and the optional matplotlib with its verified licence.
+- **File-level notes.** The `ares/models.py` docstring now names every challenge-derived constant, and
+  `docs/demo/README.md` notes the challenge text in the generated bundle.
+
+## [Unreleased] — `ARES_LOG_LEVEL` from `.env` (merged into `main` as `e7cbecf`)
 
 - **Fix.** An `ARES_LOG_LEVEL` set only in `.env` was ignored on the dashboard's first script run.
   - **Cause:** `app.py` configures logging before anything imports `ares.config`, which is what loads `.env`. The

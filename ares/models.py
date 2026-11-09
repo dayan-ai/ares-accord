@@ -5,8 +5,9 @@ redefine these constants or shapes. Changes to this file are contract changes.
 
 All values in MODE_PACKAGES are copied verbatim from the participant guide
 (AI ML - Virtual.pdf, v2.1, page 4) and are immutable at runtime.
-They are the hackathon organisers' material and are not covered by this repository's
-MIT License; see THIRD_PARTY_NOTICES.md.
+MODE_PACKAGES, BASELINE_POOL, the Policy limits and RETURN_TEMPLATES are Loopverse
+challenge material (designed by LIFIX Labs). They are not covered by this repository's
+MIT License; see THIRD_PARTY_NOTICES.md. The surrounding code is original work.
 """
 from __future__ import annotations
 

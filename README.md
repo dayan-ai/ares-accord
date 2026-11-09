@@ -1,24 +1,31 @@
 # ARES Accord — LLM agents inside a deterministic, verifiable negotiation protocol
 
 [![CI](https://github.com/dayan-ai/ares-accord/actions/workflows/python-package-conda.yml/badge.svg?branch=main)](https://github.com/dayan-ai/ares-accord/actions/workflows/python-package-conda.yml)
-![Python](https://img.shields.io/badge/python-3.12%20%28CI%29%20%7C%203.13%20%28local%29-blue)
+![Python](https://img.shields.io/badge/python-3.12%20%7C%203.13-blue)
 
 A multi-agent crisis-negotiation simulator for a Mars colony. Five LLM agents (Gemini, Groq, OpenRouter or a local
 Ollama model) negotiate how to share scarce resources. **Deterministic code, not a model, decides what gets
 approved.** Every plan is re-validated by pure functions, and an approval gate the agents cannot bypass requires a
 validator PASS and four department votes on the current plan version.
 
-Built for the Looplab × LifixLabs **ARES Accord** 24-hour AI/ML hackathon (October 2026), then hardened as a
-portfolio project. Changes since the submission are listed in [`CHANGELOG.md`](CHANGELOG.md).
+**Built for the Loopverse Challenge, designed by LIFIX Labs.** Original challenge repository:
+<https://github.com/lifix-prog/Loopverse-AI_ML_Virtual_Module>. The challenge concept, rules and starter
+materials belong to the organisers.
+
+This implementation was written by **Muhammad Dayan** as an individual submission to the 24-hour ARES Accord
+hackathon (October 2026), where it placed **2nd (Runner-up)**. It has since been hardened and is maintained here as
+an independent open-source project. Changes since the submission are listed in [`CHANGELOG.md`](CHANGELOG.md).
 
 ---
 
 ## Contents
 
-[Problem](#the-problem) · [What it does](#what-it-does) · [How it works](#how-it-works) ·
+[Problem](#the-problem) · [What it does](#what-it-does) · [Screenshots](#screenshots) ·
+[How it works](#how-it-works) ·
 [Quick start](#quick-start) · [Configuration](#configuration) · [Reproducible demo](#reproducible-demo) ·
 [Using the dashboard](#using-the-dashboard) · [Testing and quality](#testing-and-quality) ·
 [Security](#security-considerations) · [Limitations](#limitations) · [Roadmap](#future-improvements) ·
+[Contributing](#contributing) · [Author](#author-and-project-history) ·
 [Licence](#licence-and-third-party-material)
 
 ## The problem
@@ -63,6 +70,23 @@ while guaranteeing that nothing invalid is ever approved?**
   scenario history, plus JSON / CSV / TXT exports.
 - **Fully offline mode.** The `rule-based` provider runs the whole protocol without any LLM or API key. This is
   what the tests and the reproducible demo use.
+
+## Screenshots
+
+These show a baseline run with the offline **rule-based** provider, so no LLM is involved. The dashboard says so
+in the red **RULE-BASED FALLBACK** banner.
+
+**Mission Control:** the approved plan, the policy badges, and the scenario and council status.
+
+![Mission Control after an approved baseline run](docs/screenshots/mission-control.png)
+
+**Validation & Votes:** the validator's PASS for the current plan version, and the approval-gate rules.
+
+![Validation and votes for plan v3](docs/screenshots/validation-votes.png)
+
+**Mode Board:** each department's fixed package, risk, consequence and return commitments.
+
+![Mode board with each department's package](docs/screenshots/mode-board.png)
 
 ## How it works
 
@@ -138,8 +162,8 @@ flowchart LR
 
 ## Quick start
 
-Requires **Python 3.12 or 3.13**. Both pass a clean install, the tests and a Streamlit health check locally;
-GitHub Actions CI runs Python 3.12 only. No API key is needed for the rule-based mode.
+Requires **Python 3.12 or 3.13**. CI tests both on every push: 3.12 through conda (`environment.yml`), and 3.13
+through pip, the path below. No API key is needed for the rule-based mode.
 
 ```bash
 git clone https://github.com/dayan-ai/ares-accord.git
@@ -232,8 +256,8 @@ python -m pytest -q --cov=ares
 python -m pip install mypy && python -m mypy ares --ignore-missing-imports   # optional; not a gate
 ```
 
-Measured on 2026-11-09. The CI and clean-clone rows were run on `main` at `c3fa02a`, when the suite had 312 tests;
-the local rows include the `ARES_LOG_LEVEL` regression test added since. Every run is offline and needs no API
+Measured on 2026-11-09. The Python 3.12 clean clone was run on `main` at `c3fa02a`, when the suite had 312 tests;
+every other row includes the `ARES_LOG_LEVEL` regression test added since. Every run is offline and needs no API
 key; LLM behaviour is tested with fake providers.
 
 | Check | Result |
@@ -241,9 +265,10 @@ key; LLM behaviour is tested with fake providers.
 | pytest | **313 passed**, 0 failed, 0 warnings |
 | Coverage (`--cov=ares`) | **88%** (validator 97%, optimizer 98%, orchestrator 93%; UI modules 57–88%) |
 | ruff (`ruff.toml`: E, F, W, B) | all checks passed |
+| pip-audit (`requirements-dev.txt`, including transitive dependencies) | no known vulnerabilities (a one-off check on 2026-11-09; not run in CI) |
 | mypy 2.4.1 (`mypy ares --ignore-missing-imports`) | **96 errors** in 14 files. A known gap: mostly `Optional` narrowing; not a gate, and not in `requirements-dev.txt`. |
-| GitHub Actions on `main` (Ubuntu, conda, Python 3.12.16) | ruff clean, 312 passed, 88% coverage |
-| Clean clone on Windows, Python 3.12.14 and 3.13.6 | pinned install, ruff, 312 passed, headless demo and Streamlit health check pass |
+| GitHub Actions (Ubuntu): conda Python 3.12 and pip Python 3.13 | ruff clean, 313 passed, 88% coverage in both jobs |
+| Clean clone on Windows, Python 3.12.14 and 3.13.6 | pinned install, ruff, full suite passed (312 on 3.12, 313 on 3.13), headless demo and Streamlit health check pass |
 
 What the suites cover:
 
@@ -258,8 +283,9 @@ What the suites cover:
 | `test_ui_smoke.py` | Renders the real Streamlit app and drives a run to APPROVED |
 | `test_observability.py` | Structured logs and secret redaction |
 
-CI: `.github/workflows/python-package-conda.yml` runs on every push and pull request: a conda environment from
-`environment.yml` (Python 3.12), the pinned `requirements-dev.txt`, ruff, and pytest with coverage. Dependencies
+CI: `.github/workflows/python-package-conda.yml` runs two jobs on every push and pull request: a conda
+environment from `environment.yml` (Python 3.12), and a pip install on Python 3.13. Each installs the pinned
+`requirements-dev.txt`, then runs ruff and pytest with coverage. Dependencies
 are pinned in `requirements.txt` (runtime) and `requirements-dev.txt` (tooling); transitive dependencies are not
 locked.
 
@@ -308,8 +334,6 @@ Details and threat notes: [`docs/SECURITY.md`](docs/SECURITY.md) and
   conservatively.
 - **Typing and structure.** 96 mypy errors remain, and a few functions are long
   (`sanitize.department_turn`, `rule_policy.department_turn`).
-- **CI covers one Python version.** GitHub Actions runs Python 3.12 only; Python 3.13 is verified by local
-  clean-clone runs.
 - **Test fixtures.** `tests/fixtures/output_schema.json` is reconstructed from documentation, and
   `tests/fixtures/event_injection_format.json` is the organisers' official sample event. See
   `tests/fixtures/README.md`.
@@ -324,11 +348,33 @@ Details and threat notes: [`docs/SECURITY.md`](docs/SECURITY.md) and
 - Resolve the mypy backlog and make type checking a CI gate. Split the long policy functions.
 - A hosted, rule-based demo deployment.
 
-## Project history and declarations
+## Contributing
 
-- Built in 24 hours for the ARES Accord hackathon (Participant Guide v2.1, Looplab × LifixLabs; the
-  [official starter repository](https://github.com/lifix-prog/Loopverse-AI_ML_Virtual_Module)). Requirements:
-  [`PRD.md`](PRD.md).
+Issues and pull requests are welcome.
+
+1. **Set up:** create a virtual environment and run `python -m pip install -r requirements-dev.txt`. See
+   [Quick start](#quick-start).
+2. **Check before opening a PR:** `python -m ruff check .` and `python -m pytest -q` must pass. CI runs both on
+   every push and pull request.
+3. **Keep the tests offline:** use the `rule-based` provider or a fake provider. Never commit `.env`, API keys or
+   generated databases.
+4. **Don't add challenge material:** no organiser files, and no third-party code you can't license under MIT. See
+   [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md).
+
+By submitting a contribution, you confirm that it is your own work, or compatible with MIT, and that it contains no
+challenge material. You also agree that it is licensed under this repository's MIT License, on the same terms as
+the rest of the original work.
+
+## Author and project history
+
+- **Author:** Muhammad Dayan ([dayan-ai](https://github.com/dayan-ai)), the sole developer of this implementation.
+- **Hackathon:** built in 24 hours as an individual submission to the ARES Accord challenge, where it placed 2nd
+  (Runner-up).
+  - **Organisers:** the challenge was designed by LIFIX Labs, for the Loopverse Challenge. The original submission
+    also credited Looplab.
+  - **Challenge material:** Participant Guide v2.1 and the
+    [original challenge repository](https://github.com/lifix-prog/Loopverse-AI_ML_Virtual_Module).
+  - **Requirements as interpreted for the build:** [`PRD.md`](PRD.md).
 - `docs/TEST_REPORT.md` and `docs/REQUIREMENTS_TRACEABILITY.md` are the hackathon-time snapshots (258 tests at
   submission). Current status is in this README and [`CHANGELOG.md`](CHANGELOG.md).
 - **AI assistance:** Claude Code (Anthropic) was used for code, tests and documentation, both during the
@@ -342,13 +388,18 @@ Details and threat notes: [`docs/SECURITY.md`](docs/SECURITY.md) and
 
 ## Licence and third-party material
 
-- **Original work: [MIT License](LICENSE)**, © 2026 MUHAMMAD DAYAN. It covers the code, tests, scripts, diagrams
-  and documentation written for this project.
-- **Not covered: organiser material.** The organisers' starter kit (challenge PDF, rules and schema files) is not
-  redistributed, but the repository contains material taken from it:
-  - the scenario, and the 12 mode packages with their figures and consequence texts (`ares/models.py`,
-    `ares/agents/profiles.py`);
-  - the official sample event, verbatim, in `tests/fixtures/event_injection_format.json` and `ares/ui/controls.py`.
-
-  The starter repository publishes no licence, so this material remains the organisers'. The full list and reuse
-  guidance are in [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md).
+- **MIT License, for the original work only.** The [MIT License](LICENSE), © 2026 Muhammad Dayan and ARES Accord
+  contributors, covers the original ARES Accord code, tests, scripts, configuration, diagrams and documentation:
+  - the work written by Muhammad Dayan;
+  - contributions accepted under the [Contributing](#contributing) terms.
+- **Challenge material is not covered.** The Loopverse Challenge concept, rules, participant guide and starter
+  materials, designed by LIFIX Labs, remain the organisers' and stay under their own terms.
+  - The organisers' files are not redistributed; use the
+    [original challenge repository](https://github.com/lifix-prog/Loopverse-AI_ML_Virtual_Module).
+  - The project does embed some challenge data so it can reproduce the challenge: the scenario, the 12 mode
+    packages and their texts, the policy limits, the return agreements, and the official sample event. This data
+    is excluded from the MIT License.
+- **Third-party components are not covered either.** Dependencies are installed under their own licences, and none
+  is bundled.
+- **Details and permission:** the full list, the organisers' written permission and reuse guidance are in
+  [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md).
